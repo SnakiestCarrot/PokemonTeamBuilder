@@ -13,7 +13,6 @@ const model = {
     pokemonSearch () {
         const result = searchPokemon(model.currentPokemonId)
         console.log(result)
-        window.location.hash="/pokemonInfo"
     },
 
     setCurrentPokemonId(pokemonId){

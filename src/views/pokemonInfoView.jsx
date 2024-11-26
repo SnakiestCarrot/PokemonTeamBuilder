@@ -4,7 +4,7 @@ import "../styles.css"
 export function PokemonInfoView (props) {
     return (
         <div>
-            <p className="debug-title">Pokemon name</p>
+            <p>Pokemon name</p>
             <button onClick={onUserWantsToSearch}>Pokemon search</button>
             <button onClick={userWantsToSwitchToSearchPage}>Search page</button>
         </div>
