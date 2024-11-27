@@ -11,17 +11,16 @@ const model = {
     searchResultPromiseState: {},
     currentTeam: 
     {
-            id1 : null,
-            id2 : null,
-            id3 : null,
-            id4 : null,
-            id5 : null,
-            id6 : null,
-            name : "team",
+            pokemon1 : null,
+            pokemon2 : null,
+            pokemon3 : null,
+            pokemon4 : null,
+            pokemon5 : null,
+            pokemon6 : null,
+            TeamName : "team",
     },
 
 
-    
     pokemonSearch () {
         const result = searchPokemon(model.currentPokemonId)
         console.log(result)
