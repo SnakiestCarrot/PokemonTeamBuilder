@@ -12,7 +12,7 @@ export function MainView(props) {
                         <div key={index} className="pokemon-card">
                             <p>{pokemon.name}</p>
                             <img
-                                src={pokemon.sprites.front_default}
+                                src={pokemon.sprites.other['official-artwork'].front_default}
                                 alt={pokemon.name}
                                 className="pokemon-image"
                             />
