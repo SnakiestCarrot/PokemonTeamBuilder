@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import {  createHashRouter,  RouterProvider } from "react-router-dom";
 import { Main } from "../presenters/mainPresenter";
 import { Search } from "../presenters/searchPresenter";
+import { Login } from "../presenters/loginPresenter";
 
 const ReactRoot = observer(
     function ReactRoot(props){
@@ -28,6 +29,10 @@ function makeRouter (model) {
         {
             path:"/search",
             element: <Search model={model}></Search>
+        },
+        {
+            path:"/login",
+            element: <Login model={model}></Login>
         },
     ]
 

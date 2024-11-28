@@ -1,10 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
 import { firebaseConfig } from "/src/firebaseConfig.js";
+import { getAuth } from "firebase/auth";
 
 //Init firebase db
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+
+//Init authorization
+const auth = getAuth(app);
+
 
 
 /*TODO
@@ -48,3 +53,5 @@ export function modelToPersistence(model) {
         currentTeamBuilt: transformAndSortTeam(model.currentTeam) // Use transformAndSortTeam for the currentTeam
     };
 }
+
+export { auth };
