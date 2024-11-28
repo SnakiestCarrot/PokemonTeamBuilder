@@ -1,3 +1,4 @@
+import { highestPokemonId } from "./pokemonModel"
 
 /*
     This document should make API calls to PokéAPI to be used in the model
@@ -19,6 +20,15 @@ export async function searchPokemon(pokemonId) {
         });
 }
 
+export async function getRandomPokemon(quantity) {
+    let pokemonArray = [];
+    for (let i = 0; i < quantity; i++) {
+        const randomId = Math.floor(Math.random() * highestPokemonId) + 1; // antar att lowestPokemonId alltid är 1
+        const pokemonData = await searchPokemon(randomId);
+        pokemonArray.push(pokemonData);
+    }
+    return pokemonArray; // Return the full array
+}
 
 
 

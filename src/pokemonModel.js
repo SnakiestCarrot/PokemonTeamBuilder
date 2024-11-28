@@ -1,6 +1,6 @@
 
-const lowestPokemonId = 1;
-const highestPokemonId = 1025;
+export const lowestPokemonId = 1;
+export const highestPokemonId = 1025;
 
 import { resolvePromise } from './resolvePromise';
 import { searchPokemon } from './pokemonSource';

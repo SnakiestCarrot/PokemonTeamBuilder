@@ -22,3 +22,36 @@
     align-items: center;      /* Center items vertically */
     height: 100%;             /* Make the container fill the available space */
 }
+
+.header {
+    text-align: center;
+    font-weight: 2000;
+}
+
+.center {
+    text-align: center;
+}
+
+.pokemon-container {
+    display: flex; /* Use Flexbox for alignment */
+    flex-wrap: wrap; /* Allow wrapping if there are too many items for one row */
+    gap: 20px; /* Add space between cards */
+    justify-content: center; /* Center the cards horizontally */
+    align-items: center; /* Align items vertically if needed */
+    margin: 20px 0; /* Add margin above and below */
+}
+
+.pokemon-image {
+    width: 250px;
+}
+
+.pokemon-card {
+    border: 2px solid #ffcc00; /* Add a border for the card */
+    border-radius: 10px; /* Make the edges rounded */
+    padding: 10px; /* Add padding inside the card */
+    text-align: center; /* Center the content in the card */
+    font-size: 25px;
+    background-color: #f8f8f8; /* Light background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    width: 250px; /* Fixed width for uniformity */
+}
