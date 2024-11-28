@@ -9,7 +9,18 @@ const model = {
 
     currentPokemonId: 100,
     searchResultPromiseState: {},
-    
+    currentTeam: 
+    {
+            pokemon1 : null,
+            pokemon2 : null,
+            pokemon3 : null,
+            pokemon4 : null,
+            pokemon5 : null,
+            pokemon6 : null,
+            TeamName : "team",
+    },
+
+
     pokemonSearch () {
         const result = searchPokemon(model.currentPokemonId)
         console.log(result)
