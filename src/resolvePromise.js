@@ -1,3 +1,5 @@
+
+
 export function resolvePromise(prms, promiseState){
     function setDataACB(promise) {
         if (promiseState.promise === prms) {

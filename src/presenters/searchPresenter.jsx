@@ -17,7 +17,8 @@ const Search = observer (
                         currentPokemonId = {props.model.currentPokemonId}
                         switchToMainPage = {props.model.setToMainPage}
                         switchToSearchPage = {props.model.setToSearchPage}
-                        searchPokemon = {props.model.pokemonSearch}
+                        searchPokemon = {props.model.doSearch}
+                        searchResult = {props.model.pokemonSearchPromiseState.data}
                     />
                 </div>
 
