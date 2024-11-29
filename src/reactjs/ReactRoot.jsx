@@ -28,16 +28,16 @@ function makeRouter (model) {
             element: <Main model={model}></Main>
         },
         {
-            path:"/main",
+            path:"main",
             element: <Main model={model}></Main>
             
         },
         {
-            path:"/search",
+            path:"search",
             element: <Search model={model}></Search>
         },
         {
-            path:"/login",
+            path:"login",
             element: <Login model={model}></Login>
         },
     ]
