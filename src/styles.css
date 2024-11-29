@@ -24,6 +24,7 @@
 }
 
 .header {
+    padding-top: 110px;
     text-align: center;
     font-weight: 2000;
 }
@@ -54,4 +55,44 @@
     background-color: #f8f8f8; /* Light background color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
     width: 250px; /* Fixed width for uniformity */
+}
+
+.topBar {
+    position: fixed;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    background-color: #141414;
+    overflow: hidden;
+    padding: 15px;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+.topBar a {
+    border: 2px solid #8b8b8b;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: bisque;
+    margin-right: 35px;
+    margin-left: 35px;
+    border-radius: 6px;
+    font-size: 22px;
+}
+
+.topSearch {
+    text-align: left;
+    width: 450px;
+    height: 30px;
+    font-size: 22px;
+    margin-right: 60px;
+    margin-left: 60px;
+}
+
+.login {
+    margin-top: 110px;
 }

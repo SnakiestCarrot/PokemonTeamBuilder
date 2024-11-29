@@ -3,14 +3,20 @@ import {  createHashRouter,  RouterProvider } from "react-router-dom";
 import { Main } from "../presenters/mainPresenter";
 import { Search } from "../presenters/searchPresenter";
 import { Login } from "../presenters/loginPresenter";
+import { TopBar } from "../components/topBarComponent";
 
 const ReactRoot = observer(
     function ReactRoot(props){
         
         return (
+            <div>
+                <div>
+                    <TopBar />
+                </div>
                 <div>
                     <RouterProvider router={makeRouter(props.model)}/>
                 </div>
+            </div>
             );
     }
 )
