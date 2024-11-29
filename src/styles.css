@@ -1,28 +1,47 @@
 :root {
-    --color-base: #1C75BC; /* Base color (e.g., background) */
-    --color-accent: #FCB21C; /* Accent color (e.g., buttons, highlights) */
+    --color-base: #052964; /* Base color (e.g., background) */
+    --color-accent: #de9c19; /* Accent color (e.g., buttons, highlights) */
     --color-secondary-accent: #02183C;
-    --color-text: #333333; /* Text color for better contrast */
+    --color-text: #FCB21C; /* Text color for better contrast */
     --color-accent-hover: #2980b9; /* Accent hover state */
+    --color-button-border:#de9c19;
   }
 
 .debug {
     border: 2px solid #000000;
 }
 
-.debug-title {
-    font-size: 18px;
-    font-family: "Georgia", "Times new roman", monospace;            
-    font-weight: bold;          
-    color: #000000;             
-    background-color: #0707071f;  
-    padding: 10px;              
-    border: 2px dashed #000000; 
-    border-radius: 5px;         
-    text-align: center;         
-    margin: 10px auto;          
-    width: fit-content;        
+body {
+    background-color: #1c1c1c;
 }
+
+p {
+    color: var(--color-accent);
+}
+
+h1 {
+    color: var(--color-text)
+}
+
+h2 {
+    color: var(--color-text)
+}
+
+h3 {
+    color: var(--color-text);
+}
+
+button {
+    color: var(--color-text);
+    background-color: var(--color-base);
+    border-color: var(--color-button-border);
+    border-radius: 2px;
+    
+}
+
+
+
+
 
 .center-container {
     display: flex;            /* Activate Flexbox */
@@ -59,7 +78,7 @@
     border-radius: 10px; /* Make the edges rounded */
     padding: 10px; /* Add padding inside the card */
     text-align: center; /* Center the content in the card */
-    color: var(--color-accent);
+    color: var(--color-text);
     text-transform: capitalize;
     font-size: 25px;
     background-color: var(--color-base); /* Light background color */
@@ -82,12 +101,13 @@
 }
 
 .topBar a {
-    border: 2px solid var(--color-accent);
+    border: 2px solid;
+    border-color: var(--color-button-border);
     padding-left: 30px;
     padding-right: 30px;
     padding-top: 5px;
     padding-bottom: 5px;
-    color: #ffcc00;
+    color: var(--color-text);
     margin-right: 35px;
     margin-left: 35px;
     border-radius: 6px;
@@ -102,6 +122,15 @@
     font-size: 16px;
     margin-right: 60px;
     margin-left: 60px;
+    border-radius: 5px;
+    color: var(--color-text);
+    background-color: var(--color-base);
+    border-color: var(--color-button-border);
+    border: solid 2px;
+}
+
+.topSearch::placeholder {
+    color:var(--color-text)
 }
 
 .login {
