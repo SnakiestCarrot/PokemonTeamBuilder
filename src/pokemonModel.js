@@ -18,9 +18,13 @@ const model = {
     },
 
     doSearch (pokemonId) {
-        const searchPromise = searchPokemon(pokemonId)
-        resolvePromise(searchPromise, this.pokemonSearchPromiseState)
+        const searchPromise = searchPokemon(pokemonId);
+        resolvePromise(searchPromise, this.pokemonSearchPromiseState);
+        console.log(this.pokemonSearchPromiseState)
     },
+
+    
+
 
     setCurrentPokemonId(pokemonId) {
         this.currentPokemonId = pokemonId;
@@ -34,6 +38,8 @@ const model = {
         window.location.hash = "#/search";
     },
 }
+
+model.doSearch = model.doSearch.bind(model);
 
 export { model };
 

@@ -12,19 +12,17 @@ export function searchPokemon(pokemonId) {
         method: 'GET',
     }
 
-    function gotResponseACB () {
-        console.log(response.json)
-        return response.json;
+    function gotResponseACB (response) {
+        return response.json();
     }
 
     function getResultsACB (object) {
-        return object.results;
+        return object;
     }
 
     const fetchUrl = `${API_URL}${pokemonId}`
 
     return fetch(fetchUrl, object).then(gotResponseACB).then(getResultsACB);
-
 }
 
 

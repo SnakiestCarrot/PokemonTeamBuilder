@@ -8,7 +8,6 @@ export function SearchView (props) {
             <div className="login">
                 <button onClick={userWantsToSwitchToMainPage}>Go to main page</button>
                 <input onChange={userChangesSearchedText}></input>
-                <p>{props.searchResult}</p>
             </div>
         </div>
     )
