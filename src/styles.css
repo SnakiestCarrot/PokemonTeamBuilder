@@ -88,28 +88,27 @@ button {
 
 .topBar {
     position: fixed;
-    left: 60px;
-    right: 60px;
+    left: 12%;
+    right: 12%;
     display: flex;
     justify-content: center;
     align-items: center; 
     background-color: var(--color-base);
     overflow: hidden;
-    padding: 15px;
-    margin-top: 5px;
+    padding: 1%;
+    margin-top: 1%;
     border-radius: 10px;
 }
 
 .topBar a {
     border: 2px solid;
     border-color: var(--color-button-border);
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 1%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
     color: var(--color-text);
-    margin-right: 35px;
-    margin-left: 35px;
+    margin-right: 3%;
+    margin-left: 3%;
     border-radius: 6px;
     font-size: 18px;
     text-decoration: none;
@@ -117,11 +116,12 @@ button {
 
 .topSearch {
     text-align: left;
-    width: 550px;
-    height: 30px;
+    width: 25%;
+    padding: 1%;
+    height: 1cm;
     font-size: 16px;
-    margin-right: 60px;
-    margin-left: 60px;
+    margin-right: 5%;
+    margin-left: 5%;
     border-radius: 5px;
     color: var(--color-text);
     background-color: var(--color-base);
