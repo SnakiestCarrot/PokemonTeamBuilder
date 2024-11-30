@@ -1,5 +1,7 @@
 import { resolvePromise } from './resolvePromise';
 import { searchPokemon, getPokemon } from './pokemonSource';
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "./firebaseModel.js";
 
 export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
@@ -64,6 +66,26 @@ const model = {
     pokemonSearchACB(text) {
         this.searchQuery = text;
         this.filterPokemon(text); 
+    },
+
+    //Login function for loginPresenter
+    userWantsToLogin: function (onSuccess, onError) {
+        const provider = new GoogleAuthProvider();
+
+        signInWithPopup(auth, provider)
+            .then(function (result) {
+                console.log("Login successful:", result.user);
+                model.user = result.user; // Update the user property in the model
+                if (onSuccess) {
+                    onSuccess(result.user); // Notify success
+                }
+            })
+            .catch(function (error) {
+                console.error("Login failed:", error);
+                if (onError) {
+                    onError(error); // Notify error
+                }
+            });
     },
 
     doSearch (pokemonId) {
