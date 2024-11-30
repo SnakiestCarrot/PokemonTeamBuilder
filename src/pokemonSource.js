@@ -1,4 +1,4 @@
-import { highestPokemonId } from "./pokemonModel"
+import { highestPokemonId } from "./pokemonModel";
 
 /*
     This document should make API calls to PokéAPI to be used in the model
@@ -29,6 +29,25 @@ export async function getRandomPokemon(quantity) {
     }
     return pokemonArray; // Return the full array
 }
+
+//Function that fetches pokemons from searchparams, id or name
+export function getPokemon(searchParam) {
+    const url = `https://pokeapi.co/api/v2/pokemon/${searchParam}`;
+
+    function gotResponseACB(response) {
+        if (!response.ok) {
+            throw new Error(`Pokemon with ID "${searchParam}" not found.`);
+        }
+        return response.json();
+    }
+
+    function getResultACB(data) {
+        return data; 
+    }
+
+    return fetch(url).then(gotResponseACB).then(getResultACB);
+}
+
 
 
 

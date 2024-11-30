@@ -4,6 +4,7 @@ import { Main } from "../presenters/mainPresenter";
 import { Search } from "../presenters/searchPresenter";
 import { Login } from "../presenters/loginPresenter";
 import { TopBar } from "../components/topBarComponent";
+import { PokemonSearch } from "../presenters/pokemonSearchPresenter";
 
 const ReactRoot = observer(
     function ReactRoot(props){
@@ -39,6 +40,10 @@ function makeRouter (model) {
         {
             path:"login",
             element: <Login model={model}></Login>
+        },
+        {
+            path:"testsearch",
+            element: <PokemonSearch model={model}></PokemonSearch>
         },
     ]
 

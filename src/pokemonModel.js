@@ -3,7 +3,7 @@ export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
 
 import { resolvePromise } from './resolvePromise';
-import { searchPokemon } from './pokemonSource';
+import { searchPokemon, getPokemon } from './pokemonSource';
 
 const model = {
 
@@ -20,6 +20,53 @@ const model = {
             TeamName : "team",
     },
 
+    allPokemon : [], // Full list of Pokémon
+    pokemonResultPromiseSate: {},
+    filteredPokemon : [], // Filtered list based on search
+    searchQuery : "", //searchquery for filtering pokemon
+
+    //Function to load all pokemons from website 
+    loadAllPokemon() {
+    const promise = getPokemon("?limit=100000"); // Fetch all Pokémon names
+
+    resolvePromise(promise, this.pokemonResultPromiseSate);
+    promise
+        .then((data) => {
+            // Filter out invalid entries by checking if the URL includes a valid ID
+            this.allPokemon = data.results.filter((pokemon) => {
+                const id = this.extractPokemonIdFromUrl(pokemon.url);
+                return id >= lowestPokemonId && id <= highestPokemonId; 
+            });
+
+            this.filteredPokemon = this.allPokemon; // Initially display all valid Pokémon
+        })
+        .catch((error) => {
+            console.error("Error fetching Pokémon list:", error);
+        }); 
+    },
+
+    // Helper function to extract Pokémon ID from URL 
+    extractPokemonIdFromUrl(url) {
+        const match = url.match(/\/pokemon\/(\d+)\//);
+        return match ? parseInt(match[1], 10) : -1; // Extract and parse ID or return -1
+    },
+
+    //Function to filter out right pokemon based on searchQuery
+    filterPokemon(query) {
+        this.searchQuery = query; // Update the search query
+        const lowerQuery = query.toLowerCase();
+
+        // Filter Pokémon whose names start with the query
+        this.filteredPokemon = this.allPokemon.filter((pokemon) =>
+            pokemon.name.toLowerCase().startsWith(lowerQuery)
+        );
+    },
+
+    // Search for a Pokémon by ID or name, filters out right result
+    pokemonSearchACB(text) {
+        this.searchQuery = text;
+        this.filterPokemon(text); 
+    },
 
     pokemonSearch () {
         const result = searchPokemon(model.currentPokemonId)

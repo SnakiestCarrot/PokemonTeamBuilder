@@ -18,5 +18,5 @@ createRoot(document.getElementById('root'))
 //connecting to firebase
 import { connectToFirebase } from "../firebaseModel.js";
 import { reaction } from "mobx";
-configure({ ennforceActions: "never", })
+configure({ enforceActions: "never", })
 connectToFirebase(reactiveModel, reaction);
