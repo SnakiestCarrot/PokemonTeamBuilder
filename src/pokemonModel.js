@@ -1,8 +1,8 @@
 import { resolvePromise } from './resolvePromise';
-import { searchPokemon } from './pokemonSource';
-
-export const highestPokemonId = 1025;
 import { searchPokemon, getPokemon } from './pokemonSource';
+
+export const lowestPokemonId = 1;
+export const highestPokemonId = 1025;
 
 const model = {
 
@@ -72,8 +72,6 @@ const model = {
         console.log(this.pokemonSearchPromiseState)
     },
 
-    
-
 
     setCurrentPokemonId(pokemonId) {
         this.currentPokemonId = pokemonId;
@@ -87,8 +85,6 @@ const model = {
         window.location.hash = "#/search";
     },
 }
-
-model.doSearch = model.doSearch.bind(model);
 
 export { model };
 
