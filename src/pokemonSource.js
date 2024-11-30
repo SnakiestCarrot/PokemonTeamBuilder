@@ -7,18 +7,25 @@ import { highestPokemonId } from "./pokemonModel";
 
 const API_URL = "https://pokeapi.co/api/v2/pokemon/";
 
+export function searchPokemon(pokemonId) {
+    const object = {
+        method: 'GET',
+    }
 
+    function gotResponseACB (response) {
+        return response.json();
+    }
 
-export async function searchPokemon(pokemonId) {
-    const url = `${API_URL}${pokemonId}`; 
-    return fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        });
+    function getResultsACB (object) {
+        return object;
+    }
+
+    const fetchUrl = `${API_URL}${pokemonId}`
+
+    return fetch(fetchUrl, object).then(gotResponseACB).then(getResultsACB);
 }
+
+
 
 export async function getRandomPokemon(quantity) {
     let pokemonArray = [];
