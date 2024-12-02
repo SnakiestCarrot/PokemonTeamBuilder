@@ -1,7 +1,8 @@
 import { resolvePromise } from './resolvePromise';
 import { searchPokemon, getPokemon } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "./firebaseModel.js";
+import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
+import { isValidTeam } from './utilities';
 
 export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
@@ -17,7 +18,7 @@ const model = {
         pokemon4: null,
         pokemon5: null,
         pokemon6: null,
-        TeamName: "team",
+        teamName: "team",
     },
 
     allPokemon : [], // Full list of Pokémon
@@ -75,15 +76,15 @@ const model = {
         signInWithPopup(auth, provider)
             .then(function (result) {
                 console.log("Login successful:", result.user);
-                model.user = result.user; // Update the user property in the model
+                model.user = result.user; 
                 if (onSuccess) {
-                    onSuccess(result.user); // Notify success
+                    onSuccess(result.user); 
                 }
             })
             .catch(function (error) {
                 console.error("Login failed:", error);
                 if (onError) {
-                    onError(error); // Notify error
+                    onError(error); 
                 }
             });
     },
@@ -106,7 +107,69 @@ const model = {
     setToSearchPage() {
         window.location.hash = "#/search";
     },
+
+    //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.
+    getPokemonTeams() {
+        if (!this.user || !this.user.uid) {
+            console.error("There is no user logged in!");
+            return Promise.reject("User is not logged in.");
+        }
+    
+        //Converts the firebase format to pokemon team format.
+        function convertToPokemon(firebaseTeams) {
+            return Object.entries(firebaseTeams).map(([key, team]) => ({
+                key, // Preserve the unique Firebase key
+                teamName: team.myTeamName,
+                getPokemon1: () => getPokemon(team.id1),
+                getPokemon2: () => getPokemon(team.id2),
+                getPokemon3: () => getPokemon(team.id3),
+                getPokemon4: () => getPokemon(team.id4),
+                getPokemon5: () => getPokemon(team.id5),
+                getPokemon6: () => getPokemon(team.id6),
+            }));
+        }
+    
+        // Call firebase function then convert them
+        return getMyPokemonTeams()
+            .then(firebaseTeams => {
+                if (!firebaseTeams) {
+                    console.log("No teams found.");
+                    return [];
+                }
+                return convertToPokemon(firebaseTeams);
+            })
+            .catch(error => {
+                console.error("Error fetching teams:", error);
+                throw error;
+            });
+    },
+    
+
+    //Function to save my pokemon team
+    savePokemonTeam(team){
+        if (!this.user) {
+            console.error("There is no user logged in!");
+            return;
+        }
+        if (!isValidTeam(team)) {
+            console.error("Invalid team format!", team);
+            return;
+        }
+        saveMyPokemonTeam(team);
+    },
+
+    //Function to remove a pokemon team and return a new list of teams.
+    removePokemonTeam(teamIdKey){
+        if(!this.user) {
+            console.error("There is no user logged in!", error)
+            return;
+        }
+        removeMyPokemonTeam(teamIdKey);
+        return this.getPokemonTeams();
+    },
 }
+
+
 
 export { model };
 

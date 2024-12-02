@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, onValue, child } from "firebase/database";
+import { getDatabase, ref, set, get, push, remove } from "firebase/database";
 import { firebaseConfig } from "/src/firebaseConfig.js";
 import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
+import { model } from "./pokemonModel";
 
 //Init firebase db
 const app = initializeApp(firebaseConfig);
@@ -12,34 +13,9 @@ const auth = getAuth(app);
 
 
 export function modelToPersistence(model) {
-    // Transform the pokemon object to its id
-    function transformToPokemonId(pokemonObject) {
-        if (pokemonObject && pokemonObject.id) {
-            return pokemonObject.id; 
-        }
-        return null;
-    }
-
-    // Transform and sort the team
-    function transformAndSortTeam(team) {
-        // Convert currentTeam object to an array of [key, value] pairs
-        const transformedTeam = Object.entries(team)  // Converts the object into an array of [key, value] pairs
-            .map(function(entry) {  
-                return transformToPokemonId(entry[1]); 
-            })
-            .filter(function(id) {  
-                return id !== null;  
-            })
-            .sort(function(a, b) {  
-                return a - b; 
-            });
-
-        return transformedTeam;
-    }
-
-    return {
-        currentPokemonSearchId: model.currentPokemonId,
-        currentTeamBuilt: transformAndSortTeam(model.currentTeam) // Use transformAndSortTeam for the currentTeam
+    return 
+    {
+        //TODO 
     };
 }
 
@@ -114,6 +90,64 @@ export function connectToFirebase(model, watchFunction) {
 
     onAuthStateChanged(auth, loginOrOutACB);
 }
+
+//Function to save a finished pokemon team to user firebase.
+export function saveMyPokemonTeam(team) {
+    const firebaseTeam = {
+        id1 : team.pokemon1.id,
+        id2 : team.pokemon2.id,
+        id3 : team.pokemon3.id,
+        id4 : team.pokemon4.id,
+        id5 : team.pokemon5.id,
+        id6 : team.pokemon6.id,
+        myTeamName : team.teamName
+    };
+    push(ref(db, `PokemonTeamBuilder/${model.user.uid}/teams`), firebaseTeam)
+        .then(() => {
+            console.log("Team successfully saved!");
+        })
+        .catch(error => {
+            console.error("Error saving team:", error);
+        });
+}
+
+//Function to get all saved user teams from firebase.
+export function getMyPokemonTeams(){
+    const teamsRef = ref(db, `PokemonTeamBuilder/${model.user.uid}/teams`);
+
+    return get(teamsRef)
+        .then(snapshot => {
+            if (snapshot.exists()) {
+                return snapshot.val();
+            } else {
+                console.log("No teams found for this user.");
+                return {};
+            }
+        })
+        .catch(error => {
+            console.error("Error retrieving teams:", error);
+            throw error;
+        });
+}
+
+//Function to remove a specific pokemon team based on that unique key
+export function removeMyPokemonTeam(teamId){
+    if (!teamId) {
+        console.error("No team ID provided for removal!");
+        return;
+    }
+    const teamRef = ref(db, `PokemonTeamBuilder/${model.user.uid}/teams/${teamId}`);
+
+    return remove(teamRef)
+        .then(() => {
+            console.log(`Team with ID "${teamId}" successfully removed.`);
+        })
+        .catch(error => {
+            console.error(`Failed to remove team with ID "${teamId}":`, error);
+            throw error;
+        });
+}
+
 
 // UI: 
 // - model.user undefined: show suspense because firebase auth not initialized yet
