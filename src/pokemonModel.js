@@ -3,6 +3,7 @@ import { searchPokemon, getPokemon } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam } from './utilities';
+import { fetchRandomPokemon } from "./pokemonHook.js"
 
 export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
@@ -25,6 +26,11 @@ const model = {
     pokemonResultPromiseSate: {},
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
+
+    getPokemonFromHook(quantity) {
+        const { pokemonList } = fetchRandomPokemon(quantity);
+        return pokemonList;
+    },
 
     //Function to load all pokemons from website 
     loadAllPokemon() {

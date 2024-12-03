@@ -28,14 +28,18 @@ export function searchPokemon(pokemonId) {
 
 
 export async function getRandomPokemon(quantity) {
-    let pokemonArray = [];
-    for (let i = 0; i < quantity; i++) {
-        const randomId = Math.floor(Math.random() * highestPokemonId) + 1; // antar att lowestPokemonId alltid är 1
-        const pokemonData = await searchPokemon(randomId);
-        pokemonArray.push(pokemonData);
+    function createPokemonPromiseCB() {
+        const randomId = Math.floor(Math.random() * highestPokemonId) + 1;
+        return searchPokemon(randomId);
     }
-    return pokemonArray; // Return the full array
+    // use CB function to generate an array of promises
+    const promises = Array.from({ length: quantity }, createPokemonPromiseCB);
+    // make promises in parallel using the array of promises to speed up the fetch
+    const pokemonArray = await Promise.all(promises); 
+    return pokemonArray; 
 }
+
+
 
 //Function that fetches pokemons from searchparams, id or name
 export function getPokemon(searchParam) {
