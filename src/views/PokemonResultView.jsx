@@ -10,6 +10,10 @@ export function PokemonResultView(props) {
             {results.map((pokemon) => (
                 <div key={pokemon.name}>
                     <h2>{pokemon.name}</h2>
+                    <img 
+                        src={pokemon.sprite} 
+                        alt={`${pokemon.name} sprite`} 
+                    />
                 </div>
             ))}
         </div>

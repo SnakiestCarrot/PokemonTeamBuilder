@@ -34,9 +34,14 @@ const model = {
     promise
         .then((data) => {
             // Filter out invalid entries by checking if the URL includes a valid ID
-            this.allPokemon = data.results.filter((pokemon) => {
-                const id = this.extractPokemonIdFromUrl(pokemon.url);
-                return id >= lowestPokemonId && id <= highestPokemonId; 
+            this.allPokemon = data.results.map((pokemon) => {
+                const id = this.extractPokemonIdFromUrl(pokemon.url); 
+                return {
+                    name: pokemon.name,
+                    url: pokemon.url,
+                    id: id,
+                    sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+                };
             });
 
             this.filteredPokemon = this.allPokemon; // Initially display all valid Pokémon
@@ -54,7 +59,7 @@ const model = {
 
     //Function to filter out right pokemon based on searchQuery
     filterPokemon(query) {
-        this.searchQuery = query; // Update the search query
+        this.searchQuery = query; 
         const lowerQuery = query.toLowerCase();
 
         // Filter Pokémon whose names start with the query

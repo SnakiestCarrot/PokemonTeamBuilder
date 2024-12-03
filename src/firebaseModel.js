@@ -148,6 +148,10 @@ export function removeMyPokemonTeam(teamId){
         });
 }
 
+export function getAllPokemonTeams(){
+    //TODO 
+}
+
 
 // UI: 
 // - model.user undefined: show suspense because firebase auth not initialized yet
