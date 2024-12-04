@@ -2,9 +2,9 @@ import { observer } from "mobx-react-lite";
 import {  createHashRouter,  RouterProvider } from "react-router-dom";
 import { Main } from "../presenters/mainPresenter";
 import { Login } from "../presenters/loginPresenter";
-import { TopBar } from "../components/topBarComponent";
 import { TeamBuilder } from "../presenters/teamBuilderPresenter";
-import { Inspect } from "../presenters/inspectPresenter"
+import { Inspect } from "../presenters/inspectPresenter";
+import { TopBarPresenter } from "../presenters/topBarPresenter";
 
 const ReactRoot = observer(
     function ReactRoot(props){
@@ -12,7 +12,7 @@ const ReactRoot = observer(
         return (
             <div>
                 <div>
-                    <TopBar />
+                    <TopBarPresenter />
                 </div>
                 <div>
                     <RouterProvider router={makeRouter(props.model)}/>

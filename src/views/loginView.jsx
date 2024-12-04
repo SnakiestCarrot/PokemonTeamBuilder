@@ -1,5 +1,4 @@
 import "../styles.css";
-import { TopBar } from "../components/topBarComponent";
 
 export function LoginView(props) {
     return (
