@@ -131,7 +131,7 @@ button {
     background-color: var(--color-base); /* Light background color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
     width: 250px; /* Fixed width for uniformity */
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.5s ease-in-out;
 }
 
 .pokemon-card-inspect {
@@ -151,6 +151,7 @@ button {
 .pokemon-card:hover {
     background-color: var(--color-accent-hover);
     cursor: pointer;
+    transform: scale(1.02);
 }
 
 .topBar {
@@ -167,6 +168,7 @@ button {
     border-radius: 10px;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
     border: 2px solid var(--color-button-border);
+    z-index: 9999;
 }
 
 .topBar a {
