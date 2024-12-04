@@ -36,12 +36,7 @@ button {
     background-color: var(--color-base);
     border-color: var(--color-button-border);
     border-radius: 2px;
-    
 }
-
-
-
-
 
 .center-container {
     display: flex;            /* Activate Flexbox */
@@ -56,8 +51,40 @@ button {
     font-weight: 2000;
 }
 
-.center {
-    text-align: center;
+.pokemon-team-search {
+    align-items: center;
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;   /* Center horizontally */
+    align-items: center;       /* Center vertically */
+}
+
+.pokemon-team-search input {
+    padding: 10px;
+    background-color: var(--color-base);
+    color: var(--color-text);
+    border: 2px solid var(--color-accent);
+    border-radius: 5px;
+    font-size: large;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.pokemon-team-search input:focus {
+    background-color: var(--color-accent-hover);
+    outline: none;
+}
+
+.pokemon-team-search input:hover {
+
+}
+
+.no-results {
+    display: flex; /* Use Flexbox for alignment */
+    justify-content: center;
+    padding-top: 30px;
+    color: var(--color-text);
+    font-size: large;
 }
 
 .pokemon-container {
@@ -110,6 +137,8 @@ button {
     padding: 1%;
     margin-top: 1%;
     border-radius: 10px;
+    box-shadow: 0 6px 9px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    border: 2px solid var(--color-button-border);
 }
 
 .topBar a {
