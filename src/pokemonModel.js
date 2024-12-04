@@ -10,7 +10,7 @@ export const highestPokemonId = 1025;
 
 const model = {
 
-    currentPokemon: null,
+    currentPokemon: await getPokemon(1),
     currentPokemonId: 100,
     pokemonSearchPromiseState: {},
     currentTeam: {
@@ -115,11 +115,7 @@ const model = {
 
 
     setCurrentPokemonId(pokemonId) {
-        console.log("HELLO");
         this.currentPokemonId = pokemonId;
-        const pokemonObject = getPokemon(pokemonId);
-        console.log(pokemonObject);
-        this.currentPokemon = pokemonObject;
     },
 
     setToMainPage() {
