@@ -28,15 +28,11 @@ const model = {
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
     randomPokemonList: [],
+    
 
     getPokemonFromHook(quantity) {
         const { pokemonList } = fetchRandomPokemon(quantity);
         return pokemonList;
-    },
-
-    setRandomPokemon() {
-        const pokemonList = getRandomPokemon(4);
-        this.randomPokemonList = pokemonList;
     },
 
     //Function to load all pokemons from website 
@@ -107,15 +103,14 @@ const model = {
             });
     },
 
-    doSearch (pokemonId) {
-        const searchPromise = searchPokemon(pokemonId);
-        resolvePromise(searchPromise, this.pokemonSearchPromiseState);
-        console.log(this.pokemonSearchPromiseState)
-    },
-
-    doPokemonInspect (pokemonId) {
+    async doPokemonInspect (pokemonId) {
         // this is called from the teambuilder presenter that gets called from the view
         // this should set the current pokemon ID and then change to pokemon inspect page
+        this.setCurrentPokemonId(pokemonId)
+        const pokemon = await getPokemon(this.currentPokemonId);
+        this.currentPokemon = pokemon;
+        console.log("current pokemon", this.currentPokemon);
+        window.location.hash = "#/inspect";
     },
 
     setCurrentPokemonId(pokemonId) {
