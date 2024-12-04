@@ -66,11 +66,11 @@ button {
     gap: 20px; /* Add space between cards */
     justify-content: center; /* Center the cards horizontally */
     align-items: center; /* Align items vertically if needed */
-    margin: 20px 0; /* Add margin above and below */
+    margin: 60px 0; /* Add margin above and below */
 }
 
 .pokemon-image {
-    width: 250px;
+    width: 200px;
 }
 
 .pokemon-card {
@@ -84,6 +84,11 @@ button {
     background-color: var(--color-base); /* Light background color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
     width: 250px; /* Fixed width for uniformity */
+}
+
+.pokemon-card:hover {
+    background-color: var(--color-accent-hover);
+    cursor: pointer;
 }
 
 .topBar {

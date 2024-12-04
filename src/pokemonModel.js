@@ -46,7 +46,7 @@ const model = {
                     name: pokemon.name,
                     url: pokemon.url,
                     id: id,
-                    sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+                    sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
                 };
             });
 
