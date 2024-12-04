@@ -28,7 +28,6 @@ const model = {
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
     randomPokemonList: [],
-    
 
     getPokemonFromHook(quantity) {
         const { pokemonList } = fetchRandomPokemon(quantity);
