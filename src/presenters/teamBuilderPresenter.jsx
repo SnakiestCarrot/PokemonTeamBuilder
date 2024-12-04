@@ -20,6 +20,10 @@ const TeamBuilder = observer(
             }
         }
 
+        function userWantsToInspect(pokemonId){
+            props.model.doPokemonInspect(pokemonId);
+        }
+
         return (
             <div>
                 <PokemonSearchView
@@ -28,7 +32,7 @@ const TeamBuilder = observer(
                 />
                 <PokemonResultView 
                     pokemonResults={props.model.filteredPokemon}
-                    doPokemonInspect={props.model.doPokemonInspect}
+                    doPokemonInspect={userWantsToInspect}
                 />
             </div>
         );
