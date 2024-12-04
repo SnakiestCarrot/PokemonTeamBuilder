@@ -26,7 +26,10 @@ const TeamBuilder = observer(
                     updatePokemonSearchACB={handleSearchInput}
                     text={props.model.searchQuery}
                 />
-                <PokemonResultView pokemonResults={props.model.filteredPokemon} />
+                <PokemonResultView 
+                    pokemonResults={props.model.filteredPokemon}
+                    doPokemonInspect={props.model.doPokemonInspect}
+                />
             </div>
         );
     });

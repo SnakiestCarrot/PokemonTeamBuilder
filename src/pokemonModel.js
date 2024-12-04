@@ -106,6 +106,10 @@ const model = {
         console.log(this.pokemonSearchPromiseState)
     },
 
+    doPokemonInspect (pokemonId) {
+        // this is called from the teambuilder presenter that gets called from the view
+        // this should set the current pokemon ID and then change to pokemon inspect page
+    },
 
     setCurrentPokemonId(pokemonId) {
         this.currentPokemonId = pokemonId;
