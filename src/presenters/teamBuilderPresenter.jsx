@@ -3,7 +3,7 @@ import { PokemonResultView } from "../views/PokemonResultView";
 import { PokemonSearchView } from "../views/PokemonSearchView";
 import { useEffect } from "react";
 
-const PokemonSearch = observer(
+const TeamBuilder = observer(
     function PokemonSearchRender(props) {
         // Load the full Pokémon list when the component mounts
         function loadPokemonList() {
@@ -31,4 +31,4 @@ const PokemonSearch = observer(
         );
     });
 
-export { PokemonSearch };
+export { TeamBuilder };

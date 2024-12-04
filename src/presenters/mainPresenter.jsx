@@ -8,7 +8,7 @@ const Main = observer(function MainRender(props) {
     return (
         <div>
             <MainView
-                changeToSearchPage={props.model.setToSearchPage}
+                changeToTeamBuilderPage={props.model.setToTeamBuilderPage}
                 pokemonList={pokemonList}
             />
         </div>

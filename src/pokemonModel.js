@@ -115,8 +115,8 @@ const model = {
         window.location.hash = "#/main";
     },
 
-    setToSearchPage() {
-        window.location.hash = "#/search";
+    setToTeamBuilderPage() {
+        window.location.hash = "#/teambuilder";
     },
 
     //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.

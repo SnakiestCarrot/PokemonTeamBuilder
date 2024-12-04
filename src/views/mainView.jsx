@@ -2,8 +2,6 @@ export function MainView(props) {
     return (
         <div>
             <h1 className="header">Welcome to Pokémon Team Builder</h1>
-            <button onClick={props.changeToSearchPage}>Go to search page</button>
-
             <h3 className="center">Random Pokémon:</h3>
             <div className="pokemon-container">
                 {props.pokemonList.length > 0 ? (
