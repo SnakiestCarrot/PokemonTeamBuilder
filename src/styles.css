@@ -38,6 +38,17 @@ button {
     border-radius: 2px;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
+
+.radar-chart {
+    display: flex;
+    position: relative;
+    margin-left: 50%;
+    margin-top: -30%;
+}
+
 .center-container {
     display: flex;            /* Activate Flexbox */
     justify-content: center;  /* Center items horizontally */
