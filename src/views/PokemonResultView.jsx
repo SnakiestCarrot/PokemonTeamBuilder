@@ -2,7 +2,7 @@ export function PokemonResultView(props) {
     const results = props.pokemonResults;
 
     if (!results || results.length === 0) {
-        return <div>No Pokémon found</div>;
+        return <div className="no-results">No Pokémon found</div>;
     }
 
     return (
@@ -24,10 +24,6 @@ export function PokemonResultView(props) {
             </div>
         </div>
     );
-
-    function userWantsPokemonInspect (pokemonId) {
-        console.log("i got clicked")
-    }
 }
 
 
