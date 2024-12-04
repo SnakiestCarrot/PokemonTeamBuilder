@@ -97,16 +97,44 @@ button {
 }
 
 .pokemon-container-inspect {
-    justify-content: center; 
-    margin: 2% 4%;
+    display: flex; /* Enable horizontal layout */
+    flex-direction: row; /* Ensure children are laid out in a row */
+    align-items: flex-start; /* Align items to the top */
+    justify-content: flex-start; /* Align items to the left */
+    gap: 20px; /* Space between card and stats */
+    margin: 2% 4%; /* Add margins around the container */
 }
 
+.pokemon-stats {
+    flex-grow: 1; /* Allow stats to grow and take remaining space */
+    align-self: flex-start; /* Align stats to the top of the card */
+}
+
+.pokemon-types {
+    margin: 2% 4%; 
+    text-align: left; 
+    color: var(--color-text);
+}
 
 .pokemon-image {
     width: 200px;
 }
 
 .pokemon-card {
+    border: 2px solid var(--color-accent); /* Add a border for the card */
+    border-radius: 10px; /* Make the edges rounded */
+    padding: 10px; /* Add padding inside the card */
+    text-align: center; /* Center the content in the card */
+    color: var(--color-text);
+    text-transform: capitalize;
+    font-size: 25px;
+    background-color: var(--color-base); /* Light background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    width: 250px; /* Fixed width for uniformity */
+    transition: background-color 0.3s ease;
+}
+
+.pokemon-card-inspect {
     border: 2px solid var(--color-accent); /* Add a border for the card */
     border-radius: 10px; /* Make the edges rounded */
     padding: 10px; /* Add padding inside the card */
