@@ -1,4 +1,4 @@
-export function TopBar() {
+export function TopBarView() {
     return (
     <div className="topBar">
         <a href="#main">Menu</a>
