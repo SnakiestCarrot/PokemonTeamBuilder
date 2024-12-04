@@ -4,9 +4,6 @@ import { model } from "../pokemonModel";
 
 const Main = observer(function MainRender(props) {
     const pokemonList = model.getPokemonFromHook(4);
-    getRandomPokemon () {
-        
-    }
 
     return (
         <div>

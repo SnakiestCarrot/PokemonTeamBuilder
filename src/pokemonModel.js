@@ -29,10 +29,10 @@ const model = {
     searchQuery : "", //searchquery for filtering pokemon
     randomPokemonList: [],
 
-    /*getPokemonFromHook(quantity) {
+    getPokemonFromHook(quantity) {
         const { pokemonList } = fetchRandomPokemon(quantity);
         return pokemonList;
-    },*/
+    },
 
     setRandomPokemon() {
         const pokemonList = getRandomPokemon(4);
@@ -115,9 +115,11 @@ const model = {
 
 
     setCurrentPokemonId(pokemonId) {
+        console.log("HELLO");
         this.currentPokemonId = pokemonId;
         const pokemonObject = getPokemon(pokemonId);
-        
+        console.log(pokemonObject);
+        this.currentPokemon = pokemonObject;
     },
 
     setToMainPage() {

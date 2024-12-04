@@ -6,10 +6,10 @@ export function InspectView(props) {
             <h1 className="header">Welcome to pokemon inspect</h1>
             <div className="pokemon-container-inspect">
                 <div key={index} className="pokemon-card">
-                    <p>{currentPokemon.name}</p>
+                    <p>{props.currentPokemon.name}</p>
                     <img
-                        src={currentPokemon.sprites.other['official-artwork'].front_default}
-                        alt={currentPokemon.name}
+                        src={props.currentPokemon.sprites.other['official-artwork'].front_default}
+                        alt={props.currentPokemon.name}
                         className="pokemon-image"
                     />
                 </div>
