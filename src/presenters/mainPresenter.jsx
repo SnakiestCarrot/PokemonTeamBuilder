@@ -13,6 +13,7 @@ const Main = observer(function MainRender(props) {
         <div>
             <MainView
                 changeToTeamBuilderPage={props.model.setToTeamBuilderPage}
+                changeToTeamsPage={props.model.setToTeamViewPage}
                 pokemonList={pokemonList}
                 doPokemonInspect={userWantsToInspectRandomPokemon}
             />

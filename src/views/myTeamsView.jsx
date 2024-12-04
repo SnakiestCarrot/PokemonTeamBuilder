@@ -6,7 +6,7 @@ export function MyTeamsView(props) {
         <div>
             <TopBar />
             <h1 className="header">My teams</h1>
-            {/* list playermade teams */}
+            
         </div>
     )
 }

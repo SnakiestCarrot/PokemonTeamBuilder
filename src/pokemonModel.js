@@ -124,6 +124,10 @@ const model = {
         window.location.hash = "#/teambuilder";
     },
 
+    setToTeamViewPage(){
+        window.location.hash = "#/teams";
+    },
+
     //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.
     getPokemonTeams() {
         if (!this.user || !this.user.uid) {
