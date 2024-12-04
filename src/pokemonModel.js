@@ -10,6 +10,7 @@ export const highestPokemonId = 1025;
 
 const model = {
 
+    currentPokemon: null,
     currentPokemonId: 100,
     pokemonSearchPromiseState: {},
     currentTeam: {
