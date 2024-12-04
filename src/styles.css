@@ -69,6 +69,12 @@ button {
     margin: 60px 0; /* Add margin above and below */
 }
 
+.pokemon-container-inspect {
+    justify-content: center; 
+    margin: 2% 4%;
+}
+
+
 .pokemon-image {
     width: 200px;
 }

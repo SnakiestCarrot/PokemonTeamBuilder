@@ -4,6 +4,7 @@ import { Main } from "../presenters/mainPresenter";
 import { Login } from "../presenters/loginPresenter";
 import { TopBar } from "../components/topBarComponent";
 import { TeamBuilder } from "../presenters/teamBuilderPresenter";
+import { Inspect } from "../presenters/inspectPresenter"
 
 const ReactRoot = observer(
     function ReactRoot(props){
@@ -40,6 +41,10 @@ function makeRouter (model) {
             path:"login",
             element: <Login model={model}></Login>
         },
+        {
+            path:"inspect",
+            element: <Inspect model={model}></Inspect>
+        }
     ]
 
     return (createHashRouter(routerArray))
