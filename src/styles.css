@@ -75,10 +75,6 @@ button {
     outline: none;
 }
 
-.pokemon-team-search input:hover {
-
-}
-
 .no-results {
     display: flex; /* Use Flexbox for alignment */
     justify-content: center;
@@ -90,7 +86,7 @@ button {
 .pokemon-container {
     display: flex; /* Use Flexbox for alignment */
     flex-wrap: wrap; /* Allow wrapping if there are too many items for one row */
-    gap: 20px; /* Add space between cards */
+    gap: 15px; /* Add space between cards */
     justify-content: center; /* Center the cards horizontally */
     align-items: center; /* Align items vertically if needed */
     margin: 60px 0; /* Add margin above and below */
@@ -117,7 +113,7 @@ button {
 }
 
 .pokemon-image {
-    width: 200px;
+    width: 150px;
 }
 
 .pokemon-card {
@@ -127,7 +123,7 @@ button {
     text-align: center; /* Center the content in the card */
     color: var(--color-text);
     text-transform: capitalize;
-    font-size: 25px;
+    font-size: 20px;
     background-color: var(--color-base); /* Light background color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
     width: 250px; /* Fixed width for uniformity */
