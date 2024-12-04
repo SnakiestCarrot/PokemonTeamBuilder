@@ -15,12 +15,12 @@ export function InspectView(props) {
         <div>
             <h1 className="header">Welcome to pokemon inspect</h1>
             <div className="pokemon-container-inspect">
-                <div className="pokemon-card">
+                <div className="pokemon-card-inspect">
                     <p>{props.currentPokemon.name}</p>
                     <img
                         src={props.currentPokemon.sprites.other['official-artwork'].front_default}
                         alt={props.currentPokemon.name}
-                        className="pokemon-image"
+                        className="pokemon-image-inspect"
                     />
                 </div>
                 <div className="pokemon-stats">
@@ -40,13 +40,13 @@ export function InspectView(props) {
                 </h2>
             </div>
             <div className="radar-chart">
-                <RadarChart height={500} width={500}
+                <RadarChart height={500} width={700}
                     outerRadius="80%" data={pokemonData}>
                     <PolarGrid />
                     <PolarAngleAxis dataKey="name" />
                     <PolarRadiusAxis />
-                    <Radar dataKey="value" stroke="green"
-                        fill="green" fillOpacity={0.5} />
+                    <Radar dataKey="value" stroke="#de9c19"
+                        fill="#de9c19" fillOpacity={0.5} />
                 </RadarChart>
             </div>
         </div>

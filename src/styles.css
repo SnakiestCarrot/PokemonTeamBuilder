@@ -45,7 +45,7 @@ button {
 .radar-chart {
     display: flex;
     position: relative;
-    margin-left: 50%;
+    margin-left: 45%;
     margin-top: -30%;
 }
 
@@ -112,6 +112,8 @@ button {
     margin: 2% 4%; /* Add margins around the container */
 }
 
+.pokemon-card-inspect
+
 .pokemon-stats {
     flex-grow: 1; /* Allow stats to grow and take remaining space */
     align-self: flex-start; /* Align stats to the top of the card */
@@ -125,6 +127,10 @@ button {
 
 .pokemon-image {
     width: 150px;
+}
+
+.pokemon-image-inspect {
+    width: 200px;
 }
 
 .pokemon-card {
