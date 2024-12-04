@@ -1,16 +1,16 @@
 import "../styles.css"
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 
 export function InspectView(props) {
-    // helper function to capitalize the first letter
-    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-    // extract types from the pokemon object
-    const { types } = props.currentPokemon;
-    // capitalize the first letter of the type for style
-    const firstType = capitalize(types[0].type.name);
-    // if a second type exists, capitalize it too. otherwise secondType is null
-    const secondType = types.length === 2 ? capitalize(types[1].type.name) : null;
-
-
+    let pokemonData = [
+        { name: 'Health', value: props.currentPokemon.stats[0].base_stat },
+        { name: 'Attack', value: props.currentPokemon.stats[1].base_stat },
+        { name: 'Defense', value: props.currentPokemon.stats[2].base_stat },
+        { name: 'Special Attack', value: props.currentPokemon.stats[3].base_stat },
+        { name: 'Special Defense', value: props.currentPokemon.stats[4].base_stat },
+        { name: 'Speed', value: props.currentPokemon.stats[5].base_stat },        
+    ];
+    
     return (
         <div>
             <h1 className="header">Welcome to pokemon inspect</h1>
@@ -33,11 +33,21 @@ export function InspectView(props) {
                 </div>
             </div>
             <div className="pokemon-types">
-                <h2>
+                <h2 className="capitalize">
                     {/* if there are two types, print "Types", otherwise, 
                     print "Type". if a second type exists, print it too  */}
-                    Type{types.length === 2 ? "s" : ""}: {firstType}{secondType ? `, ${secondType}` : ""}
+                    Type: {props.currentPokemon.types[0].type.name}{props.currentPokemon.types[1] ? `/${props.currentPokemon.types[1].type.name}` : ""}
                 </h2>
+            </div>
+            <div className="radar-chart">
+                <RadarChart height={500} width={500}
+                    outerRadius="80%" data={pokemonData}>
+                    <PolarGrid />
+                    <PolarAngleAxis dataKey="name" />
+                    <PolarRadiusAxis />
+                    <Radar dataKey="value" stroke="green"
+                        fill="green" fillOpacity={0.5} />
+                </RadarChart>
             </div>
         </div>
     )
