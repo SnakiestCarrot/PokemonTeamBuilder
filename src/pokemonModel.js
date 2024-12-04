@@ -1,5 +1,5 @@
 import { resolvePromise } from './resolvePromise';
-import { searchPokemon, getPokemon } from './pokemonSource';
+import { searchPokemon, getPokemon, getRandomPokemon } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam } from './utilities';
@@ -26,10 +26,16 @@ const model = {
     pokemonResultPromiseSate: {},
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
+    randomPokemonList: [],
 
-    getPokemonFromHook(quantity) {
+    /*getPokemonFromHook(quantity) {
         const { pokemonList } = fetchRandomPokemon(quantity);
         return pokemonList;
+    },*/
+
+    setRandomPokemon() {
+        const pokemonList = getRandomPokemon(4);
+        this.randomPokemonList = pokemonList;
     },
 
     //Function to load all pokemons from website 
@@ -109,6 +115,8 @@ const model = {
 
     setCurrentPokemonId(pokemonId) {
         this.currentPokemonId = pokemonId;
+        const pokemonObject = getPokemon(pokemonId);
+        
     },
 
     setToMainPage() {
