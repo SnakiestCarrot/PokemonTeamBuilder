@@ -6,7 +6,7 @@ export function MainView(props) {
             <div className="pokemon-container">
                 {props.pokemonList.length > 0 ? (
                     props.pokemonList.map((pokemon, index) => (
-                        <div key={index} className="pokemon-card">
+                        <div key={index} className="pokemon-card" onClick={() => props.doPokemonInspect(pokemon.id)}>
                             <p>{pokemon.name}</p>
                             <img
                                 src={pokemon.sprites.other['official-artwork'].front_default}
