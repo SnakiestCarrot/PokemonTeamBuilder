@@ -10,9 +10,24 @@ export async function getTestTeams(){
             teamName: "test2",
             pokemons : new Array(6)
         }
+
     ];
 
-    
+    testTeams[0].pokemons[0] = await getPokemon(1);
+    testTeams[0].pokemons[1] = await getPokemon(2);
+    testTeams[0].pokemons[2] = await getPokemon(3);
+    testTeams[0].pokemons[3] = await getPokemon(4);
+    testTeams[0].pokemons[4] = await getPokemon(5);
+    testTeams[0].pokemons[5] = await getPokemon(6);
+
+    testTeams[0].pokemons[0] = await getPokemon(7);
+    testTeams[0].pokemons[1] = await getPokemon(8);
+    testTeams[0].pokemons[2] = await getPokemon(9);
+    testTeams[0].pokemons[3] = await getPokemon(10);
+    testTeams[0].pokemons[4] = await getPokemon(11);
+    testTeams[0].pokemons[5] = await getPokemon(12);
+
+    console.log(testTeams);
 
     return testTeams;
 }

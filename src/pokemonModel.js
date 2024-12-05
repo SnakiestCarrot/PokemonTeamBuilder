@@ -42,6 +42,10 @@ const model = {
         }  
     },
 
+    removeCurrentPokemonAtIndex(index) {
+        this.currentTeam.pokemons[index] = null;
+    },
+
     async loadTestCurrentTeam() {
         this.setCurrentPokemonAtIndex(0, 1);
         this.setCurrentPokemonAtIndex(1, 2);
