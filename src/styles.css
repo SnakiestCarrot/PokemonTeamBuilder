@@ -1,18 +1,33 @@
+
+
+/* Original colors
+
+--color-base: #052964; 
+--color-accent: #de9c19; 
+--color-secondary-accent: #02183C;
+--color-text: #FCB21C; 
+--color-accent-hover: #2980b9;
+--color-button-border:#de9c19;
+
+*/
+
+
+
+
 :root {
-    --color-base: #052964; /* Base color (e.g., background) */
-    --color-accent: #de9c19; /* Accent color (e.g., buttons, highlights) */
-    --color-secondary-accent: #02183C;
-    --color-text: #FCB21C; /* Text color for better contrast */
-    --color-accent-hover: #2980b9; /* Accent hover state */
-    --color-button-border:#de9c19;
+    --color-base: #323232; /* Base color (e.g., background) */
+    --color-accent: #747474; /* Accent color (e.g., buttons, highlights) */
+    --color-secondary-accent: #707070;
+    --color-text: #ffffff; /* Text color for better contrast */
+    --color-accent-hover: #6e6e6e; /* Accent hover state */
+    --color-button-border:#9a9a9a;
+    --color-topbar-backgrund: #5c5c5c;
+    --color-topbar-button-background: #414141;
   }
 
-.debug {
-    border: 2px solid #000000;
-}
-
 body {
-    background-color: #1c1c1c;
+    background-color: #191919;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 p {
@@ -74,11 +89,12 @@ button {
     padding: 10px;
     background-color: var(--color-base);
     color: var(--color-text);
-    border: 2px solid var(--color-accent);
+    border: 1px solid var(--color-accent);
     border-radius: 5px;
     font-size: large;
     font-weight: bold;
     transition: all 0.2s;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .pokemon-team-search input:focus {
@@ -101,6 +117,20 @@ button {
     justify-content: center; /* Center the cards horizontally */
     align-items: center; /* Align items vertically if needed */
     margin: 60px 0; /* Add margin above and below */
+}
+
+.pokemon-card {
+    
+    border-radius: 10px; /* Make the edges rounded */
+    padding: 10px; /* Add padding inside the card */
+    text-align: center; /* Center the content in the card */
+    color: var(--color-text);
+    text-transform: capitalize;
+    font-size: 20px;
+    background-color: var(--color-base); /* Light background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    width: 250px; /* Fixed width for uniformity */
+    transition: background-color 0.3s ease, transform 0.1s ease-in-out;
 }
 
 .pokemon-container-inspect {
@@ -133,20 +163,6 @@ button {
     width: 200px;
 }
 
-.pokemon-card {
-    border: 2px solid var(--color-accent); /* Add a border for the card */
-    border-radius: 10px; /* Make the edges rounded */
-    padding: 10px; /* Add padding inside the card */
-    text-align: center; /* Center the content in the card */
-    color: var(--color-text);
-    text-transform: capitalize;
-    font-size: 20px;
-    background-color: var(--color-base); /* Light background color */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-    width: 250px; /* Fixed width for uniformity */
-    transition: background-color 0.3s ease, transform 0.5s ease-in-out;
-}
-
 .pokemon-card-inspect {
     border: 2px solid var(--color-accent); /* Add a border for the card */
     border-radius: 10px; /* Make the edges rounded */
@@ -174,19 +190,17 @@ button {
     display: flex;
     justify-content: center;
     align-items: center; 
-    background-color: var(--color-base);
+    background-color: var(--color-topbar-backgrund);
     overflow: hidden;
     padding: 1%;
-    margin-top: 1%;
-    border-radius: 10px;
     box-shadow: 0 6px 9px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-    border: 2px solid var(--color-button-border);
     z-index: 9999;
 }
 
 .topBar a {
     border: 2px solid;
     border-color: var(--color-button-border);
+    background-color: var(--color-topbar-button-background);
     padding: 1%;
     padding-top: 0.5%;
     padding-bottom: 0.5%;
