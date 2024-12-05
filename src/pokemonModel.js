@@ -4,11 +4,13 @@ import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam } from './utilities';
 import { fetchRandomPokemon } from "./pokemonHook.js"
+import { getTestTeams } from './testData.js';
 
 export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
 
 const model = {
+    user : null,
 
     currentPokemon: await getPokemon(1),
     currentPokemonId: 100,
@@ -28,6 +30,11 @@ const model = {
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
     randomPokemonList: [],
+
+    getTestPokemonTeams(){
+        const testTeam = getTestTeams();
+        return testTeam;
+    },
 
     getPokemonFromHook(quantity) {
         const { pokemonList } = fetchRandomPokemon(quantity);
@@ -96,10 +103,16 @@ const model = {
         });
     },
 
-    //Logout function for logoutPresenter
-    userWantsToLogout(){
-        console.log(this.user);
-        signOut(auth);
+    //Function to logout
+    userWantsToLogout() {
+        signOut(auth)
+            .then(() => {
+                console.log("Logout successful");
+                this.user = null; // Ensure user state is reset
+            })
+            .catch((error) => {
+                console.error("Logout failed:", error);
+            });
     },
 
     async doPokemonInspect (pokemonId) {
@@ -137,17 +150,21 @@ const model = {
     
         //Converts the firebase format to pokemon team format.
         function convertToPokemon(firebaseTeams) {
-            return Object.entries(firebaseTeams).map(([key, team]) => ({
-                key, // Preserve the unique Firebase key
-                teamName: team.myTeamName,
-                getPokemon1: () => getPokemon(team.id1),
-                getPokemon2: () => getPokemon(team.id2),
-                getPokemon3: () => getPokemon(team.id3),
-                getPokemon4: () => getPokemon(team.id4),
-                getPokemon5: () => getPokemon(team.id5),
-                getPokemon6: () => getPokemon(team.id6),
-            }));
+            return Promise.all(
+                Object.values(firebaseTeams).map(async (team) => {
+                    return {
+                        teamName: team.myTeamName, // Keep the team name
+                        pokemon1: await getPokemon(team.id1),
+                        pokemon2: await getPokemon(team.id2),
+                        pokemon3: await getPokemon(team.id3),
+                        pokemon4: await getPokemon(team.id4),
+                        pokemon5: await getPokemon(team.id5),
+                        pokemon6: await getPokemon(team.id6),
+                    };
+                })
+            );
         }
+        
     
         // Call firebase function then convert them
         return getMyPokemonTeams()
