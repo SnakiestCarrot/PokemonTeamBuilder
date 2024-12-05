@@ -1,6 +1,7 @@
 
 
 // This is the view that will display the current team when making edits to it
+// it recieves in props.team, the current team of the model.
 export function TeamBuilderView(props) {
 
     return (
