@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, push, remove } from "firebase/database";
 import { firebaseConfig } from "/src/firebaseConfig.js";
-import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, } from "firebase/auth";
 import { model } from "./pokemonModel";
 
 //Init firebase db

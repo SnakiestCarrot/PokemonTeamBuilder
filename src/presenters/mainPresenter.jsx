@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { MainView } from "../views/mainView";
 import { model } from "../pokemonModel";
+import { useEffect } from "react";
 
 const Main = observer(function MainRender(props) {
-    const pokemonList = model.getPokemonFromHook(4);
 
     function userWantsToInspectRandomPokemon(pokemonId){
         props.model.doPokemonInspect(pokemonId);
@@ -14,7 +14,7 @@ const Main = observer(function MainRender(props) {
             <MainView
                 changeToTeamBuilderPage={props.model.setToTeamBuilderPage}
                 changeToTeamsPage={props.model.setToTeamViewPage}
-                pokemonList={pokemonList}
+                pokemonList={props.model.randomPokemonList}
                 doPokemonInspect={userWantsToInspectRandomPokemon}
             />
         </div>

@@ -1,9 +1,8 @@
 import { resolvePromise } from './resolvePromise';
-import { searchPokemon, getPokemon, getRandomPokemon } from './pokemonSource';
+import { getPokemon, getRandomPokemon } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam } from './utilities';
-import { fetchRandomPokemon } from "./pokemonHook.js"
 import { getTestTeams } from './testData.js';
 
 export const lowestPokemonId = 1;
@@ -31,14 +30,29 @@ const model = {
     searchQuery : "", //searchquery for filtering pokemon
     randomPokemonList: [],
 
+    init(){
+        this.loadRandomPokemonList(4);
+        this.loadAllPokemon();
+    },
+
+    async loadRandomPokemonList(quantity) {
+        if (this.randomPokemonList.length > 0) {
+            console.log("Using already loaded random pokemon");
+            return;
+        }
+
+        try {
+            const pokemonList = await getRandomPokemon(quantity); // Assuming getRandomPokemon returns a Promise
+            this.randomPokemonList = pokemonList; // Update with resolved list
+        } catch (error) {
+            console.error("Failed to fetch Pokémon:", error);
+        }
+    },
+
+    //Test function to get teams for myTeams display.
     getTestPokemonTeams(){
         const testTeam = getTestTeams();
         return testTeam;
-    },
-
-    getPokemonFromHook(quantity) {
-        const { pokemonList } = fetchRandomPokemon(quantity);
-        return pokemonList;
     },
 
     //Function to load all pokemons from website 

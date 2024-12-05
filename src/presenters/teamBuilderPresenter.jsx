@@ -6,11 +6,6 @@ import { useEffect } from "react";
 
 const TeamBuilder = observer(
     function PokemonSearchRender(props) {
-        // Load the full Pokémon list when the component mounts
-        function loadPokemonList() {
-            props.model.loadAllPokemon();
-        }
-        useEffect(loadPokemonList, []); //triggers the function
 
         function handleSearchInput(event) {
             if (event && event.target) {

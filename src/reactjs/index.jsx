@@ -6,6 +6,7 @@ import "/src/firebaseModel.js";
 // (1) ------------ retrieve the application state (model) ----------
 import { model } from '/src/pokemonModel.js';
 const reactiveModel= observable(model);
+reactiveModel.init()
 
 createRoot(document.getElementById('root'))
     .render(
@@ -21,4 +22,4 @@ import { reaction } from "mobx";
 configure({ enforceActions: "never", })
 connectToFirebase(reactiveModel, reaction);
 
-console.log(model);
+console.log(reactiveModel);

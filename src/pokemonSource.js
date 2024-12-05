@@ -4,33 +4,11 @@ import { highestPokemonId } from "./pokemonModel";
     This document should make API calls to PokéAPI to be used in the model
     when fetching data from the API
 */
-
-const API_URL = "https://pokeapi.co/api/v2/pokemon/";
-
-export function searchPokemon(pokemonId) {
-    const object = {
-        method: 'GET',
-    }
-
-    function gotResponseACB (response) {
-        return response.json();
-    }
-
-    function getResultsACB (object) {
-        return object;
-    }
-
-    const fetchUrl = `${API_URL}${pokemonId}`
-
-    return fetch(fetchUrl, object).then(gotResponseACB).then(getResultsACB);
-}
-
-
-
 export async function getRandomPokemon(quantity) {
     function createPokemonPromiseCB() {
         const randomId = Math.floor(Math.random() * highestPokemonId) + 1;
-        return searchPokemon(randomId);
+        const pokemon = getPokemon(randomId);
+        return pokemon;
     }
     // use CB function to generate an array of promises
     const promises = Array.from({ length: quantity }, createPokemonPromiseCB);
@@ -38,7 +16,6 @@ export async function getRandomPokemon(quantity) {
     const pokemonArray = await Promise.all(promises); 
     return pokemonArray; 
 }
-
 
 
 //Function that fetches pokemons from searchparams, id or name
