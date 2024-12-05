@@ -94,12 +94,12 @@ export function connectToFirebase(model, watchFunction) {
 //Function to save a finished pokemon team to user firebase.
 export function saveMyPokemonTeam(team) {
     const firebaseTeam = {
-        id1 : team.pokemon1.id,
-        id2 : team.pokemon2.id,
-        id3 : team.pokemon3.id,
-        id4 : team.pokemon4.id,
-        id5 : team.pokemon5.id,
-        id6 : team.pokemon6.id,
+        id1 : team.pokemons[0].id,
+        id2 : team.pokemons[1].id,
+        id3 : team.pokemons[2].id,
+        id4 : team.pokemons[3].id,
+        id5 : team.pokemons[4].id,
+        id6 : team.pokemons[5].id,
         myTeamName : team.teamName
     };
     push(ref(db, `PokemonTeamBuilder/${model.user.uid}/teams`), firebaseTeam)
