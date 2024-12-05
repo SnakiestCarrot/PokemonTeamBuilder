@@ -29,12 +29,15 @@ const model = {
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
     randomPokemonList: [],
+    testTeams: [],
 
     init(){
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
+        this.getTestPokemonTeams;
     },
 
+    //Loads random pokemon in randomPokemonList for mainpage.
     async loadRandomPokemonList(quantity) {
         if (this.randomPokemonList.length > 0) {
             console.log("Using already loaded random pokemon");

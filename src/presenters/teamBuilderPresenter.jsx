@@ -2,7 +2,6 @@ import { observer } from "mobx-react-lite";
 import { PokemonResultView } from "../views/PokemonResultView";
 import { PokemonSearchView } from "../views/PokemonSearchView";
 import { TeamBuilderView } from "../views/TeamBuilderView"
-import { useEffect } from "react";
 
 const TeamBuilder = observer(
     function PokemonSearchRender(props) {
