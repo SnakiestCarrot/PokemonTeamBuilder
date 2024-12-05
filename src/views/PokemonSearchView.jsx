@@ -1,12 +1,17 @@
 export function PokemonSearchView(props) {
     return (
         <div className="pokemon-team-search" >
-            <input
-                 type="text"
-                onChange={userSearchesPokemonACB}
-                value={props.text || ""}
-                placeholder="Search pokemon"
-            />
+            <div>
+                <h1>Search and add:</h1>
+            </div>
+            <div>
+                <input
+                    type="text"
+                    onChange={userSearchesPokemonACB}
+                    value={props.text || ""}
+                    placeholder="Search pokemon"
+                />
+            </div>
         </div>
     );
 

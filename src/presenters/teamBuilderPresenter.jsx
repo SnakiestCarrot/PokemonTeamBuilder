@@ -21,12 +21,13 @@ const TeamBuilder = observer(
 
         return (
             <div>
+
+                <TeamBuilderView 
+                    team={props.model.currentTeam}
+                />
                 <PokemonSearchView
                     updatePokemonSearchACB={handleSearchInput}
                     text={props.model.searchQuery}
-                />
-                <TeamBuilderView 
-                    
                 />
                 <PokemonResultView 
                     pokemonResults={props.model.filteredPokemon}
