@@ -34,7 +34,7 @@ const model = {
     init(){
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
-        this.getTestPokemonTeams;
+        this.loadTestPokemonTeams();
     },
 
     //Loads random pokemon in randomPokemonList for mainpage.
@@ -53,10 +53,19 @@ const model = {
     },
 
     //Test function to get teams for myTeams display.
-    async getTestPokemonTeams(){
-        const testTeam = await getTestTeams();
-        console.log(testTeam);
-        return testTeam;
+    async loadTestPokemonTeams(){
+        if (this.testTeams.length > 0) {
+            console.log("Using already loaded test teams");
+            return;
+        }
+
+        try {
+            const testTeamList = await getTestTeams(); 
+            this.testTeams = testTeamList; 
+            console.log(testTeamList);
+        } catch (error) {
+            console.error("Failed to get test teams:", error);
+        }
     },
 
     //Function to load all pokemons from website 
