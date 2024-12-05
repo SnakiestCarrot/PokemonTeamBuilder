@@ -33,16 +33,18 @@ const model = {
         this.loadTestCurrentTeam();
     },
 
-    async loadTestCurrentTeam() {
+    async setCurrentPokemonAtIndex(index, pokemonId) {
         try {
-            const pokemon1 = await getPokemon(1);
-            const pokemon2 = await getPokemon(2);
-
-            this.currentTeam.pokemons[0] = pokemon1;
-            this.currentTeam.pokemons[1] = pokemon2;
+            const pokemon = await getPokemon(pokemonId);
+            this.currentTeam.pokemons[index] = pokemon;
         } catch (error) {
-            console.error("Failed to create Pokémon 1 or 2:", error);
-        }
+            console.error("Failed to set pokemon", error);
+        }  
+    },
+
+    async loadTestCurrentTeam() {
+        this.setCurrentPokemonAtIndex(0, 1);
+        this.setCurrentPokemonAtIndex(1, 2);
     },
 
     //Loads random pokemon in randomPokemonList for mainpage.
