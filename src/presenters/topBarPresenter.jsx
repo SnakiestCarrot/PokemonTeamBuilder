@@ -1,23 +1,15 @@
 import { observer } from "mobx-react-lite";
 import { TopBarView } from "../views/topBarView";
 const TopBar = observer(function TopBarRender(props) {
+    console.log("TopBar re-rendered. User state:", props.model.user);
     function userWantsToLogin() {
+        console.log("User state in TopBarView:", props.model.user); // Debug log
         props.model.userWantsToLogin();
     }
 
     function userWantsToLogout() {
+        console.log("User state in TopBarView:", props.model.user); // Debug log
         props.model.userWantsToLogout();
-    }
-
-    //Conditional rendering of logout/login button
-    function isUserLoggedIn() {
-        if (props.model.user && props.model.user.uid) {
-            console.log(props.model.user.uid);
-            //TODO
-        }
-        else {
-            //TODO
-        }
     }
 
     return (
