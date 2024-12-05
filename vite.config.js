@@ -10,6 +10,7 @@ export default defineConfig({
     },
     build: {
         sourcemap: true,
-        minify: false
+        minify: false,
+        target: 'es2022',
     }
 });

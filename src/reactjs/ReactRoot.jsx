@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import {  createHashRouter,  RouterProvider } from "react-router-dom";
 import { Main } from "../presenters/mainPresenter";
-import { Login } from "../presenters/loginPresenter";
 import { TeamBuilder } from "../presenters/teamBuilderPresenter";
 import { Inspect } from "../presenters/inspectPresenter";
 import { TopBarPresenter } from "../presenters/topBarPresenter";
@@ -13,7 +12,7 @@ const ReactRoot = observer(
         return (
             <div>
                 <div>
-                    <TopBarPresenter />
+                    <TopBar model={props.model}/>
                 </div>
                 <div>
                     <RouterProvider router={makeRouter(props.model)}/>
@@ -37,10 +36,6 @@ function makeRouter (model) {
         {
             path:"teambuilder",
             element: <TeamBuilder model={model}></TeamBuilder>
-        },
-        {
-            path:"login",
-            element: <Login model={model}></Login>
         },
         {
             path:"inspect",
