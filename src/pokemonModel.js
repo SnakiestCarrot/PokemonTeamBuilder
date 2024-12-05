@@ -11,7 +11,7 @@ export const highestPokemonId = 1025;
 const model = {
     user : null,
 
-    currentPokemon: await getPokemon(1),
+    currentPokemon: null,
     currentPokemonId: 100,
     pokemonSearchPromiseState: {},
     currentTeam: {
@@ -55,6 +55,7 @@ const model = {
     //Test function to get teams for myTeams display.
     getTestPokemonTeams(){
         const testTeam = getTestTeams();
+        console.log(testTeam);
         return testTeam;
     },
 
