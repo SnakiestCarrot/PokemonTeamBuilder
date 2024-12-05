@@ -42,11 +42,12 @@ export function InspectView(props) {
             <div className="radar-chart">
                 <RadarChart height={500} width={700}
                     outerRadius="80%" data={pokemonData}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="name" />
+                    <PolarGrid stroke="white"/>
+                    <PolarAngleAxis dataKey="name" stroke="white"/>
                     <PolarRadiusAxis />
                     <Radar dataKey="value" stroke="#de9c19"
-                        fill="#de9c19" fillOpacity={0.5} />
+                        fill="#de9c19" fillOpacity={0.5}
+                         />
                 </RadarChart>
             </div>
         </div>

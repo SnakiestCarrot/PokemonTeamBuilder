@@ -1,6 +1,6 @@
 import { resolvePromise } from './resolvePromise';
 import { searchPokemon, getPokemon, getRandomPokemon } from './pokemonSource';
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam } from './utilities';
 import { fetchRandomPokemon } from "./pokemonHook.js"
@@ -83,23 +83,23 @@ const model = {
     },
 
     //Login function for loginPresenter
-    userWantsToLogin: function (onSuccess, onError) {
+    userWantsToLogin(){
         const provider = new GoogleAuthProvider();
 
         signInWithPopup(auth, provider)
-            .then(function (result) {
+            .then((result) => {
                 console.log("Login successful:", result.user);
                 model.user = result.user; 
-                if (onSuccess) {
-                    onSuccess(result.user); 
-                }
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.error("Login failed:", error);
-                if (onError) {
-                    onError(error); 
-                }
-            });
+        });
+    },
+
+    //Logout function for logoutPresenter
+    userWantsToLogout(){
+        console.log(this.user);
+        signOut(auth);
     },
 
     async doPokemonInspect (pokemonId) {

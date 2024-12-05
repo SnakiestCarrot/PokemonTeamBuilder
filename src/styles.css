@@ -211,11 +211,13 @@ button {
     font-size: 18px;
     text-decoration: none;
     transition: background-color 0.2s ease;
+    cursor: pointer; 
 }
 
 .topBar a:hover {
     background-color: var(--color-accent-hover);
 }
+
 
 
 
