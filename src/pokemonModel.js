@@ -15,13 +15,8 @@ const model = {
     currentPokemonId: 100,
     pokemonSearchPromiseState: {},
     currentTeam: {
-        pokemon1: null,
-        pokemon2: null,
-        pokemon3: null,
-        pokemon4: null,
-        pokemon5: null,
-        pokemon6: null,
-        teamName: "team",
+        pokemons : new Array(6),
+        teamName : "team"
     },
 
     allPokemon : [], // Full list of Pokémon
@@ -35,6 +30,19 @@ const model = {
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
         this.loadTestPokemonTeams();
+        this.loadTestCurrentTeam();
+    },
+
+    async loadTestCurrentTeam() {
+        try {
+            const pokemon1 = await getPokemon(1);
+            const pokemon2 = await getPokemon(2);
+
+            this.currentTeam.pokemons[0] = pokemon1;
+            this.currentTeam.pokemons[1] = pokemon2;
+        } catch (error) {
+            console.error("Failed to create Pokémon 1 or 2:", error);
+        }
     },
 
     //Loads random pokemon in randomPokemonList for mainpage.
@@ -62,7 +70,6 @@ const model = {
         try {
             const testTeamList = await getTestTeams(); 
             this.testTeams = testTeamList; 
-            console.log(testTeamList);
         } catch (error) {
             console.error("Failed to get test teams:", error);
         }
