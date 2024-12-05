@@ -3,7 +3,7 @@ import {  createHashRouter,  RouterProvider } from "react-router-dom";
 import { Main } from "../presenters/mainPresenter";
 import { TeamBuilder } from "../presenters/teamBuilderPresenter";
 import { Inspect } from "../presenters/inspectPresenter";
-import { TopBarPresenter } from "../presenters/topBarPresenter";
+import { TopBar } from "../presenters/topBarPresenter";
 import { MyTeams } from "../presenters/myTeamsPresenter";
 
 const ReactRoot = observer(

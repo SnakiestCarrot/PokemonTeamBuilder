@@ -43,27 +43,43 @@ const model = {
 
     //Function to load all pokemons from website 
     loadAllPokemon() {
-    const promise = getPokemon("?limit=100000"); // Fetch all Pokémon names
+        if (this.allPokemon.length > 0) {
+            console.log("Using cached Pokémon data from memory");
+            return;
+        }
+    
+        // Check if Pokémon data is cached in localStorage
+        const cachedData = localStorage.getItem("allPokemon");
+        if (cachedData) {
+            console.log("Using cached Pokémon data from localStorage");
+            this.allPokemon = JSON.parse(cachedData);
+            this.filteredPokemon = this.allPokemon;
+            return;
+        }
+    
+        // Fetch data from API if no cache exists
+        console.log("Fetching Pokémon data from API...");
+        const promise = getPokemon("?limit=100000"); // Fetch all Pokémon names
 
-    resolvePromise(promise, this.pokemonResultPromiseSate);
-    promise
-        .then((data) => {
-            // Filter out invalid entries by checking if the URL includes a valid ID
-            this.allPokemon = data.results.map((pokemon) => {
-                const id = this.extractPokemonIdFromUrl(pokemon.url); 
-                return {
-                    name: pokemon.name,
-                    url: pokemon.url,
-                    id: id,
-                    sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
-                };
-            });
+        resolvePromise(promise, this.pokemonResultPromiseSate);
+        promise
+            .then((data) => {
+                // Filter out invalid entries by checking if the URL includes a valid ID
+                this.allPokemon = data.results.map((pokemon) => {
+                    const id = this.extractPokemonIdFromUrl(pokemon.url); 
+                    return {
+                        name: pokemon.name,
+                        url: pokemon.url,
+                        id: id,
+                        sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+                    };
+                });
 
-            this.filteredPokemon = this.allPokemon; // Initially display all valid Pokémon
-        })
-        .catch((error) => {
-            console.error("Error fetching Pokémon list:", error);
-        }); 
+                this.filteredPokemon = this.allPokemon; // Initially display all valid Pokémon
+            })
+            .catch((error) => {
+                console.error("Error fetching Pokémon list:", error);
+            }); 
     },
 
     // Helper function to extract Pokémon ID from URL 
