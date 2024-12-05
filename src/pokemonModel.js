@@ -53,8 +53,8 @@ const model = {
     },
 
     //Test function to get teams for myTeams display.
-    getTestPokemonTeams(){
-        const testTeam = getTestTeams();
+    async getTestPokemonTeams(){
+        const testTeam = await getTestTeams();
         return testTeam;
     },
 
