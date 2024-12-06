@@ -4,6 +4,10 @@
 // it recieves in props.team, the current team of the model.
 export function TeamBuilderView(props) {
 
+    const pokemonTypeIds = [];
+
+
+
     return (
 
         <div className="team-builder-team-container">
@@ -19,16 +23,14 @@ export function TeamBuilderView(props) {
                         key={pokemon.name} 
                         className="pokemon-team-card" >
                             <h2>{pokemon.name}</h2>
-                            <img  
-                                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-white/12.png`}
-                            />
+                            {renderTypeIds(pokemon)}
                             <img 
                                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`} 
                                 alt={`${pokemon.name} sprite`} 
                                 className="pokemon-team-image"
                             />
                             <div>
-                                <button className="pokemon-team-button">Remove</button>
+                                <button onClick={() => removePokemonButtonClicked(pokemon)} className="pokemon-team-button">Remove</button>
                             </div>
                         </div>
                     ) : (
@@ -44,6 +46,41 @@ export function TeamBuilderView(props) {
             ))}
         </div>
     );
+
+    function removePokemonButtonClicked (pokemon) {
+        props.removePokemonFromCurrentTeam(pokemon.id);
+    }
+        
+
+    // This function simply extracts just the id of a pokemons types
+    // from the pokemon data, it does not modify any of the incoming data
+    function renderTypeIds (pokemon) {
+        const typeArray = pokemon.types;
+        
+        const typeUrls = [];
+        const typeIds = [];
+
+        typeUrls[0] = typeArray[0].type.url;
+        typeIds[0] = extractTypeIdFromUrl(typeUrls[0]);
+
+        if (typeArray[1]) {
+            typeUrls[1] = typeArray[1].type.url;
+            typeIds[1] = extractTypeIdFromUrl(typeUrls[1]);
+        }
+
+        return (
+            typeIds.map((typeId) => (
+                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-white/${typeId}.png`}></img>
+                )
+            )
+        )
+    }
+
+    function extractTypeIdFromUrl (url) {
+        const match = url.match(/\/(\d+)\/?$/);
+        
+        return match ? parseInt(match[1], 10) : null;
+    }
 }
 
 

@@ -19,11 +19,16 @@ const TeamBuilder = observer(
             props.model.doPokemonInspect(pokemonId);
         }
 
+        function removePokemonFromTeam (pokemonId) {
+            props.model.removePokemonByIdFromTeam(pokemonId);
+        }
+
         return (
             <div>
 
                 <TeamBuilderView 
                     team={props.model.currentTeam}
+                    removePokemonFromCurrentTeam={removePokemonFromTeam}
                 />
                 <PokemonSearchView
                     updatePokemonSearchACB={handleSearchInput}

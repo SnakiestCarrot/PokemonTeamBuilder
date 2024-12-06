@@ -48,7 +48,7 @@ const model = {
 
     async loadTestCurrentTeam() {
         this.setCurrentPokemonAtIndex(0, 1);
-        this.setCurrentPokemonAtIndex(1, 2);
+        this.setCurrentPokemonAtIndex(1, 5);
     },
 
     //Loads random pokemon in randomPokemonList for mainpage.
@@ -197,6 +197,14 @@ const model = {
         window.location.hash = "#/teams";
     },
 
+    removePokemonByIdFromTeam (pokemonId) {
+        console.log("Button pressed");
+
+        this.currentTeam.pokemons = this.currentTeam.pokemons.map(pokemon =>
+            pokemon && pokemon.id === pokemonId ? null : pokemon
+        );
+    },
+
     //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.
     getPokemonTeams() {
         if (!this.user || !this.user.uid) {
@@ -221,6 +229,7 @@ const model = {
             );
         }
         
+
     
         // Call firebase function then convert them
         return getMyPokemonTeams()
