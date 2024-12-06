@@ -83,10 +83,49 @@ button {
     font-weight: 2000;
 }
 
+.team-builder-team-container {
+    margin-top: 40px;
+    text-align: center;
+    display: flex; /* Use Flexbox for alignment */
+    flex-wrap: wrap; /* Allow wrapping if there are too many items for one row */
+    gap: 15px; /* Add space between cards */
+    justify-content: center; /* Center the cards horizontally */
+}
+
+.team-builder-name {
+    width: 100%;
+}
+
+.pokemon-team-card {
+    background-color: var(--color-base);
+    height: 200px;
+    width: 120px;
+    border-radius: 4px;
+    padding: 10px;
+    text-transform: capitalize;
+    align-content: center;
+}
+
+
+.pokemon-team-image {
+    width: 100px;
+}
+
+.pokemon-team-button {
+    border: 2px solid var(--color-accent);
+    transition: all 0.2s ease;
+}
+
+.pokemon-team-button:hover {
+    background-color: var(--color-accent-hover);
+    cursor: pointer;
+}
+
 .pokemon-team-search {
     align-items: center;
     padding-top: 100px;
     display: flex;
+    flex-direction: column;
     justify-content: center;   /* Center horizontally */
     align-items: center;       /* Center vertically */
 }
@@ -118,6 +157,7 @@ button {
     padding-top: 30px;
     color: var(--color-text);
     font-size: large;
+    margin-bottom: 300px;
 }
 
 .pokemon-container {

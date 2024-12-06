@@ -11,17 +11,12 @@ export const highestPokemonId = 1025;
 const model = {
     user : null,
 
-    currentPokemon: await getPokemon(1),
+    currentPokemon: null,
     currentPokemonId: 100,
     pokemonSearchPromiseState: {},
     currentTeam: {
-        pokemon1: null,
-        pokemon2: null,
-        pokemon3: null,
-        pokemon4: null,
-        pokemon5: null,
-        pokemon6: null,
-        teamName: "team",
+        pokemons : new Array(6),
+        teamName : "team"
     },
 
     allPokemon : [], // Full list of Pokémon
@@ -29,12 +24,34 @@ const model = {
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
     randomPokemonList: [],
+    testTeams: [],
 
     init(){
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
+        this.loadTestPokemonTeams();
+        this.loadTestCurrentTeam();
     },
 
+    async setCurrentPokemonAtIndex(index, pokemonId) {
+        try {
+            const pokemon = await getPokemon(pokemonId);
+            this.currentTeam.pokemons[index] = pokemon;
+        } catch (error) {
+            console.error("Failed to set pokemon", error);
+        }  
+    },
+
+    removeCurrentPokemonAtIndex(index) {
+        this.currentTeam.pokemons[index] = null;
+    },
+
+    async loadTestCurrentTeam() {
+        this.setCurrentPokemonAtIndex(0, 1);
+        this.setCurrentPokemonAtIndex(1, 2);
+    },
+
+    //Loads random pokemon in randomPokemonList for mainpage.
     async loadRandomPokemonList(quantity) {
         if (this.randomPokemonList.length > 0) {
             console.log("Using already loaded random pokemon");
@@ -50,9 +67,18 @@ const model = {
     },
 
     //Test function to get teams for myTeams display.
-    getTestPokemonTeams(){
-        const testTeam = getTestTeams();
-        return testTeam;
+    async loadTestPokemonTeams(){
+        if (this.testTeams.length > 0) {
+            console.log("Using already loaded test teams");
+            return;
+        }
+
+        try {
+            const testTeamList = await getTestTeams(); 
+            this.testTeams = testTeamList; 
+        } catch (error) {
+            console.error("Failed to get test teams:", error);
+        }
     },
 
     //Function to load all pokemons from website 
