@@ -11,6 +11,8 @@ export const highestPokemonId = 1025;
 const model = {
     user : null,
 
+    isDropdownVisible : false,
+
     currentPokemon: null,
     currentPokemonId: 100,
     pokemonSearchPromiseState: {},
@@ -259,6 +261,14 @@ const model = {
         }
         removeMyPokemonTeam(teamIdKey);
         return this.getPokemonTeams();
+    },
+    
+    toggleDropDown() {
+        this.isDropdownVisible = !this.isDropdownVisible;
+    },
+
+    closeDropDown() {
+        this.isDropdownVisible = false;
     },
 }
 
