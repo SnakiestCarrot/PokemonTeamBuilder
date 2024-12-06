@@ -8,9 +8,14 @@ const Inspect = observer(function InspectRender(props) {
         <div>
             <InspectView
                 currentPokemon={props.model.currentPokemon}
+                addPokemonToCurrentTeam={addPokemonToTeam}
             />;
         </div>
     )
+
+    function addPokemonToTeam (pokemonId) {
+        props.model.addPokemonByIdToTeam(pokemonId);
+    }
 });
 
 export { Inspect };

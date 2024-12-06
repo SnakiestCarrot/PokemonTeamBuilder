@@ -50,10 +50,14 @@ export function InspectView(props) {
                 </RadarChart>
             </div>
             <div className="add-to-team-button">
-                <button>
+                <button onClick={() => addButtonClicked(props.currentPokemon)}>
                     Add to team
                 </button>
             </div>
         </div>
     )
+
+    function addButtonClicked (pokemon) {
+        props.addPokemonToCurrentTeam(pokemon.id);
+    }
 }

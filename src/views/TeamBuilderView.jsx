@@ -4,19 +4,17 @@
 // it recieves in props.team, the current team of the model.
 export function TeamBuilderView(props) {
 
-    const pokemonTypeIds = [];
-
-
+    const team = props.team;
 
     return (
 
         <div className="team-builder-team-container">
             <div className="team-builder-name">
                 <h2>Current team:</h2>
-                <h1>{props.team.teamName}</h1>
+                <h1>{team.teamName}</h1>
             </div>
             
-            {props.team.pokemons.map((pokemon) => (
+            {team.pokemons.map((pokemon) => (
                 <div>
                     {pokemon ? (
                         <div 

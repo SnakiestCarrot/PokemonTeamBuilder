@@ -25,7 +25,6 @@ const TeamBuilder = observer(
 
         return (
             <div>
-
                 <TeamBuilderView 
                     team={props.model.currentTeam}
                     removePokemonFromCurrentTeam={removePokemonFromTeam}

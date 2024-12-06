@@ -199,11 +199,26 @@ const model = {
         window.location.hash = "#/teams";
     },
 
-    removePokemonByIdFromTeam (pokemonId) {
-        console.log("Button pressed");
+    async addPokemonByIdToTeam(pokemonId) {
+        try {
+            const index = this.currentTeam.pokemons.findIndex(pokemon => pokemon == null);
+    
+            if (index === -1) {
+                console.error("No available slots in the current team.");
+                return;
+            }
+    
+            const pokemon = await getPokemon(pokemonId);
+            this.currentTeam.pokemons[index] = pokemon;
+            console.log(`Added Pokémon ${pokemon.name} to slot ${index + 1}`);
+        } catch (error) {
+            console.error("Failed to add Pokémon to the team:", error);
+        }
+    },
 
+    removePokemonByIdFromTeam (pokemonId) {
         this.currentTeam.pokemons = this.currentTeam.pokemons.map(pokemon =>
-            pokemon && pokemon.id === pokemonId ? null : pokemon
+            pokemon && pokemon.id == pokemonId ? null : pokemon
         );
     },
 
@@ -231,6 +246,7 @@ const model = {
             );
         }
         
+
 
     
         // Call firebase function then convert them
