@@ -235,6 +235,7 @@ button {
 }
 
 .topBar {
+    top: 0px;
     width: 100%;
     position: fixed;
     display: flex;
@@ -266,12 +267,6 @@ button {
     background-color: var(--color-accent-hover);
 }
 
-
-
-
-.login {
-    margin-top: 110px;
-}
 
 
 .dropdown {

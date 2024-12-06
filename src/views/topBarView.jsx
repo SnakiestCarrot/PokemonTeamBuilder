@@ -26,10 +26,10 @@ export function TopBarView(props) {
 
     return (
         <div className="topBar">
-            <a href="#main" className="topBar-button">Main</a>
-            <a href="#teambuilder" className="topBar-button">Team Builder</a>
-            <a href="#teams" className="topBar-button">My teams</a>
-            <a href="#todo" className="topBar-button">Browse teams</a>
+            <a href="#main" >Main</a>
+            <a href="#teambuilder" >Team Builder</a>
+            <a href="#teams" >My teams</a>
+            <a href="#todo" >Browse teams</a>
             {loginLogout()}
         </div>
     );
