@@ -153,6 +153,18 @@ button {
     outline: none;
 }
 
+.pokemon-team-results-button {
+    border: 2px solid var(--color-accent);
+    transition: all 0.2s ease;
+    scale: 1.2;
+    margin: 20px;
+}
+
+.pokemon-team-results-button:hover {
+    background-color: var(--color-accent-hover);
+    cursor: pointer;
+}
+
 .no-results {
     display: flex; /* Use Flexbox for alignment */
     justify-content: center;
@@ -171,14 +183,13 @@ button {
 }
 
 .pokemon-card {
-    
     border-radius: 10px; /* Make the edges rounded */
     padding: 10px; /* Add padding inside the card */
     text-align: center; /* Center the content in the card */
     color: var(--color-text);
     text-transform: capitalize;
     font-size: 20px;
-    background-color: var(--color-base); /* Light background color */
+    background-color: var(--color-base); 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
     width: 250px; /* Fixed width for uniformity */
     transition: background-color 0.3s ease, transform 0.1s ease-in-out;
@@ -192,8 +203,6 @@ button {
     gap: 20px; /* Space between card and stats */
     margin: 12% 4%; /* Add margins around the container */
 }
-
-.pokemon-card-inspect
 
 .pokemon-stats {
     flex-grow: 1; /* Allow stats to grow and take remaining space */
@@ -230,7 +239,7 @@ button {
 }
 
 .pokemon-card:hover {
-    background-color: var(--color-accent-hover);
+    background-color: #424242;
     cursor: pointer;
     transform: scale(1.02);
 }

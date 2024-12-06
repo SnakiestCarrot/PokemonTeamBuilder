@@ -12,16 +12,24 @@ export function PokemonResultView(props) {
                     <div 
                         key={pokemon.name} 
                         className="pokemon-card" 
-                        onClick={() => props.doPokemonInspect(pokemon.id)}>
+                        onClick={() => addButtonClicked(pokemon)}>
                             <h2>{pokemon.name}</h2>
                             <img 
                                 src={pokemon.sprite} 
                                 alt={`${pokemon.name} sprite`} 
                                 className="pokemon-image"
                             />
-                            <button onClick={(event) => {addButtonClicked(pokemon)
-                                                    event.stopPropagation();
-                            }} className="pokemon-team-button">Add</button>
+                            <div>
+                                <button onClick={
+                                    (event) => {
+                                        props.doPokemonInspect(pokemon.id)
+                                        event.stopPropagation();
+                                }} 
+                                className="pokemon-team-results-button">Inspect
+                                </button>
+                            </div>
+
+                            
                     </div>
                 ))}
             </div>
