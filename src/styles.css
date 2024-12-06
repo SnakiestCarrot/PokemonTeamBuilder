@@ -54,15 +54,20 @@ button {
     border-radius: 2px;
 }
 
+.add-to-team-button {
+    position: absolute;
+    top: 20%;
+    left: 90%
+}  
+
 .capitalize {
     text-transform: capitalize;
 }
 
 .radar-chart {
     display: flex;
-    position: relative;
-    margin-left: 45%;
-    margin-top: -30%;
+    position: absolute;
+    margin: -15cm 0cm 16cm 16cm;
 }
 
 .center-container {
@@ -162,7 +167,6 @@ button {
     gap: 15px; /* Add space between cards */
     justify-content: center; /* Center the cards horizontally */
     align-items: center; /* Align items vertically if needed */
-    margin: 60px 0; /* Add margin above and below */
 }
 
 .pokemon-card {
@@ -185,7 +189,7 @@ button {
     align-items: flex-start; /* Align items to the top */
     justify-content: flex-start; /* Align items to the left */
     gap: 20px; /* Space between card and stats */
-    margin: 2% 4%; /* Add margins around the container */
+    margin: 12% 4%; /* Add margins around the container */
 }
 
 .pokemon-card-inspect
@@ -196,7 +200,8 @@ button {
 }
 
 .pokemon-types {
-    margin: 2% 4%; 
+    /*margin: -4.5% -38.5%;*/
+    margin: -2cm -13.3cm; 
     text-align: left; 
     color: var(--color-text);
 }
@@ -267,3 +272,34 @@ button {
 .login {
     margin-top: 110px;
 }
+
+
+.dropdown {
+    position: fixed; /* Ensure dropdown is positioned relative to the viewport */
+    top: 60px; /* Adjust to place it below the fixed TopBar */
+    left: auto; /* Optional: if alignment depends on dynamic positioning */
+    right: 20px; /* Align the dropdown to the right edge */
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    padding: 10px;
+    min-width: 150px;
+}
+
+.dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown ul li:hover {
+    background-color: #f1f1f1;
+}
+
+
