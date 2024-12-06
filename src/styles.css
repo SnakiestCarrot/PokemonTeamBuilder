@@ -84,7 +84,7 @@ button {
 }
 
 .team-builder-team-container {
-    margin-top: 40px;
+    margin-top: 60px;
     text-align: center;
     display: flex; /* Use Flexbox for alignment */
     flex-wrap: wrap; /* Allow wrapping if there are too many items for one row */
