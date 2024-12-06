@@ -33,10 +33,8 @@ export function TeamBuilderView(props) {
                         </div>
                     ) : (
                         <div className="pokemon-team-card">
-                            <p>Slot is empty</p>
-                            <div>
-                                <button className="pokemon-team-button">Add</button>
-                            </div>
+                            <p>Slot is empty,</p>
+                            <p>search to add</p>
                         </div>
                         
                     )}
@@ -61,6 +59,7 @@ export function TeamBuilderView(props) {
         typeUrls[0] = typeArray[0].type.url;
         typeIds[0] = extractTypeIdFromUrl(typeUrls[0]);
 
+        // If the pokemon has a second type
         if (typeArray[1]) {
             typeUrls[1] = typeArray[1].type.url;
             typeIds[1] = extractTypeIdFromUrl(typeUrls[1]);

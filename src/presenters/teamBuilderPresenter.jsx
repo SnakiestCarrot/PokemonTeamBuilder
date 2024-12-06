@@ -23,6 +23,10 @@ const TeamBuilder = observer(
             props.model.removePokemonByIdFromTeam(pokemonId);
         }
 
+        function addPokemonToTeam (pokemonId) {
+            props.model.addPokemonByIdToTeam (pokemonId);
+        }
+
         return (
             <div>
                 <TeamBuilderView 
@@ -36,6 +40,7 @@ const TeamBuilder = observer(
                 <PokemonResultView 
                     pokemonResults={props.model.filteredPokemon}
                     doPokemonInspect={userWantsToInspect}
+                    addPokemonToTeam={addPokemonToTeam}
                 />
             </div>
         );

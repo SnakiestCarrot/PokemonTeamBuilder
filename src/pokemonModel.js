@@ -38,7 +38,9 @@ const model = {
     async setCurrentPokemonAtIndex(index, pokemonId) {
         try {
             const pokemon = await getPokemon(pokemonId);
-            this.currentTeam.pokemons[index] = pokemon;
+            const newTeam = [...this.currentTeam];
+            newTeam[index] = pokemon;
+            this.currentTeam = newTeam;
         } catch (error) {
             console.error("Failed to set pokemon", error);
         }  
@@ -179,7 +181,6 @@ const model = {
         this.setCurrentPokemonId(pokemonId)
         const pokemon = await getPokemon(this.currentPokemonId);
         this.currentPokemon = pokemon;
-        console.log("current pokemon", this.currentPokemon);
         window.location.hash = "#/inspect";
     },
 
@@ -200,26 +201,31 @@ const model = {
     },
 
     async addPokemonByIdToTeam(pokemonId) {
-        try {
-            const index = this.currentTeam.pokemons.findIndex(pokemon => pokemon == null);
+        const index = this.currentTeam.pokemons.findIndex(pokemon => pokemon == null);
     
-            if (index === -1) {
-                console.error("No available slots in the current team.");
-                return;
-            }
-    
-            const pokemon = await getPokemon(pokemonId);
-            this.currentTeam.pokemons[index] = pokemon;
-            console.log(`Added Pokémon ${pokemon.name} to slot ${index + 1}`);
-        } catch (error) {
-            console.error("Failed to add Pokémon to the team:", error);
+        if (index === -1) {
+            console.error("No available slots in the current team.");
+            return;
         }
+
+        const pokemon = await getPokemon(pokemonId);
+
+        const tempTeam = {...this.currentTeam};
+
+        tempTeam.pokemons[index] = pokemon;
+
+        this.currentTeam = tempTeam;
     },
 
     removePokemonByIdFromTeam (pokemonId) {
-        this.currentTeam.pokemons = this.currentTeam.pokemons.map(pokemon =>
+
+        const tempTeam = {...this.currentTeam};
+
+        tempTeam.pokemons = tempTeam.pokemons.map(pokemon =>
             pokemon && pokemon.id == pokemonId ? null : pokemon
         );
+
+        this.currentTeam = tempTeam;
     },
 
     //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.

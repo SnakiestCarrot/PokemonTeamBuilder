@@ -19,11 +19,18 @@ export function PokemonResultView(props) {
                                 alt={`${pokemon.name} sprite`} 
                                 className="pokemon-image"
                             />
+                            <button onClick={(event) => {addButtonClicked(pokemon)
+                                                    event.stopPropagation();
+                            }} className="pokemon-team-button">Add</button>
                     </div>
                 ))}
             </div>
         </div>
     );
+
+    function addButtonClicked (pokemon) {
+        props.addPokemonToTeam(pokemon.id);
+    }
 }
 
 
