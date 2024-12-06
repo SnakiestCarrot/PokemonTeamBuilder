@@ -34,7 +34,8 @@ export function TeamBuilderView(props) {
                     ) : (
                         <div className="pokemon-team-card">
                             <p>Slot is empty,</p>
-                            <p>search to add</p>
+                            <p>search and click</p>
+                            <p>to add</p>
                         </div>
                         
                     )}

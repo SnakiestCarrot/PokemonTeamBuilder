@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { PokemonResultView } from "../views/PokemonResultView";
 import { PokemonSearchView } from "../views/PokemonSearchView";
 import { TeamBuilderView } from "../views/TeamBuilderView"
+import { useEffect } from "react";
 
 const TeamBuilder = observer(
     function PokemonSearchRender(props) {
@@ -26,6 +27,15 @@ const TeamBuilder = observer(
         function addPokemonToTeam (pokemonId) {
             props.model.addPokemonByIdToTeam (pokemonId);
         }
+
+        // Prefetch all type ID images on component mount
+        useEffect(() => {
+            const typeIds = Array.from({ length: 18 }, (_, i) => i + 1);
+            typeIds.forEach((typeId) => {
+                const img = new Image();
+                img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-white/${typeId}.png`;
+            });
+        }, []);
 
         return (
             <div>

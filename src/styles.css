@@ -33,6 +33,7 @@ body {
 
 p {
     color: var(--color-accent);
+    text-transform: none;
 }
 
 h1 {
