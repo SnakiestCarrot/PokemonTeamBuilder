@@ -1,13 +1,12 @@
 // Function to validate the team format
 export function isValidTeam(team) {
-    const teamKeys = ["pokemon1", "pokemon2", "pokemon3", "pokemon4", "pokemon5", "pokemon6", "teamName"];
-    const valid = team &&
-        typeof team === "object" &&
-        teamKeys.every(key => key in team) &&
-        Object.keys(team).length === teamKeys.length &&
-        typeof team.teamName === "string" &&
-        ["pokemon1", "pokemon2", "pokemon3", "pokemon4", "pokemon5", "pokemon6"].every(
-            key => typeof team[key] === "object" 
-        );
+    const valid =
+        team &&
+        typeof team === "object" && 
+        Array.isArray(team.pokemons) &&
+        team.pokemons.length === 6 && 
+        team.pokemons.every(pokemon => typeof pokemon === "object" && pokemon !== null) &&
+        typeof team.teamName === "string" && 
+        team.teamName.trim().length > 0; 
     return valid;
 }

@@ -235,9 +235,6 @@ const model = {
                 })
             );
         }
-        
-
-
     
         // Call firebase function then convert them
         return getMyPokemonTeams()
@@ -256,7 +253,7 @@ const model = {
     
 
     //Function to save my pokemon team
-    savePokemonTeam(team){
+    savePokemonTeam(){
         if (!this.user) {
             console.error("There is no user logged in!");
             return;
@@ -265,7 +262,7 @@ const model = {
             console.error("Invalid team format!", team);
             return;
         }
-        saveMyPokemonTeam(team);
+        saveMyPokemonTeam(this.currentTeam);
     },
 
     //Function to remove a pokemon team and return a new list of teams.
