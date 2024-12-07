@@ -92,7 +92,11 @@ export function connectToFirebase(model, watchFunction) {
 }
 
 //Function to save a finished pokemon team to user firebase.
-export function saveMyPokemonTeam(team) {
+export function saveMyPokemonTeam(user, team) {
+    if (!user || !user.uid) {
+        console.error("Error: User or User UID is not defined. Cannot save team.");
+        return;
+    }
     console.log("Saving team to Firebase:", team);
     const firebaseTeam = {
         id1 : team.pokemons[0].id,
@@ -103,7 +107,7 @@ export function saveMyPokemonTeam(team) {
         id6 : team.pokemons[5].id,
         myTeamName : team.teamName
     };
-    push(ref(db, `PokemonTeamBuilder/${model.user.uid}/teams`), firebaseTeam)
+    push(ref(db, `PokemonTeamBuilder/${user.uid}/teams`), firebaseTeam)
         .then(() => {
             console.log("Team successfully saved!");
         })

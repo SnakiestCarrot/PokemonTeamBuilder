@@ -258,11 +258,12 @@ const model = {
             console.error("There is no user logged in!");
             return;
         }
-        if (!isValidTeam(team)) {
-            console.error("Invalid team format!", team);
+        if (!isValidTeam(this.currentTeam)) {
+            console.error("Invalid team format!", this.currentTeam);
             return;
         }
-        saveMyPokemonTeam(this.currentTeam);
+        console.log("User before saving team:", this.user); // Debug log
+        saveMyPokemonTeam(this.user, this.currentTeam);
     },
 
     //Function to remove a pokemon team and return a new list of teams.
