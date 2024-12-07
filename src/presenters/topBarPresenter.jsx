@@ -9,6 +9,7 @@ const TopBar = observer(function TopBarRender(props) {
 
     function userWantsToLogout() {
         props.model.userWantsToLogout();
+    
     }
 
     function userClicksProfile(event) {
@@ -23,7 +24,7 @@ const TopBar = observer(function TopBarRender(props) {
     return (
         <div>
             <TopBarView
-                model={props.model}
+                user={props.model.user}
                 onLogoutClick={userWantsToLogout}
                 onLoginClick={userWantsToLogin}
                 onProfileClick={userClicksProfile}
