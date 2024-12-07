@@ -116,24 +116,31 @@ export function saveMyPokemonTeam(user, team) {
         });
 }
 
-//Function to get all saved user teams from firebase.
-export function getMyPokemonTeams(){
-    const teamsRef = ref(db, `PokemonTeamBuilder/${model.user.uid}/teams`);
+// Function to get all saved user teams from Firebase
+export function getMyPokemonTeams(user) {
+    if (!user || !user.uid) {
+        console.error("Error: User or User UID is not defined.");
+        return Promise.reject("User or UID is required to fetch teams.");
+    }
+
+    const teamsRef = ref(db, `PokemonTeamBuilder/${user.uid}/teams`);
 
     return get(teamsRef)
-        .then(snapshot => {
+        .then((snapshot) => {
             if (snapshot.exists()) {
-                return snapshot.val();
+                console.log("Teams retrieved from Firebase:", snapshot.val());
+                return Object.values(snapshot.val()); 
             } else {
                 console.log("No teams found for this user.");
-                return {};
+                return []; 
             }
         })
-        .catch(error => {
-            console.error("Error retrieving teams:", error);
-            throw error;
+        .catch((error) => {
+            console.error("Error retrieving teams from Firebase:", error);
+            throw error; 
         });
 }
+
 
 //Function to remove a specific pokemon team based on that unique key
 export function removeMyPokemonTeam(teamId){

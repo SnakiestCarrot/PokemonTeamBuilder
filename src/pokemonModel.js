@@ -213,7 +213,7 @@ const model = {
     },
 
     //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.
-    getPokemonTeams() {
+    async getPokemonTeams() {
         if (!this.user || !this.user.uid) {
             console.error("There is no user logged in!");
             return Promise.reject("User is not logged in.");
@@ -237,7 +237,7 @@ const model = {
         }
     
         // Call firebase function then convert them
-        return getMyPokemonTeams()
+        return getMyPokemonTeams(this.user)
             .then(firebaseTeams => {
                 if (!firebaseTeams) {
                     console.log("No teams found.");

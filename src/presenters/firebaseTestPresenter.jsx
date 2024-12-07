@@ -7,11 +7,16 @@ const FirebaseTest = observer(function FirebaseTestRender(props){
         props.model.savePokemonTeam();
     }
 
+    async function getTeamFromFirebase(){
+        const result = await props.model.getPokemonTeams();
+        console.log(result);
+    }   
+
     return(
         <div>
             <FirebaseTestView
-            
             userWantsToSaveTeam={saveTeamToFirebase}
+            userWantsToGetTeam={getTeamFromFirebase}
             />
         </div>
     );
