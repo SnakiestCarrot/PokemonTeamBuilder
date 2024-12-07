@@ -35,21 +35,6 @@ const model = {
         this.loadTestCurrentTeam();
     },
 
-    async setCurrentPokemonAtIndex(index, pokemonId) {
-        try {
-            const pokemon = await getPokemon(pokemonId);
-            const newTeam = [...this.currentTeam];
-            newTeam[index] = pokemon;
-            this.currentTeam = newTeam;
-        } catch (error) {
-            console.error("Failed to set pokemon", error);
-        }  
-    },
-
-    removeCurrentPokemonAtIndex(index) {
-        this.currentTeam.pokemons[index] = null;
-    },
-
     async loadTestCurrentTeam() {
         this.setCurrentPokemonAtIndex(0, 1);
         this.setCurrentPokemonAtIndex(1, 5);
@@ -184,22 +169,6 @@ const model = {
         window.location.hash = "#/inspect";
     },
 
-    setCurrentPokemonId(pokemonId) {
-        this.currentPokemonId = pokemonId;
-    },
-
-    setToMainPage() {
-        window.location.hash = "#/main";
-    },
-
-    setToTeamBuilderPage() {
-        window.location.hash = "#/teambuilder";
-    },
-
-    setToTeamViewPage(){
-        window.location.hash = "#/teams";
-    },
-
     async addPokemonByIdToTeam(pokemonId) {
         const index = this.currentTeam.pokemons.findIndex(pokemon => pokemon == null);
     
@@ -226,6 +195,21 @@ const model = {
         );
 
         this.currentTeam = tempTeam;
+    },
+
+    async setCurrentPokemonAtIndex(index, pokemonId) {
+        try {
+            const pokemon = await getPokemon(pokemonId);
+            const newTeam = [...this.currentTeam];
+            newTeam[index] = pokemon;
+            this.currentTeam = newTeam;
+        } catch (error) {
+            console.error("Failed to set pokemon", error);
+        }  
+    },
+
+    removeCurrentPokemonAtIndex(index) {
+        this.currentTeam.pokemons[index] = null;
     },
 
     //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.
