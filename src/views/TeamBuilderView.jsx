@@ -14,8 +14,8 @@ export function TeamBuilderView(props) {
                 <h1>{team.teamName}</h1>
             </div>
             
-            {team.pokemons.map((pokemon) => (
-                <div>
+            {team.pokemons.map((pokemon, index) => (
+                <div key={index}>
                     {pokemon ? (
                         <div 
                         key={pokemon.name} 
