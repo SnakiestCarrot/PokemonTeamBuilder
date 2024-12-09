@@ -8,7 +8,7 @@ export function PokemonResultView(props) {
     return (
         <div>
             <div className="pokemon-container">
-                {results.map((pokemon) => (
+                {results.filter((pokemon) => pokemon.id >= 1 && pokemon.id <= 1025).map((pokemon) => (
                     <div 
                         key={pokemon.name} 
                         className="pokemon-card" 
