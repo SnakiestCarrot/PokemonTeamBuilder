@@ -242,7 +242,11 @@ button {
 .pokemon-card:hover {
     background-color: #424242;
     cursor: pointer;
-    transform: scale(1.02);
+    transform: scale(1.01);
+}
+
+.pokemon-card:active {
+    background-color: var(--color-accent-hover);
 }
 
 .topBar {
