@@ -40,6 +40,10 @@ const model = {
         this.setCurrentPokemonAtIndex(1, 5);
     },
 
+    setCurrentPokemonId (pokemonId) {
+        this.currentPokemonId = pokemonId;
+    },
+
     //Loads random pokemon in randomPokemonList for mainpage.
     async loadRandomPokemonList(quantity) {
         if (this.randomPokemonList.length > 0) {
@@ -163,7 +167,7 @@ const model = {
     async doPokemonInspect (pokemonId) {
         // this is called from the teambuilder presenter that gets called from the view
         // this should set the current pokemon ID and then change to pokemon inspect page
-        this.setCurrentPokemonId(pokemonId)
+        this.setCurrentPokemonId(pokemonId);
         const pokemon = await getPokemon(this.currentPokemonId);
         this.currentPokemon = pokemon;
         window.location.hash = "#/inspect";
