@@ -55,8 +55,21 @@ button {
     border-radius: 2px;
 }
 
+.return-button-container {
+    position: absolute;
+    top: 10%;
+    left: 90%;
+}
+
+.return-button {
+    width: 2cm;
+    height: 1cm;
+}
+
 .add-to-team-button {
     position: absolute;
+    width: 2cm;
+    height: 1cm;
     top: 20%;
     left: 90%
 }  

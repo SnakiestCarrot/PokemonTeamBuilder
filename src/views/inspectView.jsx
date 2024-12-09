@@ -54,6 +54,11 @@ export function InspectView(props) {
                     Add to team
                 </button>
             </div>
+            <div className="return-button-container">
+                <a href="#teambuilder">
+                    <button className="return-button">Return</button>
+                </a>
+            </div>
         </div>
     )
 
