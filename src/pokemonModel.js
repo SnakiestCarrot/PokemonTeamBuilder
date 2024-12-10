@@ -198,9 +198,9 @@ const model = {
     async setCurrentPokemonAtIndex(index, pokemonId) {
         try {
             const pokemon = await getPokemon(pokemonId);
-            const newTeam = [...this.currentTeam];
-            newTeam[index] = pokemon;
-            this.currentTeam = newTeam;
+            const newTeamObject = {...this.currentTeam};
+            newTeamObject.pokemons[index] = pokemon;
+            this.currentTeam = newTeamObject;
         } catch (error) {
             console.error("Failed to set pokemon", error);
         }  
