@@ -229,15 +229,16 @@ const model = {
         //Converts the firebase format to pokemon team format.
         function convertToPokemon(firebaseTeams) {
             return Promise.all(
-                Object.values(firebaseTeams).map(async (team) => {
+                Object.values(firebaseTeams).map(async ([key, team]) => {
+
+                    const pokemonIds = [team.id1, team.id2, team.id3, team.id4, team.id5, team.id6];
+                    
+                    const pokemons = await Promise.all(pokemonIds.map(id => getPokemon(id)));
+    
                     return {
-                        teamName: team.myTeamName, // Keep the team name
-                        pokemon1: await getPokemon(team.id1),
-                        pokemon2: await getPokemon(team.id2),
-                        pokemon3: await getPokemon(team.id3),
-                        pokemon4: await getPokemon(team.id4),
-                        pokemon5: await getPokemon(team.id5),
-                        pokemon6: await getPokemon(team.id6),
+                        key : key,
+                        teamName: team.myTeamName, 
+                        pokemons: pokemons,     
                     };
                 })
             );
@@ -279,7 +280,7 @@ const model = {
             console.error("There is no user logged in!", error)
             return;
         }
-        removeMyPokemonTeam(teamIdKey);
+        removeMyPokemonTeam(this.user, teamIdKey);
         return this.getPokemonTeams();
     },
     
