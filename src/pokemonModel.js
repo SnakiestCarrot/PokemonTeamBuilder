@@ -2,7 +2,7 @@ import { resolvePromise } from './resolvePromise';
 import { getPokemon, getRandomPokemon } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
-import { isValidTeam } from './utilities';
+import { isValidTeam, extractPokemonIdFromUrl } from './utilities';
 import { getTestTeams } from './testData.js';
 
 export const lowestPokemonId = 1;
@@ -99,7 +99,7 @@ const model = {
             .then((data) => {
                 // Filter out invalid entries by checking if the URL includes a valid ID
                 this.allPokemon = data.results.map((pokemon) => {
-                    const id = this.extractPokemonIdFromUrl(pokemon.url); 
+                    const id = extractPokemonIdFromUrl(pokemon.url); 
                     return {
                         name: pokemon.name,
                         url: pokemon.url,
@@ -113,12 +113,6 @@ const model = {
             .catch((error) => {
                 console.error("Error fetching Pokémon list:", error);
             }); 
-    },
-
-    // Helper function to extract Pokémon ID from URL 
-    extractPokemonIdFromUrl(url) {
-        const match = url.match(/\/pokemon\/(\d+)\//);
-        return match ? parseInt(match[1], 10) : -1; // Extract and parse ID or return -1
     },
 
     //Function to filter out right pokemon based on searchQuery

@@ -10,3 +10,9 @@ export function isValidTeam(team) {
         team.teamName.trim().length > 0; 
     return valid;
 }
+
+// Helper function to extract Pokémon ID from URL 
+export function extractPokemonIdFromUrl(url) {
+    const match = url.match(/\/pokemon\/(\d+)\//);
+    return match ? parseInt(match[1], 10) : -1; // Extract and parse ID or return -1
+}
