@@ -1,3 +1,7 @@
+
+import pokemonTypeData from '../pokemonTypeData.json';
+
+
 // Function to validate the team format
 export function isValidTeam(team) {
     const valid =
@@ -15,4 +19,8 @@ export function isValidTeam(team) {
 export function extractPokemonIdFromUrl(url) {
     const match = url.match(/\/pokemon\/(\d+)\//);
     return match ? parseInt(match[1], 10) : -1; // Extract and parse ID or return -1
+}
+
+export function getPokemonTypeIds(pokemonId) {
+    return pokemonTypeData[pokemonId];
 }
