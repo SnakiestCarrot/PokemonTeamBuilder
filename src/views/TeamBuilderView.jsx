@@ -1,7 +1,6 @@
 
-
 // This is the view that will display the current team when making edits to it
-// it recieves in props.team, the current team of the model.
+// it recieves as input props.team, the current team of the model.
 export function TeamBuilderView(props) {
 
     const team = props.team;
@@ -14,6 +13,7 @@ export function TeamBuilderView(props) {
             </div>
 
             {team.pokemons.map(renderPokemonCard)}
+
         </div>
     );
 
@@ -29,22 +29,14 @@ export function TeamBuilderView(props) {
                         key={pokemon.name}
                         className="pokemon-team-card" >
                         <h2>{pokemon.name}</h2>
-                        {renderTypeIds(pokemon)}
-                        <img
-                            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
-                            alt={`${pokemon.name} sprite`}
-                            className="pokemon-team-image"
-                        />
+                        {renderTypeImages(pokemon)}
+                        {renderPokemonImage(pokemon)}
                         <div>
                             <button onClick={() => removeButtonClicked(pokemon)} className="pokemon-team-button">Remove</button>
                         </div>
                     </div>
                 ) : (
-                    <div className="pokemon-team-card">
-                        <p>Slot is empty,</p>
-                        <p>search and click</p>
-                        <p>to add</p>
-                    </div>
+                    renderEmptyTeamSlot()
 
                 )}
             </div>
@@ -54,7 +46,7 @@ export function TeamBuilderView(props) {
 
 // This function simply extracts just the id of a pokemons types
 // from the pokemon data, it does not modify any of the incoming data
-function renderTypeIds(pokemon) {
+function renderTypeImages(pokemon) {
     const typeArray = pokemon.types;
 
     const typeUrls = [];
@@ -86,6 +78,26 @@ function renderTypeImage(typeId) {
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-white/${typeId}.png`}
             alt={`Type ${typeId}`}
         />
+    )
+}
+
+function renderPokemonImage(pokemon) {
+    return (
+        <img
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+            alt={`${pokemon.name} sprite`}
+            className="pokemon-team-image"
+        />
+    )
+}
+
+function renderEmptyTeamSlot() {
+    return (
+        <div className="pokemon-team-card" >
+            <p>Slot is empty,</p>
+            <p>search and click</p>
+            <p>to add</p>
+        </div >
     )
 }
 
