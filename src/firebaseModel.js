@@ -143,12 +143,16 @@ export function getMyPokemonTeams(user) {
 
 
 //Function to remove a specific pokemon team based on that unique key
-export function removeMyPokemonTeam(teamId){
+export function removeMyPokemonTeam(user, teamId){
     if (!teamId) {
         console.error("No team ID provided for removal!");
         return;
     }
-    const teamRef = ref(db, `PokemonTeamBuilder/${model.user.uid}/teams/${teamId}`);
+    if (!user) {
+        console.error("No user provided for removal of team!");
+        return;
+    }
+    const teamRef = ref(db, `PokemonTeamBuilder/${user.uid}/teams/${teamId}`);
 
     return remove(teamRef)
         .then(() => {
