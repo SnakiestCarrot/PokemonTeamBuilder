@@ -28,6 +28,10 @@ const TeamBuilder = observer(
             props.model.addPokemonByIdToTeam (pokemonId);
         }
 
+        function setCurrentTeamName (name) {
+            props.model.setCurrentTeamName(name);
+        }
+
         // Prefetch all type ID images on component mount
         useEffect(() => {
             const typeIds = Array.from({ length: 18 }, (_, i) => i + 1);
@@ -42,6 +46,7 @@ const TeamBuilder = observer(
                 <TeamBuilderView 
                     team={props.model.currentTeam}
                     removePokemonFromCurrentTeam={removePokemonFromTeam}
+                    changeTeamName={setCurrentTeamName}
                 />
                 <PokemonSearchView
                     updatePokemonSearchACB={handleSearchInput}

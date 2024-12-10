@@ -210,6 +210,15 @@ const model = {
         this.currentTeam.pokemons[index] = null;
     },
 
+    setCurrentTeamName (newName) {
+        if (newName.length > 32) {
+            return;
+        } 
+        const newTeamObject = {...this.currentTeam};
+        newTeamObject.teamName = newName;
+        this.currentTeam = newTeamObject;
+    },
+
     //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.
     async getPokemonTeams() {
         if (!this.user || !this.user.uid) {

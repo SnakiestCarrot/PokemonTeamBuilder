@@ -9,7 +9,13 @@ export function TeamBuilderView(props) {
         <div className="team-builder-team-container">
             <div className="team-builder-name">
                 <h2>Current team:</h2>
-                <h1>{team.teamName}</h1>
+                <input 
+                    className="team-builder-name-input"
+                    onChange={teamNameChanged} 
+                    value={team.teamName}
+                    placeholder="Input team name">
+                </input>
+                
             </div>
 
             {team.pokemons.map(renderPokemonCard)}
@@ -19,6 +25,10 @@ export function TeamBuilderView(props) {
 
     function removeButtonClicked(pokemon) {
         props.removePokemonFromCurrentTeam(pokemon.id);
+    }
+
+    function teamNameChanged (event) {
+        props.changeTeamName(event.target.value);
     }
 
     function renderPokemonCard(pokemon, index) {
