@@ -21,5 +21,3 @@ import { connectToFirebase } from "../firebaseModel.js";
 import { reaction } from "mobx";
 configure({ enforceActions: "never", })
 connectToFirebase(reactiveModel, reaction);
-
-console.log(reactiveModel);
