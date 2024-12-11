@@ -1,5 +1,4 @@
 
-import { renderPokemonCard } from "./viewUtilities";
 
 export function MyTeamsView(props) {
     

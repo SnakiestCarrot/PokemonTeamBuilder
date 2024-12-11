@@ -1,4 +1,6 @@
 
+import { pokemonIdToTypeId } from "../utilities";
+
 // This is the view that will display the current team when making edits to it
 // it recieves as input props.team, the current team of the model.
 export function TeamBuilderView(props) {
@@ -78,28 +80,9 @@ export function TeamBuilderView(props) {
 // This function simply extracts just the id of a pokemons types
 // from the pokemon data, it does not modify any of the incoming data
 function renderTypeImages(pokemon) {
-    const typeArray = pokemon.types;
-
-    const typeUrls = [];
-    const typeIds = [];
-
-    typeUrls[0] = typeArray[0].type.url;
-    typeIds[0] = extractTypeIdFromUrl(typeUrls[0]);
-
-    // If the pokemon has a second type
-    if (typeArray[1]) {
-        typeUrls[1] = typeArray[1].type.url;
-        typeIds[1] = extractTypeIdFromUrl(typeUrls[1]);
-    }
-
     return (
-        typeIds.map(renderTypeImage)
+        pokemonIdToTypeId(pokemon.id).map(renderTypeImage)
     )
-}
-
-function extractTypeIdFromUrl(url) {
-    const match = url.match(/\/(\d+)\/?$/); // uses a regex to extract the type id
-    return match ? parseInt(match[1], 10) : null;
 }
 
 function renderTypeImage(typeId) {
