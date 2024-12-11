@@ -18,7 +18,7 @@ const model = {
     pokemonSearchPromiseState: {},
     currentTeam: {
         pokemons : new Array(6),
-        teamName : "team"
+        teamName : ""
     },
 
     allPokemon : [], // Full list of Pokémon
