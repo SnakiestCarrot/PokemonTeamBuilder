@@ -19,7 +19,7 @@ const model = {
     pokemonSearchPromiseState: {},
     currentTeam: {
         pokemons : new Array(6),
-        teamName : "team"
+        teamName : ""
     },
 
     allPokemon : [], // Full list of Pokémon
@@ -33,12 +33,6 @@ const model = {
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
         this.loadTestPokemonTeams();
-        this.loadTestCurrentTeam();
-    },
-
-    async loadTestCurrentTeam() {
-        this.setCurrentPokemonAtIndex(0, 1);
-        this.setCurrentPokemonAtIndex(1, 5);
     },
 
     setCurrentPokemonId (pokemonId) {
@@ -171,6 +165,7 @@ const model = {
     async addPokemonByIdToTeam(pokemonId) {
         const index = this.currentTeam.pokemons.findIndex(pokemon => pokemon == null);
     
+        // Means that the currentTeam is full (6 pokemon)
         if (index === -1) {
             console.error("No available slots in the current team.");
             return;
@@ -186,12 +181,8 @@ const model = {
     },
 
     removePokemonByIdFromTeam (index) {
-
-        console.log(index)
         const tempTeam = {...this.currentTeam};
-
         tempTeam.pokemons[index] = null;
-
         this.currentTeam = tempTeam;
     },
 
