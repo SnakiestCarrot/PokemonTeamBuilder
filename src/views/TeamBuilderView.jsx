@@ -8,27 +8,48 @@ export function TeamBuilderView(props) {
     return (
         <div className="team-builder-team-container">
             <div className="team-builder-name">
+                
+                {renderSaveToTeamButton()}
+                
                 <h2>Current team:</h2>
-                <input 
+
+
+                <input
                     className="team-builder-name-input"
-                    onChange={teamNameChanged} 
+                    onChange={teamNameChanged}
                     value={team.teamName}
                     placeholder="Input team name">
                 </input>
-                
+
             </div>
 
             {team.pokemons.map(renderPokemonCard)}
 
+
         </div>
+
     );
 
     function removeButtonClicked(index) {
         props.removePokemonFromCurrentTeam(index);
     }
 
-    function teamNameChanged (event) {
+    function userClicksSaveTeamButton() {
+        props.saveCurrentTeamToProfile();
+    }
+
+    function teamNameChanged(event) {
         props.changeTeamName(event.target.value);
+    }
+
+    function renderSaveToTeamButton() {
+        return (
+            <button
+                className="pokemon-save-team-button"
+                onClick={userClicksSaveTeamButton}>
+                Save team to profile
+            </button>
+        )
     }
 
     function renderPokemonCard(pokemon, index) {

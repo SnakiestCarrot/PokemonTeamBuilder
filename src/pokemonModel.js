@@ -253,6 +253,7 @@ const model = {
 
     //Function to save my pokemon team
     savePokemonTeam(){
+        console.log("trying to save")
         if (!this.user) {
             console.error("There is no user logged in!");
             return;

@@ -8,41 +8,13 @@ import NotificationPresenter from "../presenters/notificationPresenter"; // Impo
 const notificationPresenter = new NotificationPresenter(); // Initialize the notification presenter
 
 const TeamBuilder = observer(function PokemonSearchRender(props) {
-  function handleSearchInput(event) {
-    if (event && event.target) {
-      const inputValue = event.target.value;
-      props.model.pokemonSearchACB(inputValue);
-    } else {
-      console.error("Invalid event object:", event);
-    }
-  }
-
-  function userWantsToInspect(pokemonId) {
-    props.model.doPokemonInspect(pokemonId);
-    notificationPresenter.showNotification("Inspected Pokémon successfully!");
-  }
-
-  function removePokemonFromTeam(pokemonId) {
-    props.model.removePokemonByIdFromTeam(pokemonId);
-    notificationPresenter.showNotification("Pokémon removed from the team!");
-  }
-
-  function addPokemonToTeam(pokemonId) {
-    props.model.addPokemonByIdToTeam(pokemonId);
-    notificationPresenter.showNotification("Pokémon added to the team!");
-  }
-
-  function setCurrentTeamName(name) {
-    props.model.setCurrentTeamName(name);
-  }
-
   // Prefetch all type ID images on component mount
   useEffect(() => {
-    const typeIds = Array.from({ length: 18 }, (_, i) => i + 1);
-    typeIds.forEach((typeId) => {
-      const img = new Image();
-      img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-white/${typeId}.png`;
-    });
+      const typeIds = Array.from({ length: 18 }, (_, i) => i + 1);
+      typeIds.forEach((typeId) => {
+          const img = new Image();
+          img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-white/${typeId}.png`;
+      });
   }, []);
 
   return (
@@ -51,6 +23,7 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
         team={props.model.currentTeam}
         removePokemonFromCurrentTeam={removePokemonFromTeam}
         changeTeamName={setCurrentTeamName}
+        saveCurrentTeamToProfile={userWantsToSaveCurrentTeam}
       />
       <SearchView
         updatePokemonSearchACB={handleSearchInput}
@@ -63,6 +36,39 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
       />
     </div>
   );
+
+  function handleSearchInput(event) {
+    if (event && event.target) {
+      const inputValue = event.target.value;
+      props.model.pokemonSearchACB(inputValue);
+    } else {
+      console.error("Invalid event object:", event);
+    }
+  }
+
+  function userWantsToSaveCurrentTeam() {
+    props.model.savePokemonTeam();
+    //TODO: This should have a notification but it was bugged when i tried adding it like the others
+  }
+
+  function userWantsToInspect(pokemonId) {
+    props.model.doPokemonInspect(pokemonId);
+    notificationPresenter.showNotification("Inspected Pokémon successfully!");
+  }
+
+  function removePokemonFromTeam(index) {
+    props.model.removePokemonAtIndexFromTeam(index);
+    notificationPresenter.showNotification("Pokémon removed from the team!");
+  }
+
+  function addPokemonToTeam(pokemonId) {
+    props.model.addPokemonByIdToTeam(pokemonId);
+    notificationPresenter.showNotification("Pokémon added to the team!");
+  }
+
+  function setCurrentTeamName(name) {
+    props.model.setCurrentTeamName(name);
+  }
 });
 
 export { TeamBuilder };
