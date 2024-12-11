@@ -24,16 +24,15 @@ export default class NotificationView {
     }
 
     handleAnimationEnd(notification, event) {
-        if (event.animationName === 'fade-out') {
+        if (event === 'fade-out') {
             this.removeNotification(notification);
-            notification.removeEventListener('animationend', this.handleAnimationEndBound(notification));
+            notification.removeEventListener('animationend', this.handleAnimationEnd(notification));
         }
     }
 
     performFadeOut(notification) {
         notification.classList.add('fade-out');
         const boundHandleAnimationEnd = this.handleAnimationEnd.bind(this, notification);
-        notification.handleAnimationEndBound = boundHandleAnimationEnd;
         notification.addEventListener('animationend', boundHandleAnimationEnd);
     }
 
