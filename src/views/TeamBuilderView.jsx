@@ -23,8 +23,8 @@ export function TeamBuilderView(props) {
         </div>
     );
 
-    function removeButtonClicked(pokemon) {
-        props.removePokemonFromCurrentTeam(pokemon.id);
+    function removeButtonClicked(index) {
+        props.removePokemonFromCurrentTeam(index);
     }
 
     function teamNameChanged (event) {
@@ -42,7 +42,7 @@ export function TeamBuilderView(props) {
                         {renderTypeImages(pokemon)}
                         {renderPokemonImage(pokemon)}
                         <div>
-                            <button onClick={() => removeButtonClicked(pokemon)} className="pokemon-team-button">Remove</button>
+                            <button onClick={() => removeButtonClicked(index)} className="pokemon-team-button">Remove</button>
                         </div>
                     </div>
                 ) : (

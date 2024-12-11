@@ -184,13 +184,12 @@ const model = {
         this.currentTeam = tempTeam;
     },
 
-    removePokemonByIdFromTeam (pokemonId) {
+    removePokemonByIdFromTeam (index) {
 
+        console.log(index)
         const tempTeam = {...this.currentTeam};
 
-        tempTeam.pokemons = tempTeam.pokemons.map(pokemon =>
-            pokemon && pokemon.id == pokemonId ? null : pokemon
-        );
+        tempTeam.pokemons[index] = null;
 
         this.currentTeam = tempTeam;
     },
