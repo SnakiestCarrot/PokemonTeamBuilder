@@ -4,6 +4,7 @@ import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl } from './utilities';
 import { getTestTeams } from './testData.js';
+import pokemonTypeData from '../pokemonTypeData.json';
 
 export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
@@ -290,6 +291,11 @@ const model = {
     closeDropDown() {
         this.isDropdownVisible = false;
     },
+
+    pokemonIdToTypeId() {
+        const typeIds = pokemonTypeData[this.currentPokemonId] 
+        return typeIds;
+    }
 }
 
 
