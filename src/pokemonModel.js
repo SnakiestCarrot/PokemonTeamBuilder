@@ -2,7 +2,7 @@ import { resolvePromise } from './resolvePromise';
 import { getPokemon, getRandomPokemon } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
-import { isValidTeam, extractPokemonIdFromUrl } from './utilities';
+import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
 import { getTestTeams } from './testData.js';
 import pokemonTypeData from '../pokemonTypeData.json';
 
@@ -180,7 +180,7 @@ const model = {
         this.currentTeam = tempTeam;
     },
 
-    removePokemonByIdFromTeam (index) {
+    removePokemonAtIndexFromTeam (index) {
         const tempTeam = {...this.currentTeam};
         tempTeam.pokemons[index] = null;
         this.currentTeam = tempTeam;
@@ -283,10 +283,9 @@ const model = {
         this.isDropdownVisible = false;
     },
 
-    pokemonIdToTypeId() {
-        const typeIds = pokemonTypeData[this.currentPokemonId] 
-        return typeIds;
-    }
+    getCurrentPokemonTypeIds() {
+        return pokemonIdToTypeId(this.currentPokemonId);
+    },
 }
 
 

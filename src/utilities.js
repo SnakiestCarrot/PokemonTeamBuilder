@@ -24,3 +24,8 @@ export function extractPokemonIdFromUrl(url) {
 export function getPokemonTypeIds(pokemonId) {
     return pokemonTypeData[pokemonId];
 }
+
+export function pokemonIdToTypeId(pokemonId) {
+    const typeIds = pokemonTypeData[pokemonId]
+    return typeIds;
+}

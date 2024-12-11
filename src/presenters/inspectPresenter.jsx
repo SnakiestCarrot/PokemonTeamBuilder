@@ -7,7 +7,7 @@ const Inspect = observer(function InspectRender(props) {
             <InspectView
                 currentPokemon={props.model.currentPokemon}
                 addPokemonToCurrentTeam={addPokemonToTeam}
-                typeIds={props.model.pokemonIdToTypeId(props.model.currentPokemonId)}
+                typeIds={props.model.getCurrentPokemonTypeIds()}
             />
         </div>
     )
