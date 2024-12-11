@@ -34,7 +34,6 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
 
   function setCurrentTeamName(name) {
     props.model.setCurrentTeamName(name);
-    notificationPresenter.showNotification("Team name updated!");
   }
 
   // Prefetch all type ID images on component mount
