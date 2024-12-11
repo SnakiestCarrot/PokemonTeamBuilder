@@ -1,6 +1,6 @@
 
+// This imported file was generated using a script
 import pokemonTypeData from '../pokemonTypeData.json';
-
 
 // Function to validate the team format
 export function isValidTeam(team) {

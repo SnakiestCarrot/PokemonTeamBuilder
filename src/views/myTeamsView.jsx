@@ -11,7 +11,7 @@ export function MyTeamsView(props) {
     )
 
 
-    function renderUsersTeams () {
+    function renderUserTeams () {
         teams.map(renderTeam)
     }
 
