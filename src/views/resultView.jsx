@@ -1,4 +1,4 @@
-export function PokemonResultView(props) {
+export function ResultView(props) {
     const results = props.pokemonResults;
 
     if (!results || results.length === 0) {

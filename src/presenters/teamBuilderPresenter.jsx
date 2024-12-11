@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
-import { PokemonResultView } from "../views/PokemonResultView";
-import { PokemonSearchView } from "../views/PokemonSearchView";
+import { ResultView } from "../views/resultView";
+import { SearchView } from "../views/searchView";
 import { TeamBuilderView } from "../views/TeamBuilderView";
 import { useEffect } from "react";
-import NotificationPresenter from "./notificationPresenter"; 
+import NotificationPresenter from "../presenters/notificationPresenter"; // Import the presenter
 
 const notificationPresenter = new NotificationPresenter(); // Initialize the notification presenter
 
@@ -22,8 +22,8 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
     notificationPresenter.showNotification("Inspected Pokémon successfully!");
   }
 
-  function removePokemonFromTeam(index) {
-    props.model.removePokemonByIdFromTeam(index);
+  function removePokemonFromTeam(pokemonId) {
+    props.model.removePokemonByIdFromTeam(pokemonId);
     notificationPresenter.showNotification("Pokémon removed from the team!");
   }
 
@@ -53,11 +53,11 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
         removePokemonFromCurrentTeam={removePokemonFromTeam}
         changeTeamName={setCurrentTeamName}
       />
-      <PokemonSearchView
+      <SearchView
         updatePokemonSearchACB={handleSearchInput}
         text={props.model.searchQuery}
       />
-      <PokemonResultView
+      <ResultView
         pokemonResults={props.model.filteredPokemon}
         doPokemonInspect={userWantsToInspect}
         addPokemonToTeam={addPokemonToTeam}

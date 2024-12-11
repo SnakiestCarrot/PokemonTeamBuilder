@@ -1,4 +1,4 @@
-export function PokemonSearchView(props) {
+export function SearchView(props) {
     return (
         <div className="pokemon-team-search" >
             <div>
