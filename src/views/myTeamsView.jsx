@@ -17,7 +17,9 @@ export function MyTeamsView(props) {
 
     function renderTeams(teams) {
         return (
-            teams.map(renderTeam)
+            <div>
+                {teams.map(renderTeam)}
+            </div>
         )
 
     }
@@ -26,7 +28,10 @@ export function MyTeamsView(props) {
         return (
             <div key={"team" + index}> 
                 <h1>{team.teamName}</h1>
-                {team.pokemons.map(renderPokemon)}
+                <div className="team-builder-team-container">
+                    {team.pokemons.map(renderPokemon)}
+                </div>
+                
                 <button className="pokemon-team-button">Delete team</button>
             </div>
            
