@@ -5,7 +5,9 @@ const MyTeams = observer(function MyTeamsRender(props){
 
     return(
         <div>
-            <MyTeamsView testTeams={props.model.testTeams}/>
+            <MyTeamsView 
+            testTeams={props.model.testTeams}
+            user={props.model.user}/>
         </div>
     );
 });
