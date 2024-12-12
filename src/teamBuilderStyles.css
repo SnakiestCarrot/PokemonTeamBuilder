@@ -1,0 +1,103 @@
+
+
+.team-builder-team-container {
+    margin-top: 6%;
+    text-align: center;
+    display: flex; /* Use Flexbox for alignment */
+    flex-wrap: wrap; /* Allow wrapping if there are too many items for one row */
+    gap: 15px; /* Add space between cards */
+    justify-content: center; /* Center the cards horizontally */
+}
+
+.team-builder-name {
+    width: 100%;
+}
+
+.pokemon-team-card {
+    background-color: var(--color-base);
+    height: 215px;
+    width: 115px;
+    border-radius: 4px;
+    padding: 9px;
+    text-transform: capitalize;
+    align-content: center;
+    font-size: small;
+}
+
+.pokemon-team-image {
+    width: 100px;
+}
+
+.pokemon-team-button {
+    border: 2px solid var(--color-accent);
+    transition: all 0.2s ease;
+    scale: 0.9;
+}
+
+.pokemon-team-button:hover {
+    background-color: var(--color-accent-hover);
+    cursor: pointer;
+}
+
+.pokemon-save-team-button {
+    border: 2px solid var(--color-accent);
+    transition: all 0.2s ease;
+    scale: 1.3;
+}
+
+.pokemon-save-team-button:hover {
+    background-color: var(--color-accent-hover);
+    cursor: pointer;
+}
+
+.pokemon-team-search {
+    align-items: center;
+    padding-top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* Center horizontally */
+    align-items: center;       /* Center vertically */
+    margin: 3%;
+}
+
+.pokemon-team-search input {
+    padding: 10px;
+    background-color: var(--color-base);
+    color: var(--color-text);
+    border: 1px solid var(--color-accent);
+    border-radius: 5px;
+    font-size: large;
+    font-weight: bold;
+    transition: all 0.2s;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.pokemon-team-search input::placeholder {
+    color: var(--color-input-placeholder);
+}
+
+.pokemon-team-search input:focus {
+    background-color: var(--color-accent-hover);
+    outline: none;
+}
+
+.pokemon-team-results-button {
+    border: 2px solid var(--color-accent);
+    transition: all 0.2s ease;
+    scale: 1.2;
+    margin: 20px;
+}
+
+.pokemon-team-results-button:hover {
+    background-color: var(--color-accent-hover);
+    cursor: pointer;
+}
+
+.no-results {
+    display: flex; /* Use Flexbox for alignment */
+    justify-content: center;
+    padding-top: 30px;
+    color: var(--color-text);
+    font-size: large;
+    margin-bottom: 300px;
+}
