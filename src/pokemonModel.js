@@ -333,13 +333,21 @@ const model = {
     },
 
     //Function to remove a pokemon team and return a new list of teams.
-    removePokemonTeam(teamIdKey){
+    async removePokemonTeam(teamIdKey){
         if(!this.user) {
             console.error("There is no user logged in!", error)
             return;
         }
-        removeMyPokemonTeam(this.user, teamIdKey);
-        return this.getPokemonTeams();
+
+        try{
+        await removeMyPokemonTeam(this.user, teamIdKey);
+        const updatedTeams = await this.getPokemonTeams();
+        return updatedTeams;
+        }
+        catch(error){
+            console.error("Couldn't remove team:", error);
+            throw error;
+        }
     },
     
     toggleDropDown() {

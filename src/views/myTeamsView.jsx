@@ -47,7 +47,7 @@ export function MyTeamsView(props) {
                 </div>
                 
                 <button className="my-team-remove-button">Edit team</button>
-                <button className="my-team-remove-button">Delete team</button>
+                <button className="my-team-remove-button" onClick={() => props.deleteTeam(team.key)}>Delete team</button>
             </div>
            
         )

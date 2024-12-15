@@ -7,12 +7,17 @@ const MyTeams = observer(function MyTeamsRender(props){
         props.model.doPokemonInspect(pokemonId);
     }
 
+    function deleteTeamACB(teamId){
+        props.model.removePokemonTeam(teamId);
+    }
+
     return(
         <div>
             <MyTeamsView 
             userTeams={props.model.myTeams}
             user={props.model.user}
             doPokemonInspect={inspectPokemon}
+            deleteTeam={deleteTeamACB}
             />
         </div>
     );
