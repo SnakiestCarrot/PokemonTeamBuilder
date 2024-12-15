@@ -109,6 +109,13 @@ button {
     text-transform: capitalize;
     align-content: center;
     font-size: small;
+    transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+}
+
+.pokemon-team-card:hover {
+    background-color: #424242;
+    cursor: pointer;
+    transform: scale(1.01);
 }
 
 .pokemon-team-image {

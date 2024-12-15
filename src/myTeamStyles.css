@@ -18,6 +18,12 @@
     transition: background-color 0.3s ease, transform 0.1s ease-in-out;
 }
 
+.my-teams-pokemon-card:hover {
+    background-color: #424242;
+    cursor: pointer;
+    transform: scale(1.01);
+}
+
 .my-team-name-container {
     text-align: center;
     padding: 30px;
