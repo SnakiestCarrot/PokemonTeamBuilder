@@ -267,10 +267,6 @@ button {
     line-height: 1.5;
 }
 
-.radar-chart {
-
-}
-
 .pokemon-card:hover {
     background-color: #424242;
     cursor: pointer;
