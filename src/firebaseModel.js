@@ -128,7 +128,6 @@ export function getMyPokemonTeams(user) {
     return get(teamsRef)
         .then((snapshot) => {
             if (snapshot.exists()) {
-                console.log("Teams retrieved from Firebase:", snapshot.val());
                 return snapshot.val(); // Return the object as is
             } else {
                 console.log("No teams found for this user.");
@@ -165,9 +164,51 @@ export function removeMyPokemonTeam(user, teamId){
         });
 }
 
-export function getAllPokemonTeams(){
-    //TODO 
+//Function to get all user pokemon teams. 
+export function getAllPokemonTeams() {
+    const rootRef = ref(db, `PokemonTeamBuilder`);
+
+    // Simplify to return team data without calling getPokemon
+    async function fetchAllTeams(allUsersData) {
+        const allTeams = [];
+
+        for (const [userId, userData] of Object.entries(allUsersData)) {
+            if (userData.teams) {
+                for (const [teamId, team] of Object.entries(userData.teams)) {
+                    allTeams.push({
+                        userId: userId,
+                        key: teamId, // Firebase team ID
+                        teamName: team.myTeamName,
+                        pokemonIds: [
+                            team.id1, team.id2, team.id3, 
+                            team.id4, team.id5, team.id6
+                        ]
+                    });
+                }
+            }
+        }
+
+        return allTeams;
+    }
+
+    return get(rootRef)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const allUsersData = snapshot.val();
+                return fetchAllTeams(allUsersData); // Return teams with Pokemon IDs
+            } else {
+                console.log("No teams found for any users.");
+                return [];
+            }
+        })
+        .catch((error) => {
+            console.error("Error retrieving all teams from Firebase:", error);
+            throw error;
+        });
 }
+
+
+
 
 
 // UI: 
