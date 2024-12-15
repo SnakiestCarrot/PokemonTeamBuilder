@@ -2,7 +2,7 @@
 
 export function MyTeamsView(props) {
 
-    const userTeams = props.testTeams;
+    const userTeams = props.userTeams;
     const user = props.user;
 
     return (
@@ -16,6 +16,7 @@ export function MyTeamsView(props) {
     )
 
     function renderTeams(teams) {
+
         return (
             <div>
                 {teams.map(renderTeam)}
@@ -42,8 +43,15 @@ export function MyTeamsView(props) {
     function renderPokemon(pokemon, index) {
         return (
             <div className="pokemon-card" key={"pokemon" + index}>
+                
                 <p>{pokemon?.name || "No pokemon in this slot"}</p>
 
+
+                <img
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+                    alt={`${pokemon.name} sprite`}
+                    className="pokemon-team-image"
+                />
             </div>
         )
     }
