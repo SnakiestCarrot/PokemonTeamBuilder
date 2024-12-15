@@ -46,6 +46,7 @@ export function MyTeamsView(props) {
                     {team.pokemons.map(renderPokemon)}
                 </div>
                 
+                <button className="my-team-remove-button">Edit team</button>
                 <button className="my-team-remove-button">Delete team</button>
             </div>
            

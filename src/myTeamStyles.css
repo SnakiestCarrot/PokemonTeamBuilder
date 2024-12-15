@@ -27,6 +27,7 @@
     border: 2px solid var(--color-accent);
     transition: all 0.2s ease;
     scale: 1.2;
+    margin: 20px;
 }
 
 .my-team-remove-button:hover {
