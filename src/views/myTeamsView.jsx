@@ -1,18 +1,29 @@
 
+import "../myTeamStyles.css"
 
 export function MyTeamsView(props) {
 
     const userTeams = props.userTeams;
     const user = props.user;
 
-    return (
+    return(
+        userTeams ? (
         <div>
-            <h1 className="header" key={"userTeamsHeader"}>
-                {user?.displayName ? user.displayName + "s teams" : "No user logged in"}
-            </h1>
+            <div>
+                <h1 className="header" key={"userTeamsHeader"}>
+                    {user?.displayName ? user.displayName + "s teams" : "No user logged in"}
+                </h1>
 
-            {renderTeams(userTeams)}
+                {renderTeams(userTeams)}
+            </div>
         </div>
+        ) : (
+        <div className="no-teams-or-user-found-container">
+            <h1>No user teams could be found</h1>
+            <h2>Login and use the team builder to start adding teams to your profile!</h2>
+        </div>
+        
+        )
     )
 
     function renderTeams(teams) {
