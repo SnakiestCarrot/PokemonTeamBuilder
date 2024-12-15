@@ -56,7 +56,7 @@ export function MyTeamsView(props) {
 
     function renderPokemon(pokemon, index) {
         return (
-            <div className="my-teams-pokemon-card" key={"pokemon" + index}>
+            <div className="my-teams-pokemon-card" key={"pokemon" + index} onClick={() => props.doPokemonInspect(pokemon.id)}>
                 
                 <h3>{pokemon?.name || "No pokemon in this slot"}</h3>
 
