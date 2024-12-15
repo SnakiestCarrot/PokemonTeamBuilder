@@ -1,5 +1,7 @@
 
 import "../myTeamStyles.css"
+import { pokemonIdToTypeId } from "../utilities";
+import { renderTypeImage } from "./viewUtilities";
 
 export function MyTeamsView(props) {
 
@@ -38,13 +40,13 @@ export function MyTeamsView(props) {
 
     function renderTeam(team, index) {
         return (
-            <div key={"team" + index}> 
+            <div className="my-team-name-container" key={"team" + index}> 
                 <h1>{team.teamName}</h1>
                 <div className="team-builder-team-container">
                     {team.pokemons.map(renderPokemon)}
                 </div>
                 
-                <button className="pokemon-team-button">Delete team</button>
+                <button className="my-team-remove-button">Delete team</button>
             </div>
            
         )
@@ -53,10 +55,12 @@ export function MyTeamsView(props) {
 
     function renderPokemon(pokemon, index) {
         return (
-            <div className="pokemon-card" key={"pokemon" + index}>
+            <div className="my-teams-pokemon-card" key={"pokemon" + index}>
                 
-                <p>{pokemon?.name || "No pokemon in this slot"}</p>
+                <h3>{pokemon?.name || "No pokemon in this slot"}</h3>
 
+
+                {pokemonIdToTypeId(pokemon.id).map(renderTypeImage)}
 
                 <img
                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
