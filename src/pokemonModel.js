@@ -1,7 +1,7 @@
 import { resolvePromise } from './resolvePromise';
 import { getPokemon, getRandomPokemon } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
+import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
 import { getTestTeams } from './testData.js';
 import pokemonTypeData from '../pokemonTypeData.json';
@@ -28,13 +28,15 @@ const model = {
     searchQuery : "", //searchquery for filtering pokemon
     randomPokemonList : [], //random pokemon displayed at main page
     testTeams : [], 
-    myTeams : [],
+    myTeams : [], //user specific teams
+    allUserTeams : [], //all teams in database
 
     //Initializes the application state when reactive model is created.
     init(){  
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
         this.loadTestPokemonTeams();
+        this.loadAllTeams();
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -78,13 +80,24 @@ const model = {
         }
     },
 
-    //TODO: get this thing do work.
-    async loadMyTeams() {
+    //Loads all user team on login.
+    async loadMyTeams() {        
         try {
             const myTeamsList = await this.getUserPokemonTeams();
             this.myTeams = myTeamsList;
         } catch (error) {
             console.error("Failed to load my teams", error);
+        }
+    },
+
+    //Loads all firebase teams
+    async loadAllTeams() {
+        try {
+            const allUserTeamsList = await this.getAllUserPokemonTeams();
+            this.allUserTeams = allUserTeamsList;
+            console.log(allUserTeamsList);
+        } catch (error) {
+            console.error("Failed to load all user teams", error);
         }
     },
 
@@ -271,6 +284,33 @@ const model = {
                 console.error("Error fetching teams:", error);
                 throw error;
             });
+    },
+
+    async getAllUserPokemonTeams() {
+        try {
+            // Fetch all teams (with IDs only)
+            const allTeams = await getAllPokemonTeams();
+    
+            // Convert teams by fetching Pokémon details
+            const teamsWithPokemons = await Promise.all(
+                allTeams.map(async (team) => {
+                    const pokemons = await Promise.all(
+                        team.pokemonIds.map(id => getPokemon(id)) // Fetch Pokemon details
+                    );
+    
+                    return {
+                        userId: team.userId,
+                        key: team.key,
+                        teamName: team.teamName,
+                        pokemons: pokemons,
+                    };
+                })
+            );
+            return teamsWithPokemons;
+        } catch (error) {
+            console.error("Error fetching Pokémon details for all teams:", error);
+            throw error;
+        }
     },
     
 
