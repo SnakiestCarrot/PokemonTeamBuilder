@@ -129,17 +129,18 @@ export function getMyPokemonTeams(user) {
         .then((snapshot) => {
             if (snapshot.exists()) {
                 console.log("Teams retrieved from Firebase:", snapshot.val());
-                return Object.values(snapshot.val()); 
+                return snapshot.val(); // Return the object as is
             } else {
                 console.log("No teams found for this user.");
-                return []; 
+                return {}; // Return an empty object
             }
         })
         .catch((error) => {
             console.error("Error retrieving teams from Firebase:", error);
-            throw error; 
+            throw error;
         });
 }
+
 
 
 //Function to remove a specific pokemon team based on that unique key

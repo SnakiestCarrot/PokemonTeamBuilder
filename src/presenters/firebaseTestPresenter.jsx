@@ -8,8 +8,7 @@ const FirebaseTest = observer(function FirebaseTestRender(props){
     }
 
     async function getTeamFromFirebase(){
-        const result = await props.model.getPokemonTeams();
-        console.log(result);
+        console.log(props.model.myTeams);
     }   
 
     return(

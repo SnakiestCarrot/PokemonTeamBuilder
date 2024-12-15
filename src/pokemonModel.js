@@ -1,6 +1,6 @@
 import { resolvePromise } from './resolvePromise';
 import { getPokemon, getRandomPokemon } from './pokemonSource';
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
 import { getTestTeams } from './testData.js';
@@ -14,25 +14,34 @@ const model = {
 
     isDropdownVisible : false,
 
-    currentPokemon: null,
-    currentPokemonId: 100,
-    pokemonSearchPromiseState: {},
-    currentTeam: {
+    currentPokemon : null,
+    currentPokemonId : 100,
+    pokemonSearchPromiseState : {},
+    currentTeam : {
         pokemons : new Array(6),
         teamName : ""
     },
 
     allPokemon : [], // Full list of Pokémon
-    pokemonResultPromiseSate: {},
+    pokemonResultPromiseSate : {}, 
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
-    randomPokemonList: [],
-    testTeams: [],
+    randomPokemonList : [], //random pokemon displayed at main page
+    testTeams : [], 
+    myTeams : [],
 
-    init(){
+    //Initializes the application state when reactive model is created.
+    init(){  
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
         this.loadTestPokemonTeams();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.user = user; // Set the user
+                this.loadMyTeams(); // Load user-specific teams
+            }
+        });
     },
 
     setCurrentPokemonId (pokemonId) {
@@ -66,6 +75,16 @@ const model = {
             this.testTeams = testTeamList; 
         } catch (error) {
             console.error("Failed to get test teams:", error);
+        }
+    },
+
+    //TODO: get this thing do work.
+    async loadMyTeams() {
+        try {
+            const myTeamsList = await this.getUserPokemonTeams();
+            this.myTeams = myTeamsList;
+        } catch (error) {
+            console.error("Failed to load my teams", error);
         }
     },
 
@@ -135,10 +154,12 @@ const model = {
             .then((result) => {
                 console.log("Login successful:", result.user);
                 model.user = result.user; 
+                this.loadMyTeams();
             })
             .catch((error) => {
                 console.error("Login failed:", error);
         });
+
     },
 
     //Function to logout
@@ -151,6 +172,8 @@ const model = {
             .catch((error) => {
                 console.error("Logout failed:", error);
             });
+
+        this.myTeams = null;
     },
 
     async doPokemonInspect (pokemonId) {
@@ -211,7 +234,7 @@ const model = {
     },
 
     //Function to fetch all user pokemon teams. Returns an array of key value pairs with the value being a pokemon team.
-    async getPokemonTeams() {
+    async getUserPokemonTeams() {
         if (!this.user || !this.user.uid) {
             console.error("There is no user logged in!");
             return Promise.reject("User is not logged in.");
@@ -220,20 +243,20 @@ const model = {
         //Converts the firebase format to pokemon team format.
         function convertToPokemon(firebaseTeams) {
             return Promise.all(
-                Object.values(firebaseTeams).map(async ([key, team]) => {
-
+                Object.entries(firebaseTeams).map(async ([key, team]) => {
                     const pokemonIds = [team.id1, team.id2, team.id3, team.id4, team.id5, team.id6];
-                    
+        
                     const pokemons = await Promise.all(pokemonIds.map(id => getPokemon(id)));
-    
+        
                     return {
-                        key : key,
-                        teamName: team.myTeamName, 
-                        pokemons: pokemons,     
+                        key: key, // Use the Firebase key
+                        teamName: team.myTeamName,
+                        pokemons: pokemons,
                     };
                 })
             );
         }
+        
     
         // Call firebase function then convert them
         return getMyPokemonTeams(this.user)
