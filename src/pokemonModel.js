@@ -1,7 +1,7 @@
 import { resolvePromise } from './resolvePromise';
 import { getPokemon, getRandomPokemon } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam } from "./firebaseModel.js";
+import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
 import { getTestTeams } from './testData.js';
 import pokemonTypeData from '../pokemonTypeData.json';
@@ -167,7 +167,9 @@ const model = {
             .then((result) => {
                 console.log("Login successful:", result.user);
                 model.user = result.user; 
+                setUserInformation(this.user);
                 this.loadMyTeams();
+
             })
             .catch((error) => {
                 console.error("Login failed:", error);
@@ -300,6 +302,7 @@ const model = {
     
                     return {
                         userId: team.userId,
+                        userName: team.userName,
                         key: team.key,
                         teamName: team.teamName,
                         pokemons: pokemons,

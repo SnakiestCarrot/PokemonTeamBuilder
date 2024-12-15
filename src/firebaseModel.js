@@ -141,7 +141,6 @@ export function getMyPokemonTeams(user) {
 }
 
 
-
 //Function to remove a specific pokemon team based on that unique key
 export function removeMyPokemonTeam(user, teamId){
     if (!teamId) {
@@ -177,6 +176,7 @@ export function getAllPokemonTeams() {
                 for (const [teamId, team] of Object.entries(userData.teams)) {
                     allTeams.push({
                         userId: userId,
+                        userName: userData.info?.displayName || userId,
                         key: teamId, // Firebase team ID
                         teamName: team.myTeamName,
                         pokemonIds: [
@@ -207,6 +207,17 @@ export function getAllPokemonTeams() {
         });
 }
 
+export function setUserInformation(user) {
+    try {
+        set(ref(db, `PokemonTeamBuilder/${user.uid}/info`), {
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+        });
+    } catch (error) {
+        console.error("Error trying to set user information in firebase", error);
+    }
+}
 
 
 
