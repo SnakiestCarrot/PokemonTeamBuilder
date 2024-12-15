@@ -1,3 +1,6 @@
+import { pokemonIdToTypeId } from "../utilities";
+import { renderTypeImage } from "./viewUtilities";
+
 export function ResultView(props) {
     const results = props.pokemonResults;
 
@@ -14,6 +17,9 @@ export function ResultView(props) {
                         className="pokemon-card" 
                         onClick={() => addButtonClicked(pokemon)}>
                             <h2>{pokemon.name}</h2>
+                            <div>
+                                {pokemonIdToTypeId(pokemon.id).map(renderTypeImage)}
+                            </div>
                             <img 
                                 src={pokemon.sprite} 
                                 alt={`${pokemon.name} sprite`} 
