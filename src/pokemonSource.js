@@ -36,6 +36,22 @@ export function getPokemon(searchParam) {
     return fetch(url).then(gotResponseACB).then(getResultACB);
 }
 
+//Function that fetches pokemons from searchparams, id or name
+export function getType(searchParam) {
+    const url = `https://pokeapi.co/api/v2/type/${searchParam}`;
 
+    function gotResponseACB(response) {
+        if (!response.ok) {
+            throw new Error(`Type with ID "${searchParam}" not found.`);
+        }
+        return response.json();
+    }
+
+    function getResultACB(data) {
+        return data; 
+    }
+
+    return fetch(url).then(gotResponseACB).then(getResultACB);
+}
 
 

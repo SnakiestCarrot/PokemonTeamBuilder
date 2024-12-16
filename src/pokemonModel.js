@@ -1,5 +1,5 @@
 import { resolvePromise } from './resolvePromise';
-import { getPokemon, getRandomPokemon } from './pokemonSource';
+import { getPokemon, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
@@ -200,6 +200,10 @@ const model = {
         window.location.hash = "#/inspect";
     },
 
+    async getTypeObject (typeId) {
+        return await getType(typeId);
+    },
+
     async addPokemonByIdToTeam(pokemonId) {
         const index = this.currentTeam.pokemons.findIndex(pokemon => pokemon == null);
     
@@ -340,8 +344,8 @@ const model = {
         }
 
         try{
-        await removeMyPokemonTeam(this.user, teamIdKey);
-        this.myTeams = await this.getUserPokemonTeams();
+            await removeMyPokemonTeam(this.user, teamIdKey);
+            this.myTeams = await this.getUserPokemonTeams();
         }
         catch(error){
             console.error("Couldn't remove team:", error);
