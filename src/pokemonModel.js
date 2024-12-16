@@ -353,8 +353,9 @@ const model = {
         }
     },
 
-    async editPokemonTeam(teamIdKey){
-    
+    async editPokemonTeam(team){
+        window.location.hash = "#/teamBuilder";
+        this.currentTeam = team;
     },
     
     toggleDropDown() {

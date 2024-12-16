@@ -11,8 +11,8 @@ const MyTeams = observer(function MyTeamsRender(props){
         props.model.removePokemonTeam(teamId);
     }
 
-    function editTeamACB(teamId){
-        props.model.editPokemonTeam(teamId);
+    function editTeamACB(team){
+        props.model.editPokemonTeam(team);
     }
 
     return(
