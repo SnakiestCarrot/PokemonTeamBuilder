@@ -11,6 +11,10 @@ const MyTeams = observer(function MyTeamsRender(props){
         props.model.removePokemonTeam(teamId);
     }
 
+    function editTeamACB(teamId){
+        props.model.editPokemonTeam(teamId);
+    }
+
     return(
         <div>
             <MyTeamsView 
@@ -18,6 +22,7 @@ const MyTeams = observer(function MyTeamsRender(props){
             user={props.model.user}
             doPokemonInspect={inspectPokemon}
             deleteTeam={deleteTeamACB}
+            editTeam={editTeamACB}
             />
         </div>
     );
