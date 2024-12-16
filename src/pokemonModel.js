@@ -352,6 +352,10 @@ const model = {
             throw error;
         }
     },
+
+    async editPokemonTeam(teamIdKey){
+    
+    },
     
     toggleDropDown() {
         this.isDropdownVisible = !this.isDropdownVisible;
