@@ -50,6 +50,13 @@ button {
     background-color: var(--color-base);
     border-color: var(--color-button-border);
     border-radius: 2px;
+    border: 2px solid var(--color-accent);
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--color-accent-hover);
+    cursor: pointer;
 }
 
 .return-button-container {

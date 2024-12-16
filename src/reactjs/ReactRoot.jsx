@@ -6,6 +6,7 @@ import { Inspect } from "../presenters/inspectPresenter";
 import { TopBar } from "../presenters/topBarPresenter";
 import { MyTeams } from "../presenters/myTeamsPresenter";
 import { FirebaseTest } from "../presenters/firebaseTestPresenter";
+import { Minigame } from "../presenters/minigamePresenter";
 
 const ReactRoot = observer(
     function ReactRoot(props){
@@ -45,6 +46,10 @@ function makeRouter (model) {
         {
             path:"teams",
             element: <MyTeams model={model}></MyTeams>
+        },
+        {
+            path:"minigame",
+            element: <Minigame model={model}></Minigame>
         },
         {
             path:"firebasetest",
