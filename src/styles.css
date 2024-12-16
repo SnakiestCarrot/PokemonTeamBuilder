@@ -305,6 +305,11 @@ button {
     outline: none;
 }
 
+.pokemon-type-image {
+    width: 85px;
+    margin: 5px;
+}
+
 .topBar {
     top: 0px;
     width: 100%;

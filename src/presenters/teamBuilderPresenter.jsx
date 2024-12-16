@@ -13,7 +13,7 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
       const typeIds = Array.from({ length: 18 }, (_, i) => i + 1);
       typeIds.forEach((typeId) => {
           const img = new Image();
-          img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-white/${typeId}.png`;
+          img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/types/generation-viii/sword-shield/${typeId}.png`;
       });
   }, []);
 
