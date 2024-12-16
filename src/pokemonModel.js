@@ -341,8 +341,7 @@ const model = {
 
         try{
         await removeMyPokemonTeam(this.user, teamIdKey);
-        const updatedTeams = await this.getPokemonTeams();
-        return updatedTeams;
+        this.myTeams = await this.getUserPokemonTeams();
         }
         catch(error){
             console.error("Couldn't remove team:", error);
