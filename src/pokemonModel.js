@@ -364,6 +364,19 @@ const model = {
     getCurrentPokemonTypeIds() {
         return pokemonIdToTypeId(this.currentPokemonId);
     },
+
+    // Minigame stuff
+    minigameIsStarted : true,
+
+    startMinigame () {
+        console.log("Start the game")
+        this.minigameIsStarted = true;
+    },
+
+    endMinigame () {
+        console.log("End the game")
+        this.minigameIsStarted = false;
+    }
 }
 
 
