@@ -9,13 +9,16 @@ export function TeamBuilderView(props) {
 
     return (
         <div className="team-builder-team-container">
+            
+            <h2>Current team:</h2>
+
+            <div className="team-builder-cards">
+                {team.pokemons.map(renderPokemonCard)}
+            </div>
+            
+
             <div className="team-builder-name">
                 
-                {renderSaveToTeamButton()}
-                
-                <h2>Current team:</h2>
-
-
                 <input
                     className="team-builder-name-input"
                     onChange={teamNameChanged}
@@ -23,10 +26,13 @@ export function TeamBuilderView(props) {
                     placeholder="Input team name">
                 </input>
 
+                <div style={{ height: '1rem' }}></div>
+                
+                <div>
+                    {renderSaveToTeamButton()}
+                </div>
+                
             </div>
-
-            {team.pokemons.map(renderPokemonCard)}
-
 
         </div>
 

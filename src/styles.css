@@ -100,6 +100,14 @@ button {
     width: 100%;
 }
 
+.team-builder-cards {
+    display: flex;
+    flex-direction: row; 
+    gap: 0.5rem; 
+    width: 100%; 
+    justify-content: center;
+}
+
 .pokemon-team-card {
     background-color: var(--color-base);
     height: 215px;
