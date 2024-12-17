@@ -59,23 +59,6 @@ button:hover {
     cursor: pointer;
 }
 
-.return-button-container {
-    top: 10%;
-    left: 90%;
-}
-
-.return-button {
-    width: 2cm;
-    height: 1cm;
-}
-
-.add-to-team-button {
-    width: 2cm;
-    height: 1cm;
-    top: 20%;
-    left: 90%
-}  
-
 .capitalize {
     text-transform: capitalize;
     color: var(--color-text);
@@ -235,58 +218,6 @@ button:hover {
 
 .pokemon-image {
     width: 150px;
-}
-
-.pokemon-image-inspect {
-    width: 200px;
-}
-
-.parent-container-inspect {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: flex-start; /* Align items to the start (left) */
-    padding-top: 10%;
-    padding-left: 6%;
-}
-
-.pokemon-info-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-}
-
-.card-and-stats-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.pokemon-card-inspect {
-    border: 2px solid var(--color-accent);
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    color: var(--color-text);
-    text-transform: capitalize;
-    font-size: 25px;
-    background-color: var(--color-base);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    height: 300px;
-    width: 250px;
-}
-
-.pokemon-types {
-    scale: 1.75;
-}
-
-.pokemon-stats {
-    width: 300px;
-    padding-left: 4%;
-    align-items: center;
-}
-
-.pokemon-stats h2 {
-    margin: 1% 0 4% 0; /* Reduce spacing between text lines */
-    line-height: 1.5;
 }
 
 .pokemon-card:hover {

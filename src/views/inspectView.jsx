@@ -1,4 +1,4 @@
-import "../styles.css";
+import "../inspectStyles.css";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { renderTypeImage } from "./viewUtilities";
 
