@@ -334,6 +334,7 @@ const model = {
         }
         console.log("User before saving team:", this.user); // Debug log
         saveMyPokemonTeam(this.user, this.currentTeam);
+        this.loadMyTeams();
     },
 
     //Function to remove a pokemon team and return a new list of teams.
@@ -345,7 +346,7 @@ const model = {
 
         try{
             await removeMyPokemonTeam(this.user, teamIdKey);
-            this.myTeams = await this.getUserPokemonTeams();
+            this.loadMyTeams();
         }
         catch(error){
             console.error("Couldn't remove team:", error);
