@@ -14,7 +14,7 @@ const model = {
 
     isDropdownVisible : false,
 
-    currentPokemon : null,
+    currentPokemon : null, 
     currentPokemonId : 100,
     pokemonSearchPromiseState : {},
     currentTeam : {
@@ -335,6 +335,12 @@ const model = {
         console.log("User before saving team:", this.user); // Debug log
         saveMyPokemonTeam(this.user, this.currentTeam);
         this.loadMyTeams();
+        
+        const emptyTeam = {
+            pokemons : new Array(6),
+            teamName : ""
+        };
+        this.currentTeam = emptyTeam;
     },
 
     //Function to remove a pokemon team and return a new list of teams.
