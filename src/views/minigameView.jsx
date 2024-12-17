@@ -18,7 +18,7 @@ export function MinigameView(props) {
 
     function renderMinigamePokemonCard(pokemon, index) {
         return (
-            <div className="my-teams-pokemon-card" key={"pokemon" + index}>
+            <div className="minigame-pokemon-card" key={"pokemon" + index}>
                 <h3>{pokemon?.name}</h3>
                 {pokemonIdToTypeId(pokemon.id).map(renderTypeImage)}
 

@@ -14,6 +14,26 @@
     gap: 10%;
 }
 
+.minigame-pokemon-card {
+    scale: 1.3;
+    border-radius: 10px; /* Make the edges rounded */
+    padding: 0.3%; /* Add padding inside the card */
+    text-align: center; /* Center the content in the card */
+    color: var(--color-text);
+    text-transform: capitalize;
+    font-size: 20px;
+    background-color: var(--color-base); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    width: 150px; /* Fixed width for uniformity */
+    transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+}
+
+.minigame-pokemon-card:hover {
+    background-color: #424242;
+    cursor: pointer;
+    transform: scale(1.01);
+}
+
 
 
 
