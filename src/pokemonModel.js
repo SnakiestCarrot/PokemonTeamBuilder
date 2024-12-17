@@ -259,10 +259,6 @@ const model = {
         }  
     },
 
-    removeCurrentPokemonAtIndex(index) {
-        this.currentTeam.pokemons[index] = null;
-    },
-
     setCurrentTeamName (newName) {
         if (newName.length > 32) {
             return;
