@@ -13,15 +13,48 @@ const auth = getAuth(app);
 
 
 export function modelToPersistence(model) {
-    return 
-    {
-        //TODO 
+    const pokemonArray = [
+        model.currentTeam.pokemons[0]?.id || null,
+        model.currentTeam.pokemons[1]?.id || null,
+        model.currentTeam.pokemons[2]?.id || null,
+        model.currentTeam.pokemons[3]?.id || null,
+        model.currentTeam.pokemons[4]?.id || null,
+        model.currentTeam.pokemons[5]?.id || null,
+    ];
+
+    const persistenceData = {
+        currentPokemons : pokemonArray,
+        currentTeamName : model.currentTeam.teamName,
+        pokemonSearchQuery : model.searchQuery,
+        inspectPokemonId : model.currentPokemonId, 
     };
+
+    return persistenceData;
+    
 }
 
 export function persistenceToModel(persistenceData, model) {
-    //TODO peristenceToModel depends on if there is data in 
-    //firebase. Look at dinnerplanner.
+    function savePokemonTeamToModel(pokemonTeam) {
+        model.currentTeam = pokemonTeam;
+    }
+
+    if (!persistenceData) {
+        const emptyTeam = 
+        {
+            pokemons : new Array(6),
+            teamName : ""
+        };
+        model.setCurrentTeam(emptyTeam);
+        model.pokemonSearchACB("");
+        model.setCurrentPokemonId(null);
+    }
+
+    if (persistenceData.inspectPokemonId !== undefined) {
+        model.setCurrentPokemonId(persistenceData.inspectPokemonId);
+    } else {
+        model.setCurrentPokemonId(null);
+    }
+   
 }
 
 export function saveToFirebase(model) {
@@ -32,7 +65,7 @@ export function saveToFirebase(model) {
     // depending on model.ready as usual
     if (model.user) {
         if (model.ready) {
-            set(ref(db,"PokemonTeamBuilder/"+model.user.uid), modelToPersistence(model));
+            set(ref(db,`PokemonTeamBuilder/${user.uid}/model`), modelToPersistence(model));
         }
     } else {
         //TODO: wipe data??
@@ -55,7 +88,7 @@ export function readFromFirebase(model) {
         }
     
         model.ready = false;
-        return get(ref(db, "PokemonTeamBuilder/"+model.user.uid)).then(persistenceToModelACB).then(modelReadyACB);
+        return get(ref(db, `PokemonTeamBuilder/${user.uid}/model`)).then(persistenceToModelACB).then(modelReadyACB);
     } else {
         //TODO: Wipe data?
     }
