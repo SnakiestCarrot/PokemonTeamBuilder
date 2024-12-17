@@ -3,12 +3,20 @@ import { MinigameView } from "../views/minigameView";
 
 const Minigame = observer(function MinigameRender(props) {
 
+    function endMinigame() {
+        props.model.endMinigame();
+    }
+
+    function startMinigame() {
+        props.model.startMinigame()
+    }
+
     return (
         <div>
             <MinigameView
                 minigameIsStarted={props.model.minigameIsStarted}
-                startMinigame={props.model.startMinigame}
-                endMinigame={props.model.endMinigame}
+                startMinigame={startMinigame}
+                endMinigame={endMinigame}
             />
         </div>
     );
