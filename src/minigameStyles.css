@@ -5,6 +5,13 @@
     margin-top: 100px;
 }
 
+.minigame-pokemon-container {
+    display: flex;
+    justify-content: center;
+    padding: 5%;
+    gap: 10%;
+}
+
 
 
 

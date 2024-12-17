@@ -37,6 +37,7 @@ const model = {
         this.loadAllPokemon();
         this.loadTestPokemonTeams();
         this.loadAllTeams();
+        this.getNewMinigamePokemons();
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -379,16 +380,19 @@ const model = {
 
     // Minigame stuff
     minigameIsStarted : true,
+    minigamePokemons : [],
 
     startMinigame () {
-        console.log("Start the game")
         this.minigameIsStarted = true;
     },
 
     endMinigame () {
-        console.log("End the game")
         this.minigameIsStarted = false;
-    }
+    },
+
+    async getNewMinigamePokemons() {
+        this.minigamePokemons = await getRandomPokemon(2);
+    },
 }
 
 

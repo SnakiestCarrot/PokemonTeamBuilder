@@ -1,9 +1,12 @@
 
 import "../minigameStyles.css"
 
-export function MinigameView(props) {
+import { pokemonIdToTypeId } from "../utilities";
+import { renderTypeImage } from "./viewUtilities";
 
+export function MinigameView(props) {
     const minigameIsStarted = props.minigameIsStarted;
+    const pokemons = props.pokemons;
 
     function startMinigame() {
         props.startMinigame();
@@ -13,9 +16,8 @@ export function MinigameView(props) {
         props.endMinigame();
     }
 
-    function renderMinigamePokemonCard(pokemon) {
+    function renderMinigamePokemonCard(pokemon, index) {
         return (
-
             <div className="my-teams-pokemon-card" key={"pokemon" + index}>
                 <h3>{pokemon?.name}</h3>
                 {pokemonIdToTypeId(pokemon.id).map(renderTypeImage)}
@@ -26,8 +28,6 @@ export function MinigameView(props) {
                     className="pokemon-team-image"
                 />
             </div>
-
-
         )
     }
 
@@ -36,6 +36,13 @@ export function MinigameView(props) {
             <div>
                 <h2>Minigame is started!</h2>
                 <button onClick={endMinigame}>End minigame!</button>
+
+            <div className="minigame-pokemon-container">
+                {pokemons.map(renderMinigamePokemonCard)}
+            </div>
+                
+            
+            
             </div>
         )
     }
