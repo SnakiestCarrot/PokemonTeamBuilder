@@ -16,7 +16,8 @@ const model = {
 
     currentPokemon : null, 
     currentPokemonId : 100,
-    pokemonSearchPromiseState : {},
+    currentPokemonPromiseState : {},
+
     currentTeam : {
         pokemons : new Array(6),
         teamName : ""
@@ -38,6 +39,7 @@ const model = {
         this.loadTestPokemonTeams();
         this.loadAllTeams();
         this.getNewMinigamePokemons();
+        this.loadInspectPokemon(1);
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -50,6 +52,25 @@ const model = {
     setCurrentPokemonId (pokemonId) {
         this.currentPokemonId = pokemonId;
     },
+
+    setCurrentTeam (team) {
+        this.currentTeam = team;
+    },
+
+    async loadInspectPokemon(pokemonId) {
+        try {
+            this.setCurrentPokemonId(pokemonId);
+            const currentPokemonPromise = getPokemon(this.currentPokemonId);
+    
+            const resolvedData = await currentPokemonPromise;
+    
+            // Directly pass the resolved data to the promise state
+            resolvePromise(Promise.resolve(resolvedData), this.currentPokemonPromiseState);
+        } catch (error) {
+            console.error("Failed to load inspect pokemon:", error);
+        }
+    },
+    
 
     //Loads random pokemon in randomPokemonList for mainpage.
     async loadRandomPokemonList(quantity) {
@@ -195,9 +216,7 @@ const model = {
     async doPokemonInspect (pokemonId) {
         // this is called from the teambuilder presenter that gets called from the view
         // this should set the current pokemon ID and then change to pokemon inspect page
-        this.setCurrentPokemonId(pokemonId);
-        const pokemon = await getPokemon(this.currentPokemonId);
-        this.currentPokemon = pokemon;
+        await this.loadInspectPokemon(pokemonId);
         window.location.hash = "#/inspect";
     },
 

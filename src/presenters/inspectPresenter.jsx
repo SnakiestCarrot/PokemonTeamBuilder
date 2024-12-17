@@ -5,7 +5,7 @@ const Inspect = observer(function InspectRender(props) {
     return (
         <div>
             <InspectView
-                currentPokemon={props.model.currentPokemon}
+                currentPokemon={props.model.currentPokemonPromiseState.data}
                 addPokemonToCurrentTeam={addPokemonToTeam}
                 typeIds={props.model.getCurrentPokemonTypeIds()}
             />

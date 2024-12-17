@@ -3,6 +3,11 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'r
 import { renderTypeImage } from "./viewUtilities";
 
 export function InspectView(props) {
+
+    if (!props.currentPokemon) {
+        return <div>Loading Pokémon...</div>;
+    }
+    
     const pokemonData = [
         { name: 'Health', value: props.currentPokemon.stats[0].base_stat },
         { name: 'Attack', value: props.currentPokemon.stats[1].base_stat },
