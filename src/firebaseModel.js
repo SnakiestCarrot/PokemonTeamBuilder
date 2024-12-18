@@ -25,14 +25,12 @@ export function modelToPersistence(model) {
         inspectPokemonId: model.currentPokemonId || null,
     };
 
-    console.log("Persisting data to Firebase:", persistenceData);
     return persistenceData;
 }
 
 
 export function persistenceToModel(persistenceData, model) {
     function savePokemonTeamToModel(pokemonTeam) {
-        console.log("Loaded Pokémon team before ensuring 6 slots:", pokemonTeam);
 
         // Enforce exactly 6 slots in the team
         const teamWithSixSlots = new Array(6).fill(null).map((_, i) => pokemonTeam[i] || null);
@@ -43,11 +41,9 @@ export function persistenceToModel(persistenceData, model) {
             pokemons: teamWithSixSlots,
         });
 
-        console.log("Final processed Pokémon team:", model.currentTeam);
     }
 
     if (!persistenceData) {
-        console.log("No persistence data found. Initializing default team.");
         model.setCurrentTeam({
             teamName: "",
             pokemons: new Array(6).fill(null),
@@ -64,7 +60,6 @@ export function persistenceToModel(persistenceData, model) {
 
     return getPokemonsFromArray(pokemonIds)
         .then((pokemonTeam) => {
-            console.log("Loaded Pokémon team:", pokemonTeam);
             savePokemonTeamToModel(pokemonTeam);
         })
         .catch((error) => {
@@ -83,7 +78,6 @@ export function saveToFirebase(model) {
         const persistenceData = modelToPersistence(model);
 
         set(ref(db, `PokemonTeamBuilder/${model.user.uid}/model`), persistenceData)
-            .then(() => console.log("Data successfully saved to Firebase."))
             .catch((error) => console.error("Error saving data:", error));
     }
 }
@@ -94,7 +88,6 @@ export function readFromFirebase(model) {
         model.setLoading(true); // Start loading
 
         function persistenceToModelACB(snapshot) {
-            console.log("Persistence data from Firebase:", snapshot.val());
             return persistenceToModel(snapshot.val(), model);
         }
 
@@ -138,7 +131,6 @@ export function connectToFirebase(model, watchFunction) {
                 console.error("Error reading from Firebase:", error);
             });
         } else {
-            console.log("User logged out, resetting model.");
             model.setCurrentTeam({
                 teamName: "",
                 pokemons: new Array(6).fill(null),
@@ -157,7 +149,6 @@ export function saveMyPokemonTeam(user, team) {
         console.error("Error: User or User UID is not defined. Cannot save team.");
         return;
     }
-    console.log("Saving team to Firebase:", team);
     const firebaseTeam = {
         id1 : team.pokemons[0].id,
         id2 : team.pokemons[1].id,
@@ -168,9 +159,6 @@ export function saveMyPokemonTeam(user, team) {
         myTeamName : team.teamName
     };
     push(ref(db, `PokemonTeamBuilder/${user.uid}/teams`), firebaseTeam)
-        .then(() => {
-            console.log("Team successfully saved!");
-        })
         .catch(error => {
             console.error("Error saving team:", error);
         });
@@ -190,7 +178,6 @@ export function getMyPokemonTeams(user) {
             if (snapshot.exists()) {
                 return snapshot.val(); // Return the object as is
             } else {
-                console.log("No teams found for this user.");
                 return {}; // Return an empty object
             }
         })
@@ -214,9 +201,6 @@ export function removeMyPokemonTeam(user, teamId){
     const teamRef = ref(db, `PokemonTeamBuilder/${user.uid}/teams/${teamId}`);
 
     return remove(teamRef)
-        .then(() => {
-            console.log(`Team with ID "${teamId}" successfully removed.`);
-        })
         .catch(error => {
             console.error(`Failed to remove team with ID "${teamId}":`, error);
             throw error;
@@ -257,7 +241,6 @@ export function getAllPokemonTeams() {
                 const allUsersData = snapshot.val();
                 return fetchAllTeams(allUsersData); // Return teams with Pokemon IDs
             } else {
-                console.log("No teams found for any users.");
                 return [];
             }
         })
