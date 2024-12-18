@@ -129,11 +129,3 @@ function renderEmptyTeamSlot() {
         </div >
     )
 }
-
-
-
-
-
-
-
-
