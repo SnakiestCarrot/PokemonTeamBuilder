@@ -4,6 +4,13 @@ import { renderTypeImage } from "./viewUtilities";
 export function ResultView(props) {
     const results = props.pokemonResults;
 
+    //PLACEHOLDER
+    if (props.loading) {
+        return (
+            <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>
+        )
+    }
+
     if (!results || results.length === 0) {
         return <div className="no-results">No Pokémon found</div>;
     }

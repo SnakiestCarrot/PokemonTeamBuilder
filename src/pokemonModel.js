@@ -3,32 +3,26 @@ import { getPokemon, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
-import { getTestTeams } from './testData.js';
 import pokemonTypeData from '../pokemonTypeData.json';
 
 export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
 
 const model = {
-    user : null,
-
-    isDropdownVisible : false,
-
-    currentPokemon : null, 
-    currentPokemonId : 100,
-    currentPokemonPromiseState : {},
+    user : null, 
+    isDropdownVisible : false, //profile menu
+    randomPokemonList : [], //random pokemon displayed at main page
+    loading: true, //loading firebase info
 
     currentTeam : {
         pokemons : new Array(6),
         teamName : ""
     },
-
+    currentPokemonPromiseState : {},
     allPokemon : [], // Full list of Pokémon
-    pokemonResultPromiseSate : {}, 
+    pokemonResultPromiseSate : {},
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
-    randomPokemonList : [], //random pokemon displayed at main page
-    testTeams : [], 
     myTeams : [], //user specific teams
     allUserTeams : [], //all teams in database
 
@@ -36,10 +30,8 @@ const model = {
     init(){  
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
-        this.loadTestPokemonTeams();
         this.loadAllTeams();
         this.getNewMinigamePokemons();
-        this.loadInspectPokemon(1);
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -49,7 +41,11 @@ const model = {
         });
     },
 
-    setCurrentPokemonId (pokemonId) {
+    setLoading(isLoading) {
+        this.loading = isLoading;
+    },
+
+    setCurrentPokemonId(pokemonId) {
         this.currentPokemonId = pokemonId;
     },
 
@@ -60,14 +56,11 @@ const model = {
     async loadInspectPokemon(pokemonId) {
         try {
             this.setCurrentPokemonId(pokemonId);
-            const currentPokemonPromise = getPokemon(this.currentPokemonId);
-    
+            const currentPokemonPromise = getPokemon(pokemonId);
+            resolvePromise(currentPokemonPromise, this.currentPokemonPromiseState);
             const resolvedData = await currentPokemonPromise;
-    
-            // Directly pass the resolved data to the promise state
-            resolvePromise(Promise.resolve(resolvedData), this.currentPokemonPromiseState);
         } catch (error) {
-            console.error("Failed to load inspect pokemon:", error);
+            console.error("Error in loadInspectPokemon:", error);
         }
     },
     
@@ -75,30 +68,13 @@ const model = {
     //Loads random pokemon in randomPokemonList for mainpage.
     async loadRandomPokemonList(quantity) {
         if (this.randomPokemonList.length > 0) {
-            console.log("Using already loaded random pokemon");
             return;
         }
-
         try {
             const pokemonList = await getRandomPokemon(quantity); // Assuming getRandomPokemon returns a Promise
             this.randomPokemonList = pokemonList; // Update with resolved list
         } catch (error) {
             console.error("Failed to fetch Pokémon:", error);
-        }
-    },
-
-    //Test function to get teams for myTeams display.
-    async loadTestPokemonTeams(){
-        if (this.testTeams.length > 0) {
-            console.log("Using already loaded test teams");
-            return;
-        }
-
-        try {
-            const testTeamList = await getTestTeams(); 
-            this.testTeams = testTeamList; 
-        } catch (error) {
-            console.error("Failed to get test teams:", error);
         }
     },
 
@@ -117,7 +93,6 @@ const model = {
         try {
             const allUserTeamsList = await this.getAllUserPokemonTeams();
             this.allUserTeams = allUserTeamsList;
-            console.log(allUserTeamsList);
         } catch (error) {
             console.error("Failed to load all user teams", error);
         }
@@ -126,27 +101,20 @@ const model = {
     //Function to load all pokemons from website 
     loadAllPokemon() {
         if (this.allPokemon.length > 0) {
-            console.log("Using cached Pokémon data from memory");
             return;
         }
     
-        // Check if Pokémon data is cached in localStorage
         const cachedData = localStorage.getItem("allPokemon");
         if (cachedData) {
-            console.log("Using cached Pokémon data from localStorage");
             this.allPokemon = JSON.parse(cachedData);
             this.filteredPokemon = this.allPokemon;
             return;
         }
     
-        // Fetch data from API if no cache exists
-        console.log("Fetching Pokémon data from API...");
-        const promise = getPokemon("?limit=100000"); // Fetch all Pokémon names
-
+        const promise = getPokemon("?limit=100000"); 
         resolvePromise(promise, this.pokemonResultPromiseSate);
         promise
             .then((data) => {
-                // Filter out invalid entries by checking if the URL includes a valid ID
                 this.allPokemon = data.results.map((pokemon) => {
                     const id = extractPokemonIdFromUrl(pokemon.url); 
                     return {
@@ -157,7 +125,7 @@ const model = {
                     };
                 });
 
-                this.filteredPokemon = this.allPokemon; // Initially display all valid Pokémon
+                this.filteredPokemon = this.allPokemon;
             })
             .catch((error) => {
                 console.error("Error fetching Pokémon list:", error);
@@ -187,7 +155,6 @@ const model = {
 
         signInWithPopup(auth, provider)
             .then((result) => {
-                console.log("Login successful:", result.user);
                 model.user = result.user; 
                 setUserInformation(this.user);
                 this.loadMyTeams();
@@ -203,7 +170,6 @@ const model = {
     userWantsToLogout() {
         signOut(auth)
             .then(() => {
-                console.log("Logout successful");
                 this.user = null; // Ensure user state is reset
             })
             .catch((error) => {
@@ -291,13 +257,10 @@ const model = {
                 })
             );
         }
-        
-    
         // Call firebase function then convert them
         return getMyPokemonTeams(this.user)
             .then(firebaseTeams => {
                 if (!firebaseTeams) {
-                    console.log("No teams found.");
                     return [];
                 }
                 return convertToPokemon(firebaseTeams);
@@ -339,7 +302,6 @@ const model = {
 
     //Function to save my pokemon team
     savePokemonTeam(){
-        console.log("trying to save")
         if (!this.user) {
             console.error("There is no user logged in!");
             return;
@@ -348,7 +310,6 @@ const model = {
             console.error("Invalid team format!", this.currentTeam);
             return;
         }
-        console.log("User before saving team:", this.user); // Debug log
         saveMyPokemonTeam(this.user, this.currentTeam);
         this.loadMyTeams();
         

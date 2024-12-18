@@ -54,4 +54,18 @@ export function getType(searchParam) {
     return fetch(url).then(gotResponseACB).then(getResultACB);
 }
 
+export function getPokemonsFromArray(pokemonArray) {
+    const fetchPromises = pokemonArray.map((item, index) => {
+        if (item === null) {
+            return Promise.resolve(null); // Keep null in place
+        } else {
+            return getPokemon(item).catch((error) => {
+                console.error(`Error fetching Pokemon at index ${index}:`, error);
+                return null; // Fallback to null on fetch failure
+            });
+        }
+    });
+
+    return Promise.all(fetchPromises); // Return a promise resolving to the updated array
+}
 

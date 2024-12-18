@@ -4,6 +4,12 @@ import { renderTypeImage } from "./viewUtilities";
 
 export function InspectView(props) {
 
+    if (props.loading) {
+        return (
+            <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>
+        )
+    }
+
     if (!props.currentPokemon) {
         return <div>Loading Pokémon...</div>;
     }

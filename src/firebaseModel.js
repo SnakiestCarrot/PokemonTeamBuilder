@@ -3,6 +3,7 @@ import { getDatabase, ref, set, get, push, remove } from "firebase/database";
 import { firebaseConfig } from "/src/firebaseConfig.js";
 import { getAuth, onAuthStateChanged, } from "firebase/auth";
 import { model } from "./pokemonModel";
+import { getPokemonsFromArray } from "./pokemonSource";
 
 //Init firebase db
 const app = initializeApp(firebaseConfig);
@@ -13,90 +14,108 @@ const auth = getAuth(app);
 
 
 export function modelToPersistence(model) {
-    const pokemonArray = [
-        model.currentTeam.pokemons[0]?.id || null,
-        model.currentTeam.pokemons[1]?.id || null,
-        model.currentTeam.pokemons[2]?.id || null,
-        model.currentTeam.pokemons[3]?.id || null,
-        model.currentTeam.pokemons[4]?.id || null,
-        model.currentTeam.pokemons[5]?.id || null,
-    ];
+    // Always create an array with exactly 6 slots
+    const pokemonArray = new Array(6).fill(null).map((_, index) => {
+        return model.currentTeam.pokemons[index]?.id || null;
+    });
 
     const persistenceData = {
-        currentPokemons : pokemonArray,
-        currentTeamName : model.currentTeam.teamName,
-        pokemonSearchQuery : model.searchQuery,
-        inspectPokemonId : model.currentPokemonId, 
+        currentPokemons: pokemonArray,
+        currentTeamName: model.currentTeam.teamName || "",
+        inspectPokemonId: model.currentPokemonId || null,
     };
 
     return persistenceData;
-    
 }
+
 
 export function persistenceToModel(persistenceData, model) {
     function savePokemonTeamToModel(pokemonTeam) {
-        model.currentTeam = pokemonTeam;
+
+        // Enforce exactly 6 slots in the team
+        const teamWithSixSlots = new Array(6).fill(null).map((_, i) => pokemonTeam[i] || null);
+
+        // Use model.setCurrentTeam instead of directly assigning the team
+        model.setCurrentTeam({
+            teamName: model.currentTeam.teamName,
+            pokemons: teamWithSixSlots,
+        });
+
     }
 
     if (!persistenceData) {
-        const emptyTeam = 
-        {
-            pokemons : new Array(6),
-            teamName : ""
-        };
-        model.setCurrentTeam(emptyTeam);
-        model.pokemonSearchACB("");
+        model.setCurrentTeam({
+            teamName: "",
+            pokemons: new Array(6).fill(null),
+        });
         model.setCurrentPokemonId(null);
+        return;
     }
 
     if (persistenceData.inspectPokemonId !== undefined) {
         model.setCurrentPokemonId(persistenceData.inspectPokemonId);
+        model.loadInspectPokemon(persistenceData.inspectPokemonId); // <-- Call loadInspectPokemon here
     } else {
         model.setCurrentPokemonId(null);
     }
-   
+
+    model.setCurrentTeamName(persistenceData.currentTeamName ?? "");
+
+    const pokemonIds = persistenceData.currentPokemons || new Array(6).fill(null);
+
+    return getPokemonsFromArray(pokemonIds)
+        .then((pokemonTeam) => {
+            savePokemonTeamToModel(pokemonTeam);
+        })
+        .catch((error) => {
+            console.error("Error fetching Pokémon team:", error);
+            model.setCurrentTeam({
+                teamName: persistenceData.currentTeamName ?? "",
+                pokemons: new Array(6).fill(null),
+            });
+        });
 }
 
+
+
 export function saveToFirebase(model) {
-    // saveToFirebase: 
-    // -----------------
-    // do nothing if model.user falsy
-    // otherwise write to the same path as above, 
-    // depending on model.ready as usual
-    if (model.user) {
-        if (model.ready) {
-            set(ref(db,`PokemonTeamBuilder/${user.uid}/model`), modelToPersistence(model));
-        }
-    } else {
-        //TODO: wipe data??
+    if (model.user && model.ready) {
+        const persistenceData = modelToPersistence(model);
+
+        set(ref(db, `PokemonTeamBuilder/${model.user.uid}/model`), persistenceData)
+            .catch((error) => console.error("Error saving data:", error));
     }
 }
 
+
 export function readFromFirebase(model) {
-// readFromFirebase: 
-// -----------------
-// do nothing if model.user falsy (maybe wipe the model data)
-// otherwise read from "path/"+model.user.uid
-// manage model.ready as 
     if (model.user) {
+        model.setLoading(true); // Start loading
+
         function persistenceToModelACB(snapshot) {
             return persistenceToModel(snapshot.val(), model);
         }
-    
+
         function modelReadyACB() {
             model.ready = true;
+            model.setLoading(false); // Finish loading
         }
-    
+
         model.ready = false;
-        return get(ref(db, `PokemonTeamBuilder/${user.uid}/model`)).then(persistenceToModelACB).then(modelReadyACB);
-    } else {
-        //TODO: Wipe data?
+        return get(ref(db, `PokemonTeamBuilder/${model.user.uid}/model`))
+            .then(persistenceToModelACB)
+            .then(modelReadyACB)
+            .catch((error) => {
+                console.error("Error reading from Firebase:", error);
+                model.setLoading(false);
+            });
     }
 }
 
+
 export function connectToFirebase(model, watchFunction) {
     function checkModelPropertiesACB(){
-        
+        return [model.currentTeam, model.currentPokemonId];
     }
     function saveModelToFirebaseACB(){
         saveToFirebase(model);
@@ -110,14 +129,19 @@ export function connectToFirebase(model, watchFunction) {
         model.user= user
         model.ready=false
 
-        if (user) {
+        if (model.user) {
             readFromFirebase(model).then (() => {
                 watchFunctionACB();
             }).catch((error) => {
                 console.error("Error reading from Firebase:", error);
             });
         } else {
-            //TODO: wipe data?? Or set to default?
+            model.setCurrentTeam({
+                teamName: "",
+                pokemons: new Array(6).fill(null),
+            });
+            model.setCurrentPokemonId(null);
+            model.pokemonSearchACB("");
         }
     }
 
@@ -130,7 +154,6 @@ export function saveMyPokemonTeam(user, team) {
         console.error("Error: User or User UID is not defined. Cannot save team.");
         return;
     }
-    console.log("Saving team to Firebase:", team);
     const firebaseTeam = {
         id1 : team.pokemons[0].id,
         id2 : team.pokemons[1].id,
@@ -141,9 +164,6 @@ export function saveMyPokemonTeam(user, team) {
         myTeamName : team.teamName
     };
     push(ref(db, `PokemonTeamBuilder/${user.uid}/teams`), firebaseTeam)
-        .then(() => {
-            console.log("Team successfully saved!");
-        })
         .catch(error => {
             console.error("Error saving team:", error);
         });
@@ -163,7 +183,6 @@ export function getMyPokemonTeams(user) {
             if (snapshot.exists()) {
                 return snapshot.val(); // Return the object as is
             } else {
-                console.log("No teams found for this user.");
                 return {}; // Return an empty object
             }
         })
@@ -187,9 +206,6 @@ export function removeMyPokemonTeam(user, teamId){
     const teamRef = ref(db, `PokemonTeamBuilder/${user.uid}/teams/${teamId}`);
 
     return remove(teamRef)
-        .then(() => {
-            console.log(`Team with ID "${teamId}" successfully removed.`);
-        })
         .catch(error => {
             console.error(`Failed to remove team with ID "${teamId}":`, error);
             throw error;
@@ -230,7 +246,6 @@ export function getAllPokemonTeams() {
                 const allUsersData = snapshot.val();
                 return fetchAllTeams(allUsersData); // Return teams with Pokemon IDs
             } else {
-                console.log("No teams found for any users.");
                 return [];
             }
         })
