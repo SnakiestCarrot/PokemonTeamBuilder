@@ -3,10 +3,9 @@ import { renderTypeImage } from "./viewUtilities";
 
 export function ResultView(props) {
     const results = props.pokemonResults;
-    const loading = props.loading;
 
     //PLACEHOLDER
-    if (loading) {
+    if (props.loading) {
         return (
             <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>
         )

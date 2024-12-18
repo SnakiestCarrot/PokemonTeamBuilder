@@ -8,6 +8,7 @@ const Inspect = observer(function InspectRender(props) {
                 currentPokemon={props.model.currentPokemonPromiseState.data}
                 addPokemonToCurrentTeam={addPokemonToTeam}
                 typeIds={props.model.getCurrentPokemonTypeIds()}
+                loading={props.model.loading}
             />
         </div>
     )

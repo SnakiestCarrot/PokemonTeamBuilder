@@ -48,12 +48,17 @@ export function persistenceToModel(persistenceData, model) {
             teamName: "",
             pokemons: new Array(6).fill(null),
         });
-        model.pokemonSearchACB("");
         model.setCurrentPokemonId(null);
         return;
     }
 
-    model.setCurrentPokemonId(persistenceData.inspectPokemonId ?? null);
+    if (persistenceData.inspectPokemonId !== undefined) {
+        model.setCurrentPokemonId(persistenceData.inspectPokemonId);
+        model.loadInspectPokemon(persistenceData.inspectPokemonId); // <-- Call loadInspectPokemon here
+    } else {
+        model.setCurrentPokemonId(null);
+    }
+
     model.setCurrentTeamName(persistenceData.currentTeamName ?? "");
 
     const pokemonIds = persistenceData.currentPokemons || new Array(6).fill(null);
