@@ -27,7 +27,5 @@ export async function getTestTeams(){
     testTeams[1].pokemons[4] = await getPokemon(11);
     testTeams[1].pokemons[5] = await getPokemon(12);
 
-    console.log(testTeams);
-
     return testTeams;
 }
