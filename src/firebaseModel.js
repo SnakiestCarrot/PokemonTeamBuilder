@@ -14,7 +14,6 @@ const auth = getAuth(app);
 
 
 export function modelToPersistence(model) {
-    // Always create an array with exactly 6 slots
     const pokemonArray = new Array(6).fill(null).map((_, index) => {
         return model.currentTeam.pokemons[index]?.id || null;
     });
@@ -35,7 +34,6 @@ export function persistenceToModel(persistenceData, model) {
         // Enforce exactly 6 slots in the team
         const teamWithSixSlots = new Array(6).fill(null).map((_, i) => pokemonTeam[i] || null);
 
-        // Use model.setCurrentTeam instead of directly assigning the team
         model.setCurrentTeam({
             teamName: model.currentTeam.teamName,
             pokemons: teamWithSixSlots,
@@ -53,8 +51,7 @@ export function persistenceToModel(persistenceData, model) {
     }
 
     if (persistenceData.inspectPokemonId !== undefined) {
-        model.setCurrentPokemonId(persistenceData.inspectPokemonId);
-        model.loadInspectPokemon(persistenceData.inspectPokemonId); // <-- Call loadInspectPokemon here
+        model.loadInspectPokemon(persistenceData.inspectPokemonId);
     } else {
         model.setCurrentPokemonId(null);
     }
@@ -76,8 +73,6 @@ export function persistenceToModel(persistenceData, model) {
         });
 }
 
-
-
 export function saveToFirebase(model) {
     if (model.user && model.ready) {
         const persistenceData = modelToPersistence(model);
@@ -86,7 +81,6 @@ export function saveToFirebase(model) {
             .catch((error) => console.error("Error saving data:", error));
     }
 }
-
 
 export function readFromFirebase(model) {
     if (model.user) {
@@ -111,7 +105,6 @@ export function readFromFirebase(model) {
             });
     }
 }
-
 
 export function connectToFirebase(model, watchFunction) {
     function checkModelPropertiesACB(){
@@ -181,9 +174,9 @@ export function getMyPokemonTeams(user) {
     return get(teamsRef)
         .then((snapshot) => {
             if (snapshot.exists()) {
-                return snapshot.val(); // Return the object as is
+                return snapshot.val(); 
             } else {
-                return {}; // Return an empty object
+                return {}; 
             }
         })
         .catch((error) => {
@@ -191,7 +184,6 @@ export function getMyPokemonTeams(user) {
             throw error;
         });
 }
-
 
 //Function to remove a specific pokemon team based on that unique key
 export function removeMyPokemonTeam(user, teamId){
@@ -236,7 +228,6 @@ export function getAllPokemonTeams() {
                 }
             }
         }
-
         return allTeams;
     }
 
@@ -266,14 +257,5 @@ export function setUserInformation(user) {
         console.error("Error trying to set user information in firebase", error);
     }
 }
-
-
-
-
-// UI: 
-// - model.user undefined: show suspense because firebase auth not initialized yet
-// - model.user null: shouw "sign in" UI (a button/link that triggers signInWithPopup, see below)
-// - model.user truthy: should the App (based on model.ready!) with the "sign out" UI
-
 
 export { auth };
