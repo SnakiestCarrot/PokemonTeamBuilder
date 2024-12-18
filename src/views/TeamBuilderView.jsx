@@ -61,6 +61,10 @@ export function TeamBuilderView(props) {
         )
     }
 
+    function UserClicksPokemonCard(pokemonId){
+        props.userClicksPokemon(pokemonId);
+    }
+
     function renderPokemonCard(pokemon, index) {
 
         if (loading) { //PLACEHOLDER
@@ -74,7 +78,8 @@ export function TeamBuilderView(props) {
                     {pokemon ? (
                         <div
                             key={pokemon.name}
-                            className="pokemon-team-card" >
+                            className="pokemon-team-card" 
+                            onClick = {() => UserClicksPokemonCard(pokemon.id)}>
                             <h2>{pokemon.name}</h2>
                             {renderTypeImages(pokemon)}
                             {renderPokemonImage(pokemon)}

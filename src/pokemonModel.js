@@ -64,7 +64,6 @@ const model = {
         }
     },
     
-
     //Loads random pokemon in randomPokemonList for mainpage.
     async loadRandomPokemonList(quantity) {
         if (this.randomPokemonList.length > 0) {
@@ -299,7 +298,6 @@ const model = {
         }
     },
     
-
     //Function to save my pokemon team
     savePokemonTeam(){
         if (!this.user) {
@@ -370,8 +368,6 @@ const model = {
         this.minigamePokemons = await getRandomPokemon(2);
     },
 }
-
-
 
 export { model };
 
