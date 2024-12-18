@@ -15,6 +15,10 @@ const Minigame = observer(function MinigameRender(props) {
         props.model.getNewMinigamePokemons();
     }
 
+    function choosePokemon(index) {
+        props.model.minigameChoosePokemon(index);
+    }
+
     return (
         <div>
             <MinigameView
@@ -23,6 +27,7 @@ const Minigame = observer(function MinigameRender(props) {
                 setNewPokemons={setNewMinigamePokemons}
                 startMinigame={startMinigame}
                 endMinigame={endMinigame}
+                selectPokemon={choosePokemon}
             />
         </div>
     );

@@ -2,7 +2,7 @@ import { resolvePromise } from './resolvePromise';
 import { getPokemon, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation } from "./firebaseModel.js";
-import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
+import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId, getDoubleDamageFromTypeArray, getTypeObjects, calculatePokemonTypeAdvantage } from './utilities';
 import pokemonTypeData from '../pokemonTypeData.json';
 
 export const lowestPokemonId = 1;
@@ -32,6 +32,7 @@ const model = {
         this.loadAllPokemon();
         this.loadAllTeams();
         this.getNewMinigamePokemons();
+        this.loadInspectPokemon(1);
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -353,10 +354,11 @@ const model = {
     },
 
     // Minigame stuff
-    minigameIsStarted : true,
+    minigameIsStarted : false,
     minigamePokemons : [],
 
-    startMinigame () {
+    async startMinigame () {
+        await this.getNewMinigamePokemons();
         this.minigameIsStarted = true;
     },
 
@@ -364,9 +366,19 @@ const model = {
         this.minigameIsStarted = false;
     },
 
+    minigameChoosePokemon() {
+
+    },
+
     async getNewMinigamePokemons() {
         this.minigamePokemons = await getRandomPokemon(2);
+        const minigamePokemonTypeArray = [];
+        minigamePokemonTypeArray.push(await getTypeObjects(this.minigamePokemons[0].id));
+        minigamePokemonTypeArray.push(await getTypeObjects(this.minigamePokemons[1].id));
+        calculatePokemonTypeAdvantage(minigamePokemonTypeArray);
     },
+
+    
 }
 
 export { model };
