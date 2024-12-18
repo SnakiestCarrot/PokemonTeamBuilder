@@ -3,32 +3,26 @@ import { getPokemon, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
-import { getTestTeams } from './testData.js';
 import pokemonTypeData from '../pokemonTypeData.json';
 
 export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
 
 const model = {
-    user : null,
-
-    isDropdownVisible : false,
-
-    currentPokemon : null, 
-    currentPokemonId : 100,
-    currentPokemonPromiseState : {},
+    user : null, 
+    isDropdownVisible : false, //profile menu
+    randomPokemonList : [], //random pokemon displayed at main page
+    loading: true, //loading firebase info
 
     currentTeam : {
         pokemons : new Array(6),
         teamName : ""
     },
-
+    currentPokemonPromiseState : {},
     allPokemon : [], // Full list of Pokémon
-    pokemonResultPromiseSate : {}, 
+    pokemonResultPromiseSate : {},
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
-    randomPokemonList : [], //random pokemon displayed at main page
-    testTeams : [], 
     myTeams : [], //user specific teams
     allUserTeams : [], //all teams in database
 
@@ -36,7 +30,6 @@ const model = {
     init(){  
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
-        this.loadTestPokemonTeams();
         this.loadAllTeams();
         this.getNewMinigamePokemons();
         this.loadInspectPokemon(1);
@@ -47,6 +40,10 @@ const model = {
                 this.loadMyTeams(); // Load user-specific teams
             }
         });
+    },
+
+    setLoading(isLoading) {
+        this.loading = isLoading;
     },
 
     setCurrentPokemonId (pokemonId) {
@@ -87,21 +84,6 @@ const model = {
         }
     },
 
-    //Test function to get teams for myTeams display.
-    async loadTestPokemonTeams(){
-        if (this.testTeams.length > 0) {
-            console.log("Using already loaded test teams");
-            return;
-        }
-
-        try {
-            const testTeamList = await getTestTeams(); 
-            this.testTeams = testTeamList; 
-        } catch (error) {
-            console.error("Failed to get test teams:", error);
-        }
-    },
-
     //Loads all user team on login.
     async loadMyTeams() {        
         try {
@@ -117,7 +99,6 @@ const model = {
         try {
             const allUserTeamsList = await this.getAllUserPokemonTeams();
             this.allUserTeams = allUserTeamsList;
-            console.log(allUserTeamsList);
         } catch (error) {
             console.error("Failed to load all user teams", error);
         }

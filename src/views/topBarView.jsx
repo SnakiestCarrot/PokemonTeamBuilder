@@ -1,6 +1,5 @@
 export function TopBarView(props) {
     function loginLogout() {
-        console.log("Current user in TopBarView:", props.user); // Debug
         if (!props.user) {
             return <a onClick={props.onLoginClick} className="topBar-button">Login</a>;
         } else {

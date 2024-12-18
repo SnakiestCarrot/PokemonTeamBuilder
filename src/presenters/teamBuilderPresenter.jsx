@@ -24,6 +24,7 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
         removePokemonFromCurrentTeam={removePokemonFromTeam}
         changeTeamName={setCurrentTeamName}
         saveCurrentTeamToProfile={userWantsToSaveCurrentTeam}
+        loading={props.model.loading}
       />
       <SearchView
         updatePokemonSearchACB={handleSearchInput}

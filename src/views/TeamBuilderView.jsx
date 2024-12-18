@@ -6,6 +6,7 @@ import { pokemonIdToTypeId } from "../utilities";
 export function TeamBuilderView(props) {
 
     const team = props.team;
+    const loading = props.loading;
 
     return (
         <div className="team-builder-team-container">
@@ -61,25 +62,33 @@ export function TeamBuilderView(props) {
     }
 
     function renderPokemonCard(pokemon, index) {
-        return (
-            <div key={index}>
-                {pokemon ? (
-                    <div
-                        key={pokemon.name}
-                        className="pokemon-team-card" >
-                        <h2>{pokemon.name}</h2>
-                        {renderTypeImages(pokemon)}
-                        {renderPokemonImage(pokemon)}
-                        <div>
-                            <button onClick={() => removeButtonClicked(index)} className="pokemon-team-button">Remove</button>
-                        </div>
-                    </div>
-                ) : (
-                    renderEmptyTeamSlot()
 
-                )}
-            </div>
-        )
+        if (loading) { //PLACEHOLDER
+            return (<div     
+            className="pokemon-team-card" >
+            <h2>loading</h2>
+            </div>)
+        } else {
+            return (
+                <div key={index}>
+                    {pokemon ? (
+                        <div
+                            key={pokemon.name}
+                            className="pokemon-team-card" >
+                            <h2>{pokemon.name}</h2>
+                            {renderTypeImages(pokemon)}
+                            {renderPokemonImage(pokemon)}
+                            <div>
+                                <button onClick={() => removeButtonClicked(index)} className="pokemon-team-button">Remove</button>
+                            </div>
+                        </div>
+                    ) : (
+                        renderEmptyTeamSlot()
+    
+                    )}
+                </div>
+            )
+        }
     }
 }
 

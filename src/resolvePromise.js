@@ -5,7 +5,6 @@ export function resolvePromise(prms, promiseState){
     function setDataACB(promise) {
         if (promiseState.promise === prms) {
             promiseState.data = promise;
-            console.log("Promise Resolved: ", promiseState.data);
         }   
     }
 
