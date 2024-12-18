@@ -29,11 +29,13 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
       <SearchView
         updatePokemonSearchACB={handleSearchInput}
         text={props.model.searchQuery}
+        loading={props.model.loading}
       />
       <ResultView
         pokemonResults={props.model.filteredPokemon}
         doPokemonInspect={userWantsToInspect}
         addPokemonToTeam={addPokemonToTeam}
+        loading={props.model.loading}
       />
     </div>
   );
