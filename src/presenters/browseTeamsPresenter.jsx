@@ -4,7 +4,9 @@ import { BrowseTeamsView } from "../views/browseTeamsView";
 const BrowseTeams = observer(function BrowseTeamsRender(props){
     return(
         <div>
-            <BrowseTeamsView />
+            <BrowseTeamsView
+                allTeams = {props.model.allTeams}
+            />
         </div>
     );
 });

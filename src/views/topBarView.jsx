@@ -29,7 +29,7 @@ export function TopBarView(props) {
             <a href="#main" >Main</a>
             <a href="#teambuilder" >Team Builder</a>
             <a href="#teams" >My teams</a>
-            <a href="#todo" >Browse teams</a>
+            <a href="#browse" >Browse teams</a>
             <a href="#minigame" >Minigame</a>
             {loginLogout()}
         </div>
