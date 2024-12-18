@@ -16,9 +16,13 @@ export function MinigameView(props) {
         props.endMinigame();
     }
 
+    function userSelectedPokemon(indexOfPokemon) {
+        props.selectPokemon(indexOfPokemon);
+    }
+
     function renderMinigamePokemonCard(pokemon, index) {
         return (
-            <div className="minigame-pokemon-card" key={"pokemon" + index}>
+            <div className="minigame-pokemon-card" key={"pokemon" + index} onClick={userSelectedPokemon(index)}>
                 <h3>{pokemon?.name}</h3>
                 {pokemonIdToTypeId(pokemon.id).map(renderTypeImage)}
 
