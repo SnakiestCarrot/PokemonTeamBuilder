@@ -88,7 +88,15 @@ export function TeamBuilderView(props) {
                             {renderPokemonImage(pokemon)}
                             <div>
                                 <button onClick={() => removeButtonClicked(index)} className="pokemon-team-button">Remove</button>
+                                <button onClick={
+                                    (event) => {
+                                        props.doPokemonInspect(pokemon.id)
+                                        event.stopPropagation();
+                                }} 
+                                >Inspect
+                                </button>
                             </div>
+                            
                         </div>
                     ) : (
                         renderEmptyTeamSlot()
