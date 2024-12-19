@@ -408,6 +408,7 @@ const model = {
     minigamePokemons : [],
     minigameBufferPokemons: [],
     minigameTypeAdvantage: null,
+    minigameCurrentScore: 0,
 
     async startMinigame () {
         await this.getNewMinigamePokemons();
@@ -420,7 +421,13 @@ const model = {
 
     minigameCorrectChoice() {
         this.getNewMinigamePokemons();
+        this.minigameCurrentScore++;
+    },
 
+    minigameWrongChoice() {
+        this.getNewMinigamePokemons();
+        this.minigameCurrentScore = 0;
+        this.endMinigame();
     },
 
     // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
@@ -433,7 +440,7 @@ const model = {
         } else if (this.minigameTypeAdvantage < 1 && choice === 1) {
             this.minigameCorrectChoice();
         } else {
-            this.endMinigame();
+            this.minigameWrongChoice();
         }
     },
 

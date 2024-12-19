@@ -1,9 +1,11 @@
 
 /* Container for the entire minigame */
 .minigame-container {
-    align-content: center;
     text-align: center;
     margin-top: 100px;
+    justify-content: center;
+    padding-left: 14%;
+    padding-right: 14%;
 }
 
 /* Container for the random pokemon displayed in the minigame */
@@ -35,7 +37,27 @@
     transform: scale(1.01);
 }
 
+.minigame-tie-button {
+    scale: 1.5;
+}
 
+.minigame-instruction-container {
+    width: 100%;
+}
+
+.minigame-example-image {
+    width: 200px;
+}
+
+.example-container {
+    margin-top: 4%;
+}
+
+.minigame-example-type-image {
+    width: 110px;
+    margin-left: 30px;
+    margin-right: 50px;
+}
 
 
 

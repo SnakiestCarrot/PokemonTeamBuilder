@@ -41,13 +41,14 @@ export function MinigameView(props) {
     function renderStartedMinigame() {
         return (
             <div>
-                <h2>Minigame is started!</h2>
                 <button onClick={endMinigame}>End minigame!</button>
+                <h2>Score:</h2>
+                <h2>{props.currentScore}</h2>
 
                 <div className="minigame-pokemon-container">
                     {pokemons.map(renderMinigamePokemonCard)}
                 </div>
-                <button onClick={() => userSelectedPokemon(2)}>its a tie!</button>
+                <button className="minigame-tie-button" onClick={() => userSelectedPokemon(2)}>No type advantage</button>
                 
             
             
@@ -57,9 +58,53 @@ export function MinigameView(props) {
 
     function renderNotStartedMinigame() {
         return (
-            <div>
-                <h2>Minigame is not started!</h2>
-                <button onClick={startMinigame}>Start minigame!</button>
+            <div className="">
+                <h2>Type advantage minigame</h2>
+                <div className="minigame-instruction-container">
+                    <p>
+                        In this minigame you will be presented with 2 pokemon. Your task is to click the pokemon you believe has the type advantage over the other. 
+                        If you believe that none of the 2 pokemons has an advantage you click the tie button. Try getting the highest score possible!
+                    </p>
+                    
+                    <p>
+                        A type advantage is when a pokemons type gives it an edge when battling pokemon of a specific other type.
+                        For example, water type pokemon deal double damage to fire types, therefore water pokemon have a type advantage over fire types.
+                    </p>
+                
+                    <div className="example-container">
+                        <div>
+                            <img 
+                            className="minigame-example-type-image"
+                            src="https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/types/generation-viii/sword-shield/10.png"/>
+                            <span> </span>
+                            <img 
+                            className="minigame-example-type-image"
+                            src="https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/types/generation-viii/sword-shield/11.png"/>
+                        </div>
+                        <div>
+                            <img 
+                            className="minigame-example-image"
+                            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png">
+                            </img>
+                            
+                            <img 
+                            className="minigame-example-image"
+                            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png">
+                            </img>
+                        </div>
+                        
+                        <h3>Charmander loses against Squirtle, fire loses against water</h3>
+                    </div>
+
+                    <p>
+                        What complicates matters is when pokemon have several types, in this case their strenghts can combine, but also cancel out,
+                        if a pokemon for example has 2 types that both give double damage each to another type, the pokemon will deal 4x damage to that type.
+                        But if a pokemon has one type with double damage and another with half damage to the same type, it will result in 1x damage.
+                    </p>
+
+                    <button onClick={startMinigame}>Start minigame!</button>
+                    
+                </div>
             </div>
         )
     }
