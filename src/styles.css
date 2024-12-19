@@ -213,7 +213,6 @@ button:hover {
     background-color: var(--color-base); 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
     width: 250px; /* Fixed width for uniformity */
-    height: 240px;
     transition: background-color 0.3s ease, transform 0.1s ease-in-out;
 }
 

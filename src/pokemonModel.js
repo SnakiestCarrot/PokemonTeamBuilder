@@ -356,6 +356,7 @@ const model = {
         }
         saveMyPokemonTeam(this.user, this.currentTeam);
         this.loadMyTeams();
+        this.loadAllTeams();
         
         const emptyTeam = {
             pokemons : new Array(6),
@@ -374,6 +375,7 @@ const model = {
         try{
             await removeMyPokemonTeam(this.user, teamIdKey);
             this.loadMyTeams();
+            this.loadAllTeams();
         }
         catch(error){
             console.error("Couldn't remove team:", error);

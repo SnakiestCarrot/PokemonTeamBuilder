@@ -28,38 +28,48 @@ export function BrowseTeamsView(props) {
     }
 
     function renderTeams(teams) {
+   
+        const sortedTeams = [...teams].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        
         return (
             <div>
-                {teams.map(renderTeam)}
+                {sortedTeams.map(renderTeam)}
             </div>
         );
     }
 
     function renderTeam(team, index) {
-        const isLiked = props.likedTeams?.[team.key] || false; // Check if the user has liked this team
+    const isLiked = props.likedTeams?.[team.key] || false; // Check if the user has liked this team
 
-        return (
-            <div className="my-team-name-container" key={`team-${team.key}`}> 
-                <h1>{team.teamName}</h1>
-                <h3>By: {team.userName}</h3>
+    return (
+        <div className="my-team-name-container" key={`team-${team.key}`}>
+            <div className="team-header">
+                <h3 className="team-title">
+                    Teamname: <span className="team-name">{team.teamName}</span> &nbsp;&nbsp; By: <span className="team-author">{team.userName}</span>
+                </h3>
+            </div>
+            <div className="team-flex-container">
+                <div className="team-actions-left">
+                    <span className="heart-like-count">{team.likes || 0} likes</span>
+                    <button
+                        className={`heart-like-button ${isLiked ? "liked" : ""}`}
+                        onClick={() => toggleLikeTeam(team.key)}
+                    >
+                        {isLiked ? "❤️" : "🤍"}
+                    </button>
+                </div>
                 <div className="team-builder-team-container">
                     {team.pokemons.map((pokemon, pokemonIndex) =>
                         renderPokemon(pokemon, pokemonIndex, team.key)
                     )}
                 </div>
-                {/* Like/Dislike Button and Like Count */}
-                <div className="team-actions">
-                    <button
-                        className={`like-button ${isLiked ? "liked" : ""}`}
-                        onClick={() => toggleLikeTeam(team.key)}
-                    >
-                        {isLiked ? "Unlike" : "Like"}
-                    </button>
-                    <span className="like-count">{team.likes || 0} likes</span>
-                </div>
             </div>
-        );
-    }
+        </div>
+    );
+}
+
+    
+    
 
     function renderPokemon(pokemon, index, teamKey) {
         return (

@@ -41,7 +41,52 @@
     cursor: pointer;
 }
 
+/*New styles for browse teams*/
+.team-flex-container {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 20px; 
+    margin-top: 0px;
+}
 
+.team-header {
+    margin-top: 50px;
+    margin-bottom: 0;
+}
 
+.team-title {
+    margin-top: 1px;
+    margin-bottom: 0;
+}
 
+.team-actions-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 5px; 
+}
 
+.heart-like-count {
+    font-size: 16px;
+    font-weight: bold;
+    color: white; 
+}
+
+.heart-like-button {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 5px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.heart-like-button.liked {
+    color: #e63946; 
+}
+
+.heart-like-button:hover {
+    transform: scale(1.1); 
+}
