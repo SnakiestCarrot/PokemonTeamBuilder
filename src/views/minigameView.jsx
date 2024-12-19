@@ -1,5 +1,5 @@
 
-import "../minigameStyles.css"
+import "../minigameStyles.css";
 
 import { pokemonIdToTypeId } from "../utilities";
 import { renderTypeImage } from "./viewUtilities";
@@ -63,7 +63,7 @@ export function MinigameView(props) {
                 <div className="minigame-instruction-container">
                     <p>
                         In this minigame you will be presented with 2 pokemon. Your task is to click the pokemon you believe has the type advantage over the other. 
-                        If you believe that none of the 2 pokemons has an advantage you click the tie button. Try getting the highest score possible!
+                        If you believe that none of the 2 pokemons has an advantage you can click the no advantage button. Try getting the highest score possible!
                     </p>
                     
                     <p>
