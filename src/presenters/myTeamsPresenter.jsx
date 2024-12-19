@@ -23,6 +23,7 @@ const MyTeams = observer(function MyTeamsRender(props){
             doPokemonInspect={inspectPokemon}
             deleteTeam={deleteTeamACB}
             editTeam={editTeamACB}
+            loading={props.model.loading}
             />
         </div>
     );

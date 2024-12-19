@@ -13,6 +13,7 @@ const BrowseTeams = observer(function BrowseTeamsRender(props){
                 user = {props.model.user}
                 likedTeams = {props.model.likedTeams}
                 userClicksLikeButton = {userWantsToToggleLike}
+                loading={props.model.loading}
             />
         </div>
     );

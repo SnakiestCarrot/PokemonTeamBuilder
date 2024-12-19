@@ -27,6 +27,7 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
         loading={props.model.loading}
         userClicksPokemon={userWantsToInspect}
         user={props.model.user}
+        doPokemonInspect={userWantsToInspect}
       />
       <SearchView
         updatePokemonSearchACB={handleSearchInput}

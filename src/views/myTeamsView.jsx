@@ -13,7 +13,7 @@ export function MyTeamsView(props) {
         <div>
             <div>
                 <h1 className="header" key={"userTeamsHeader"}>
-                    {user?.displayName ? user.displayName + "s teams" : "No user logged in"}
+                    {user?.displayName ? user.displayName + "s teams" : ""}
                 </h1>
 
                 {renderTeams(userTeams)}
@@ -28,13 +28,14 @@ export function MyTeamsView(props) {
     )
 
     function renderTeams(teams) {
-
+        if (props.loading) {
+            return <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>
+        }
         return (
             <div>
                 {teams.map(renderTeam)}
             </div>
         )
-
     }
 
     function renderTeam(team, index) {

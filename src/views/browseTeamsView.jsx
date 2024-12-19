@@ -5,9 +5,6 @@ import { renderTypeImage } from "./viewUtilities";
 export function BrowseTeamsView(props) {
     const teams = props.allTeams;
 
-    if (!props.user) {
-        return;
-    }
 
     return (
         <div>
@@ -23,7 +20,11 @@ export function BrowseTeamsView(props) {
     }
 
     function renderTeams(teams) {
-   
+
+        if (props.loading) {
+            return <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>
+        }
+    
         const sortedTeams = [...teams].sort((a, b) => (b.likes || 0) - (a.likes || 0));
         
         return (

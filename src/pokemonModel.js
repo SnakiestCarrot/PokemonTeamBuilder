@@ -84,8 +84,10 @@ const model = {
     //Loads all user team on login.
     async loadMyTeams() {        
         try {
+            this.setLoading(true);
             const myTeamsList = await this.getUserPokemonTeams();
             this.myTeams = myTeamsList;
+            this.setLoading(false);
         } catch (error) {
             console.error("Failed to load my teams", error);
         }
