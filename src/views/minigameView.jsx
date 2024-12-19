@@ -102,7 +102,7 @@ export function MinigameView(props) {
                         But if a pokemon has one type with double damage and another with half damage to the same type, it will result in 1x damage.
                     </p>
 
-                    <button onClick={startMinigame}>Start minigame!</button>
+                    <button className="start-minigame-button" onClick={startMinigame}>Start minigame!</button>
                     
                 </div>
             </div>
