@@ -8,12 +8,7 @@ export function TeamBuilderView(props) {
     const loading = props.loading;
 
     if (!props.user) {
-        return (
-            <div className="no-teams-or-user-found-container">
-                <h1>No user could be found</h1>
-                <h2>Login to build a team!</h2>
-            </div>
-        );
+        return;
     }
 
     return (
@@ -87,7 +82,7 @@ export function TeamBuilderView(props) {
                         <div
                             key={pokemon.name}
                             className="pokemon-team-card" 
-                            onClick = {() => UserClicksPokemonCard(pokemon.id)}>
+                            >
                             <h2>{pokemon.name}</h2>
                             {renderTypeImages(pokemon)}
                             {renderPokemonImage(pokemon)}

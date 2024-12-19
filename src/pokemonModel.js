@@ -172,7 +172,7 @@ const model = {
                 model.user = result.user; 
                 setUserInformation(this.user);
                 this.loadMyTeams();
-
+                window.location.hash = "#/teamBuilder";
             })
             .catch((error) => {
                 console.error("Login failed:", error);
