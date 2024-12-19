@@ -44,67 +44,54 @@ export async function getTypeObjects(pokemonId) {
     return typeObjectArray;
 }
 
-// Takes a pokeAPI type object, returns an array of the type IDs that type does double damage to.
-export function getDoubleDamageFromTypeArray(type) {
 
-    function getTypeId(type) {
-        return extractPokemonIdFromUrl(type.url);
-    }
-    const doubleDamageArray = [];
-    doubleDamageArray = type.damage_relations.double_damage_from.map(getTypeId);
-    return doubleDamageArray;
-}
+// Takes the types of 2 pokemon as an array of arrays, where the outer array contains 2 arrays containing the types as strings of each pokemon
+// and then returns a number larger than 1 if pokemon 1 wins, 1 if its a tie and a number smaller than 1 if pokemon 2 wins
+export function calculateTypeAdvantage(typesArray) {
+    // Type effectiveness chart
+    const typeEffectiveness = {
+        normal: { rock: 0.5, ghost: 0, steel: 0.5 },
+        fire: { fire: 0.5, water: 0.5, grass: 2, ice: 2, bug: 2, rock: 0.5, dragon: 0.5, steel: 2 },
+        water: { fire: 2, water: 0.5, grass: 0.5, ground: 2, rock: 2, dragon: 0.5 },
+        electric: { water: 2, electric: 0.5, grass: 0.5, ground: 0, flying: 2, dragon: 0.5 },
+        grass: { fire: 0.5, water: 2, grass: 0.5, poison: 0.5, ground: 2, flying: 0.5, bug: 0.5, rock: 2, dragon: 0.5, steel: 0.5 },
+        ice: { fire: 0.5, water: 0.5, grass: 2, ice: 0.5, ground: 2, flying: 2, dragon: 2, steel: 0.5 },
+        fighting: { normal: 2, ice: 2, rock: 2, dark: 2, steel: 2, poison: 0.5, flying: 0.5, psychic: 0.5, bug: 0.5, ghost: 0, fairy: 0.5 },
+        poison: { grass: 2, poison: 0.5, ground: 0.5, rock: 0.5, ghost: 0.5, steel: 0, fairy: 2 },
+        ground: { fire: 2, electric: 2, grass: 0.5, poison: 2, flying: 0, bug: 0.5, rock: 2, steel: 2 },
+        flying: { electric: 0.5, grass: 2, fighting: 2, bug: 2, rock: 0.5, steel: 0.5 },
+        psychic: { fighting: 2, poison: 2, psychic: 0.5, dark: 0, steel: 0.5 },
+        bug: { fire: 0.5, grass: 2, fighting: 0.5, poison: 0.5, flying: 0.5, psychic: 2, ghost: 0.5, dark: 2, steel: 0.5, fairy: 0.5 },
+        rock: { fire: 2, ice: 2, fighting: 0.5, ground: 0.5, flying: 2, bug: 2, steel: 0.5 },
+        ghost: { normal: 0, psychic: 2, ghost: 2, dark: 0.5 },
+        dragon: { dragon: 2, steel: 0.5, fairy: 0 },
+        dark: { fighting: 0.5, psychic: 2, ghost: 2, dark: 0.5, fairy: 0.5 },
+        steel: { fire: 0.5, water: 0.5, electric: 0.5, ice: 2, rock: 2, steel: 0.5, fairy: 2 },
+        fairy: { fighting: 2, dragon: 2, dark: 2, fire: 0.5, poison: 0.5, steel: 0.5 }
+    };
 
-export function calculatePokemonTypeAdvantage(pokemonTypeArray) {
-    const typeName = pokemonTypeArray[0][0].name;
-
-    console.log(typeName)
-
-    function getDamageTo(type) {
-        return extractDamageToEffectiveness(type.damage_relations);
-    }
-
-    const firstPokemonEffectivenessArray = pokemonTypeArray[0].map(getDamageTo)
-    
-    Object.entries(firstPokemonEffectivenessArray[0]).forEach(([type, value]) => {
-        if (firstPokemonEffectivenessArray[1] && firstPokemonEffectivenessArray[1][type]) {
-            firstPokemonEffectivenessArray[0][type] = firstPokemonEffectivenessArray[0][type]*firstPokemonEffectivenessArray[1][type]
-        }
-    });
-
-    if (firstPokemonEffectivenessArray[1]) {
-        Object.entries(firstPokemonEffectivenessArray[1]).forEach(([type, value]) => {
-            if (!firstPokemonEffectivenessArray[0][type]) {
-                firstPokemonEffectivenessArray[0][type] = firstPokemonEffectivenessArray[1][type]
-            }
+    function getEffectiveness(attackerTypes, defenderTypes) {
+        let multiplier = 1;
+        attackerTypes.forEach(attackerType => {
+            defenderTypes.forEach(defenderType => {
+                const effectiveness = typeEffectiveness[attackerType]?.[defenderType] || 1;
+                multiplier *= effectiveness;
+            });
         });
-    }
-    
-
-    console.log(firstPokemonEffectivenessArray[0])
-
-}   
-
-function extractDamageToEffectiveness(damageRelations) {
-    const effectiveness = {};
-
-    function setMultiplier(typesArray, multiplier) {
-        typesArray.forEach(typeObj => {
-            const typeName = typeObj.name; 
-            effectiveness[typeName] = multiplier; 
-        });
+        return multiplier;
     }
 
-    setMultiplier(damageRelations.double_damage_to, 2);
-    setMultiplier(damageRelations.half_damage_to, 0.5);
-    setMultiplier(damageRelations.no_damage_to, 0);
+    const [pokemon1Types, pokemon2Types] = typesArray;
 
-    return effectiveness;
+    const pokemon1Multiplier = getEffectiveness(pokemon1Types, pokemon2Types);
+    const pokemon2Multiplier = getEffectiveness(pokemon2Types, pokemon1Types);
+
+    // If pokemon 1 wins
+    if (pokemon1Multiplier > pokemon2Multiplier) return pokemon1Multiplier;
+
+    // If pokemon 2 wins
+    if (pokemon1Multiplier < pokemon2Multiplier) return 1 / pokemon2Multiplier;
+
+    // If its a tie
+    return 1;
 }
-
-function calculateTypeAdvantage(type1, type2) {
-    for (let i = 0; i < type1.damage_relations.double_damage_to.length; i++) {
-        
-    }
-}
-

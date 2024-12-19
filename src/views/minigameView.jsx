@@ -16,13 +16,16 @@ export function MinigameView(props) {
         props.endMinigame();
     }
 
-    function userSelectedPokemon(indexOfPokemon) {
-        props.selectPokemon(indexOfPokemon);
+    function userSelectedPokemon(choice) {
+        props.selectPokemon(choice)
     }
 
     function renderMinigamePokemonCard(pokemon, index) {
+
+        const pokemonNumber = index;
+
         return (
-            <div className="minigame-pokemon-card" key={"pokemon" + index} onClick={userSelectedPokemon(index)}>
+            <div className="minigame-pokemon-card" key={"pokemon" + index} onClick={() => userSelectedPokemon(pokemonNumber)}>
                 <h3>{pokemon?.name}</h3>
                 {pokemonIdToTypeId(pokemon.id).map(renderTypeImage)}
 
@@ -41,9 +44,10 @@ export function MinigameView(props) {
                 <h2>Minigame is started!</h2>
                 <button onClick={endMinigame}>End minigame!</button>
 
-            <div className="minigame-pokemon-container">
-                {pokemons.map(renderMinigamePokemonCard)}
-            </div>
+                <div className="minigame-pokemon-container">
+                    {pokemons.map(renderMinigamePokemonCard)}
+                </div>
+                <button onClick={() => userSelectedPokemon(2)}>its a tie!</button>
                 
             
             
