@@ -1,5 +1,5 @@
 export function MainView(props) {
-    // Function to render the Pokémon list or placeholders
+    // Function to render the Pokémon list or placeholders loading
     function renderPokemonList() {
         if (props.pokemonList.length > 0) {
             return props.pokemonList.map((pokemon, index) => (

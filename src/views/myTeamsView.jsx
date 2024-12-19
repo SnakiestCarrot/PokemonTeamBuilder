@@ -23,8 +23,7 @@ export function MyTeamsView(props) {
         <div className="no-teams-or-user-found-container">
             <h1>No user teams could be found</h1>
             <h2>Login and use the team builder to start adding teams to your profile!</h2>
-        </div>
-        
+        </div>  
         )
     )
 

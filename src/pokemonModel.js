@@ -1,7 +1,7 @@
 import { resolvePromise } from './resolvePromise';
 import { getPokemon, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation } from "./firebaseModel.js";
+import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, getLikedTeams, likeTeam } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId, getDoubleDamageFromTypeArray, getTypeObjects, calculatePokemonTypeAdvantage } from './utilities';
 import pokemonTypeData from '../pokemonTypeData.json';
 
@@ -25,6 +25,7 @@ const model = {
     searchQuery : "", //searchquery for filtering pokemon
     myTeams : [], //user specific teams
     allUserTeams : [], //all teams in database
+    likedTeams: {}, // Keeps track of teams the user has liked or disliked
 
     //Initializes the application state when reactive model is created.
     init(){  
@@ -36,8 +37,9 @@ const model = {
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                this.user = user; // Set the user
-                this.loadMyTeams(); // Load user-specific teams
+                this.user = user; 
+                this.loadMyTeams(); 
+                this.loadLikedTeams();
             }
         });
     },
@@ -53,7 +55,8 @@ const model = {
     setCurrentTeam (team) {
         this.currentTeam = team;
     },
-
+    
+    //Loads a pokemon object to currentPokemon when inspecting
     async loadInspectPokemon(pokemonId) {
         try {
             this.setCurrentPokemonId(pokemonId);
@@ -95,6 +98,17 @@ const model = {
             this.allUserTeams = allUserTeamsList;
         } catch (error) {
             console.error("Failed to load all user teams", error);
+        }
+    },
+
+    //Loads all user specific liked teams-ids
+    async loadLikedTeams() {
+        try {
+            const likedTeamsList = await getLikedTeams(this.user);
+            this.likedTeams = likedTeamsList;
+            console.log(likedTeamsList);
+        } catch (eroor) {
+            console.error("Failed to load liked teams", error);
         }
     },
 
@@ -273,6 +287,7 @@ const model = {
             });
     },
 
+    //Gets all user teams from firebase
     async getAllUserPokemonTeams() {
         try {
             // Fetch all teams (with IDs only)
@@ -300,6 +315,33 @@ const model = {
             throw error;
         }
     },
+
+    //Function to like/dislike a team
+    async toggleLikeTeam(teamId) {
+        if (!this.user) {
+            console.error("User must be logged in to like/dislike teams.");
+            return;
+        }
+    
+        const isLiked = this.likedTeams[teamId] || false;
+        const newLikedState = !isLiked;
+    
+        try {
+            await likeTeam(this.user.uid, teamId, newLikedState);
+            this.likedTeams[teamId] = newLikedState;
+    
+            // Update team's likes count dynamically
+            const team = this.allUserTeams.find(t => t.key === teamId);
+            if (team) {
+                team.likes = team.likes + (newLikedState ? 1 : -1);
+            }
+
+            await this.loadLikedTeams();
+        } catch (error) {
+            console.error("Failed to toggle like for team:", error);
+        }
+    },
+    
     
     //Function to save my pokemon team
     savePokemonTeam(){

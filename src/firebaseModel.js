@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, push, remove } from "firebase/database";
+import { getDatabase, ref, set, get, push, remove, update } from "firebase/database";
 import { firebaseConfig } from "/src/firebaseConfig.js";
 import { getAuth, onAuthStateChanged, } from "firebase/auth";
 import { model } from "./pokemonModel";
@@ -223,7 +223,7 @@ export function getAllPokemonTeams() {
                         pokemonIds: [
                             team.id1, team.id2, team.id3, 
                             team.id4, team.id5, team.id6
-                        ]
+                        ],
                     });
                 }
             }
@@ -257,5 +257,38 @@ export function setUserInformation(user) {
         console.error("Error trying to set user information in firebase", error);
     }
 }
+
+
+export function likeTeam(userId, teamId, isLiked) {
+    console.log("firebaseLikeTeam activated");
+    const teamRefPath = `PokemonTeamBuilder/${userId}/teams/${teamId}/likes`;
+    const userLikedTeamsRefPath = `PokemonTeamBuilder/${userId}/likedTeams/${teamId}`;
+
+    return get(ref(db, teamRefPath))
+        .then((snapshot) => {
+            const currentLikes = snapshot.exists() ? snapshot.val() : 0;
+            const newLikes = isLiked ? currentLikes + 1 : Math.max(0, currentLikes - 1); // Prevent negative likes
+
+            const updates = {};
+            updates[teamRefPath] = newLikes;
+            updates[userLikedTeamsRefPath] = isLiked;
+
+            return update(ref(db), updates);
+        })
+        .catch((error) => {
+            console.error("Error updating likes:", error);
+        });
+}
+
+// Function to fetch liked teams for a user
+export function getLikedTeams(user) {
+    const userLikedTeamsRef = ref(db, `PokemonTeamBuilder/${user.uid}/likedTeams`);
+    return get(userLikedTeamsRef)
+        .then(snapshot => (snapshot.exists() ? snapshot.val() : {}))
+        .catch(error => {
+            console.error("Error fetching liked teams:", error);
+        });
+}
+
 
 export { auth };
