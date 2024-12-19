@@ -205,10 +205,9 @@ export function removeMyPokemonTeam(user, teamId){
 }
 
 //Function to get all user pokemon teams. 
-export function getAllPokemonTeams() {
+export async function getAllPokemonTeams() {
     const rootRef = ref(db, `PokemonTeamBuilder`);
 
-    // Simplify to return team data without calling getPokemon
     async function fetchAllTeams(allUsersData) {
         const allTeams = [];
 
@@ -218,12 +217,13 @@ export function getAllPokemonTeams() {
                     allTeams.push({
                         userId: userId,
                         userName: userData.info?.displayName || userId,
-                        key: teamId, // Firebase team ID
+                        likes: team.likes ?? 0, // Use the actual Firebase value for likes, default to 0 if undefined
+                        key: teamId,
                         teamName: team.myTeamName,
                         pokemonIds: [
                             team.id1, team.id2, team.id3, 
                             team.id4, team.id5, team.id6
-                        ],
+                        ]
                     });
                 }
             }
@@ -231,20 +231,20 @@ export function getAllPokemonTeams() {
         return allTeams;
     }
 
-    return get(rootRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const allUsersData = snapshot.val();
-                return fetchAllTeams(allUsersData); // Return teams with Pokemon IDs
-            } else {
-                return [];
-            }
-        })
-        .catch((error) => {
-            console.error("Error retrieving all teams from Firebase:", error);
-            throw error;
-        });
+    try {
+        const snapshot = await get(rootRef);
+        if (snapshot.exists()) {
+            const allUsersData = snapshot.val();
+            return fetchAllTeams(allUsersData); // Return teams with proper initialization
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error("Error retrieving all teams from Firebase:", error);
+        throw error;
+    }
 }
+
 
 export function setUserInformation(user) {
     try {

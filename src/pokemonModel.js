@@ -306,6 +306,7 @@ const model = {
                         key: team.key,
                         teamName: team.teamName,
                         pokemons: pokemons,
+                        likes: team.likes,
                     };
                 })
             );
@@ -316,6 +317,7 @@ const model = {
         }
     },
 
+    //Function to toggle likes on team. Both saves the result to firebase and toggles locally.
     async toggleLikeTeam(teamId) {
         if (!this.user) {
             console.error("User must be logged in to like/dislike teams.");
@@ -326,13 +328,10 @@ const model = {
         const newLikedState = !isLiked;
     
         try {
-            // Update likes in Firebase
             await likeTeam(this.user.uid, teamId, newLikedState);
     
-            // Update local likedTeams state
             this.likedTeams[teamId] = newLikedState;
     
-            // Update the specific team's likes count in allUserTeams locally
             const team = this.allUserTeams.find((t) => t.key === teamId);
             if (team) {
                 team.likes = (team.likes || 0) + (newLikedState ? 1 : -1);
