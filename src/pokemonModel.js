@@ -316,7 +316,6 @@ const model = {
         }
     },
 
-    //Function to like/dislike a team
     async toggleLikeTeam(teamId) {
         if (!this.user) {
             console.error("User must be logged in to like/dislike teams.");
@@ -327,20 +326,23 @@ const model = {
         const newLikedState = !isLiked;
     
         try {
+            // Update likes in Firebase
             await likeTeam(this.user.uid, teamId, newLikedState);
+    
+            // Update local likedTeams state
             this.likedTeams[teamId] = newLikedState;
     
-            // Update team's likes count dynamically
-            const team = this.allUserTeams.find(t => t.key === teamId);
+            // Update the specific team's likes count in allUserTeams locally
+            const team = this.allUserTeams.find((t) => t.key === teamId);
             if (team) {
-                team.likes = team.likes + (newLikedState ? 1 : -1);
+                team.likes = (team.likes || 0) + (newLikedState ? 1 : -1);
             }
-
             await this.loadLikedTeams();
         } catch (error) {
             console.error("Failed to toggle like for team:", error);
         }
     },
+    
     
     
     //Function to save my pokemon team
