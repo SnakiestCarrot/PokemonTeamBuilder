@@ -23,15 +23,31 @@ export function TopBarView(props) {
             );
         }
     }
+    function topBar() {
+        if (!props.user) {
+            return (
+                <div className="topBar">
+                    {loginLogout()}
+                </div>   
+            );
+            
+        } else {
+            return (
+                <div className="topBar">
+                    <a href="#main" >Main</a>
+                    <a href="#teambuilder" >Team Builder</a>
+                    <a href="#teams" >My teams</a>
+                    <a href="#browse" >Browse teams</a>
+                    <a href="#minigame" >Minigame</a>
+                    {loginLogout()}
+                </div>
+            );
+        }
+    }
 
     return (
         <div className="topBar">
-            <a href="#main" >Main</a>
-            <a href="#teambuilder" >Team Builder</a>
-            <a href="#teams" >My teams</a>
-            <a href="#browse" >Browse teams</a>
-            <a href="#minigame" >Minigame</a>
-            {loginLogout()}
+            {topBar()}
         </div>
     );
 }

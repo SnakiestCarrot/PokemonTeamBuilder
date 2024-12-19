@@ -6,6 +6,7 @@ const BrowseTeams = observer(function BrowseTeamsRender(props){
         <div>
             <BrowseTeamsView
                 allTeams = {props.model.allTeams}
+                user = {props.model.user}
             />
         </div>
     );

@@ -4,6 +4,9 @@ import { renderTypeImage } from "./viewUtilities";
 export function ResultView(props) {
     const results = props.pokemonResults;
 
+    if (!props.user) {
+        return;
+    }
     //PLACEHOLDER
     if (props.loading) {
         return (

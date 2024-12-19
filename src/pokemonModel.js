@@ -171,6 +171,8 @@ const model = {
         signOut(auth)
             .then(() => {
                 this.user = null; // Ensure user state is reset
+                window.location.hash = "#/main";
+                
             })
             .catch((error) => {
                 console.error("Logout failed:", error);

@@ -26,17 +26,20 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
         saveCurrentTeamToProfile={userWantsToSaveCurrentTeam}
         loading={props.model.loading}
         userClicksPokemon={userWantsToInspect}
+        user={props.model.user}
       />
       <SearchView
         updatePokemonSearchACB={handleSearchInput}
         text={props.model.searchQuery}
         loading={props.model.loading}
+        user={props.model.user}
       />
       <ResultView
         pokemonResults={props.model.filteredPokemon}
         doPokemonInspect={userWantsToInspect}
         addPokemonToTeam={addPokemonToTeam}
         loading={props.model.loading}
+        user={props.model.user}
       />
     </div>
   );

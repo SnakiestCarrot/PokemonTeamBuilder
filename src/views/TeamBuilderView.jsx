@@ -4,9 +4,17 @@ import { pokemonIdToTypeId } from "../utilities";
 // This is the view that will display the current team when making edits to it
 // it recieves as input props.team, the current team of the model.
 export function TeamBuilderView(props) {
-
     const team = props.team;
     const loading = props.loading;
+
+    if (!props.user) {
+        return (
+            <div className="no-teams-or-user-found-container">
+                <h1>No user could be found</h1>
+                <h2>Login to build a team!</h2>
+            </div>
+        );
+    }
 
     return (
         <div className="team-builder-team-container">
