@@ -1,5 +1,6 @@
 
 import { pokemonIdToTypeId } from "../utilities";
+import "../teamBuilderStyles.css";
 
 // This is the view that will display the current team when making edits to it
 // it recieves as input props.team, the current team of the model.
@@ -92,7 +93,8 @@ export function TeamBuilderView(props) {
                                     (event) => {
                                         props.doPokemonInspect(pokemon.id)
                                         event.stopPropagation();
-                                }} 
+                                }}
+                                className="pokemon-team-button" 
                                 >Inspect
                                 </button>
                             </div>
@@ -120,7 +122,8 @@ function renderTypeImage(typeId) {
     return (
         <img
             key={typeId}
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-v/black-white/${typeId}.png`}
+            className="team-builder-type-image"
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/types/generation-viii/sword-shield/${typeId}.png`}
             alt={`Type ${typeId}`}
         />
     )

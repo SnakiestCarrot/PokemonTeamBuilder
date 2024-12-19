@@ -16,7 +16,7 @@
 .pokemon-team-card {
     background-color: var(--color-base);
     height: 215px;
-    width: 115px;
+    width: 125px;
     border-radius: 4px;
     padding: 9px;
     text-transform: capitalize;
@@ -100,4 +100,8 @@
     color: var(--color-text);
     font-size: large;
     margin-bottom: 300px;
+}
+
+.team-builder-type-image {
+    width: 62px;
 }
