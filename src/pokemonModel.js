@@ -435,7 +435,6 @@ const model = {
 
     // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
     minigameChoosePokemon(choice) {
-        choice
         if (this.minigameTypeAdvantage > 1 && choice === 0) {
             this.minigameCorrectChoice();
         } else if (this.minigameTypeAdvantage === 1 && choice === 2) {
