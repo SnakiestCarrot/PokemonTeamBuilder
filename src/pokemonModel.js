@@ -369,7 +369,7 @@ const model = {
     },
 
     async editPokemonTeam(team) {
-        window.location.hash = "#/teamBuilder";
+        window.location.hash = "#/teameditor";
         this.currentTeam = team;
     },
 

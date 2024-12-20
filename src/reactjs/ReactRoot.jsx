@@ -7,6 +7,7 @@ import { TopBar } from "../presenters/topBarPresenter";
 import { MyTeams } from "../presenters/myTeamsPresenter";
 import { Minigame } from "../presenters/minigamePresenter";
 import { BrowseTeams } from "../presenters/browseTeamsPresenter";
+import { TeamEditor } from "../presenters/teamEditorPresenter";
 
 const ReactRoot = observer(
     function ReactRoot(props){
@@ -55,6 +56,10 @@ function makeRouter (model) {
             path:"browse",
             element: <BrowseTeams model={model}></BrowseTeams>
         },
+        {
+            path:"teameditor",
+            element: <TeamEditor model={model}></TeamEditor>
+        }
 
     ]
 
