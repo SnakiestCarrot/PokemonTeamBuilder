@@ -322,7 +322,7 @@ const model = {
     },
 
     //Function to toggle likes on team. Both saves the result to firebase and toggles locally.
-    async toggleLikeTeam(teamId) {
+    async toggleLikeTeam(teamId, teamAuthorId) {
         if (!this.user) {
             console.error("User must be logged in to like/dislike teams.");
             return;
@@ -332,7 +332,7 @@ const model = {
         const newLikedState = !isLiked;
     
         try {
-            await likeTeam(this.user.uid, teamId, newLikedState);
+            await likeTeam(this.user.uid, teamId, newLikedState, teamAuthorId);
     
             this.likedTeams[teamId] = newLikedState;
     

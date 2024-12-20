@@ -3,8 +3,8 @@ import { BrowseTeamsView } from "../views/browseTeamsView";
 
 const BrowseTeams = observer(function BrowseTeamsRender(props){
 
-    function userWantsToToggleLike(teamKey) {
-        props.model.toggleLikeTeam(teamKey);
+    function userWantsToToggleLike(teamKey, teamAuthorId) {
+        props.model.toggleLikeTeam(teamKey, teamAuthorId);
     }
     return(
         <div>
