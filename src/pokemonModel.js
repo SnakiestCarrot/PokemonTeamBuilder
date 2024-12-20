@@ -18,6 +18,7 @@ const model = {
         pokemons : new Array(6),
         teamName : ""
     },
+    currentPokemonId: null,
     currentPokemonPromiseState : {},
     allPokemon : [], // Full list of Pokémon
     pokemonResultPromiseSate : {},
