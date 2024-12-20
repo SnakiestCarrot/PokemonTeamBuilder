@@ -28,6 +28,7 @@ const Minigame = observer(function MinigameRender(props) {
                 startMinigame={startMinigame}
                 endMinigame={endMinigame}
                 selectPokemon={choosePokemon}
+                currentScore={props.model.minigameCurrentScore}
             />
         </div>
     );

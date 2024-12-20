@@ -2,7 +2,7 @@ import { resolvePromise } from './resolvePromise';
 import { getPokemon, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, getLikedTeams, likeTeam } from "./firebaseModel.js";
-import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId, getDoubleDamageFromTypeArray, getTypeObjects, calculatePokemonTypeAdvantage } from './utilities';
+import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId, getTypeObjects, calculateTypeAdvantage } from './utilities';
 import pokemonTypeData from '../pokemonTypeData.json';
 
 export const lowestPokemonId = 1;
@@ -35,6 +35,7 @@ const model = {
         this.loadAllTeams();
         this.getNewMinigamePokemons();
         this.loadInspectPokemon(1);
+        this.getNewMinigamePokemons();
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -406,6 +407,9 @@ const model = {
     // Minigame stuff
     minigameIsStarted : false,
     minigamePokemons : [],
+    minigameBufferPokemons: [],
+    minigameTypeAdvantage: null,
+    minigameCurrentScore: 0,
 
     async startMinigame () {
         await this.getNewMinigamePokemons();
@@ -416,16 +420,55 @@ const model = {
         this.minigameIsStarted = false;
     },
 
-    minigameChoosePokemon() {
+    minigameCorrectChoice() {
+        this.getNewMinigamePokemons();
+        this.minigameCurrentScore++;
+    },
 
+    minigameWrongChoice() {
+        this.getNewMinigamePokemons();
+        this.minigameCurrentScore = 0;
+        this.endMinigame();
+    },
+
+    // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
+    minigameChoosePokemon(choice) {
+        choice
+        if (this.minigameTypeAdvantage > 1 && choice === 0) {
+            this.minigameCorrectChoice();
+        } else if (this.minigameTypeAdvantage === 1 && choice === 2) {
+            this.minigameCorrectChoice();
+        } else if (this.minigameTypeAdvantage < 1 && choice === 1) {
+            this.minigameCorrectChoice();
+        } else {
+            this.minigameWrongChoice();
+        }
     },
 
     async getNewMinigamePokemons() {
-        this.minigamePokemons = await getRandomPokemon(2);
+
+        function getNames(typeObject) {
+            return typeObject.name;
+        }
+
+        this.minigamePokemons = this.minigameBufferPokemons;
+
+        this.minigameBufferPokemons = await getRandomPokemon(2);
+
         const minigamePokemonTypeArray = [];
-        minigamePokemonTypeArray.push(await getTypeObjects(this.minigamePokemons[0].id));
-        minigamePokemonTypeArray.push(await getTypeObjects(this.minigamePokemons[1].id));
-        calculatePokemonTypeAdvantage(minigamePokemonTypeArray);
+
+        const firstPokemonTypes = await getTypeObjects(this.minigamePokemons[0].id)
+        const secondPokemonTypes = await getTypeObjects(this.minigamePokemons[1].id)
+       
+        const firstPokemonTypeName = firstPokemonTypes.map(getNames)
+        const secondPokemonTypeName = secondPokemonTypes.map(getNames)
+
+        minigamePokemonTypeArray.push(firstPokemonTypeName)
+        minigamePokemonTypeArray.push(secondPokemonTypeName)
+        
+        const typeAdvantage = calculateTypeAdvantage(minigamePokemonTypeArray);
+
+        this.minigameTypeAdvantage = typeAdvantage;
     },
 
     

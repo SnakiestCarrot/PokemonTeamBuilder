@@ -11,7 +11,7 @@
 
 :root {
     --color-base: #323232; /* Base color (e.g., background) */
-    --color-accent: #747474; /* Accent color (e.g., buttons, highlights) */
+    --color-accent: #808080; /* Accent color (e.g., buttons, highlights) */
     --color-secondary-accent: #707070;
     --color-text: #ffffff; /* Text color for better contrast */
     --color-accent-hover: #6e6e6e; /* Accent hover state */
