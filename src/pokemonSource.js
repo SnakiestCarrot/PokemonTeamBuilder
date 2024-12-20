@@ -17,6 +17,28 @@ export async function getRandomPokemon(quantity) {
     return pokemonArray; 
 }
 
+// gets pokemon species, used for flavor text 
+export function getPokemonSpecies(searchParam) {
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${searchParam}`;
+    console.log(`Fetching species with URL: ${url}`); // Log the API URL
+
+    return fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Pokemon species with ID or name "${searchParam}" not found.`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("Fetched species data:", data); // Log the data received
+            return data;
+        })
+        .catch((error) => {
+            console.error("Error fetching species:", error);
+            throw error; // Ensure errors propagate up
+        });
+}
+
 
 //Function that fetches pokemons from searchparams, id or name
 export function getPokemon(searchParam) {

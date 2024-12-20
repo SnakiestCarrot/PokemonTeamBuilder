@@ -1,46 +1,45 @@
 import { resolvePromise } from './resolvePromise';
-import { getPokemon, getRandomPokemon, getType } from './pokemonSource';
+import { getPokemon, getPokemonSpecies, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, getLikedTeams, likeTeam } from "./firebaseModel.js";
-import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId, getTypeObjects, calculateTypeAdvantage } from './utilities';
+import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation } from "./firebaseModel.js";
+import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
 import pokemonTypeData from '../pokemonTypeData.json';
 
 export const lowestPokemonId = 1;
 export const highestPokemonId = 1025;
 
 const model = {
-    user : null, 
-    isDropdownVisible : false, //profile menu
-    randomPokemonList : [], //random pokemon displayed at main page
+    user: null,
+    isDropdownVisible: false, //profile menu
+    randomPokemonList: [], //random pokemon displayed at main page
     loading: true, //loading firebase info
 
-    currentTeam : {
-        pokemons : new Array(6),
-        teamName : ""
+    fetchCounts: {}, // förhindrar oändliga api calls för samma id, finns säkert ett bättre sätt men idk
+
+    currentTeam: {
+        pokemons: new Array(6),
+        teamName: ""
     },
-    currentPokemonPromiseState : {},
-    allPokemon : [], // Full list of Pokémon
-    pokemonResultPromiseSate : {},
-    filteredPokemon : [], // Filtered list based on search
-    searchQuery : "", //searchquery for filtering pokemon
-    myTeams : [], //user specific teams
-    allUserTeams : [], //all teams in database
-    likedTeams: {}, // Keeps track of teams the user has liked or disliked
+    currentPokemonPromiseState: {},
+    currentPokemonSpeciesPromiseState: {},
+    allPokemon: [], // Full list of Pokémon
+    pokemonResultPromiseSate: {},
+    filteredPokemon: [], // Filtered list based on search
+    searchQuery: "", //searchquery for filtering pokemon
+    myTeams: [], //user specific teams
+    allUserTeams: [], //all teams in database
 
     //Initializes the application state when reactive model is created.
-    init(){  
+    init() {
         this.loadRandomPokemonList(4);
         this.loadAllPokemon();
         this.loadAllTeams();
         this.getNewMinigamePokemons();
-        this.loadInspectPokemon(1);
-        this.getNewMinigamePokemons();
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                this.user = user; 
-                this.loadMyTeams(); 
-                this.loadLikedTeams();
+                this.user = user; // Set the user
+                this.loadMyTeams(); // Load user-specific teams
             }
         });
     },
@@ -53,11 +52,10 @@ const model = {
         this.currentPokemonId = pokemonId;
     },
 
-    setCurrentTeam (team) {
+    setCurrentTeam(team) {
         this.currentTeam = team;
     },
-    
-    //Loads a pokemon object to currentPokemon when inspecting
+
     async loadInspectPokemon(pokemonId) {
         try {
             this.setCurrentPokemonId(pokemonId);
@@ -68,7 +66,8 @@ const model = {
             console.error("Error in loadInspectPokemon:", error);
         }
     },
-    
+
+
     //Loads random pokemon in randomPokemonList for mainpage.
     async loadRandomPokemonList(quantity) {
         if (this.randomPokemonList.length > 0) {
@@ -83,12 +82,10 @@ const model = {
     },
 
     //Loads all user team on login.
-    async loadMyTeams() {        
+    async loadMyTeams() {
         try {
-            this.setLoading(true);
             const myTeamsList = await this.getUserPokemonTeams();
             this.myTeams = myTeamsList;
-            this.setLoading(false);
         } catch (error) {
             console.error("Failed to load my teams", error);
         }
@@ -104,36 +101,25 @@ const model = {
         }
     },
 
-    //Loads all user specific liked teams-ids
-    async loadLikedTeams() {
-        try {
-            const likedTeamsList = await getLikedTeams(this.user);
-            this.likedTeams = likedTeamsList;
-            console.log(likedTeamsList);
-        } catch (eroor) {
-            console.error("Failed to load liked teams", error);
-        }
-    },
-
     //Function to load all pokemons from website 
     loadAllPokemon() {
         if (this.allPokemon.length > 0) {
             return;
         }
-    
+
         const cachedData = localStorage.getItem("allPokemon");
         if (cachedData) {
             this.allPokemon = JSON.parse(cachedData);
             this.filteredPokemon = this.allPokemon;
             return;
         }
-    
-        const promise = getPokemon("?limit=100000"); 
+
+        const promise = getPokemon("?limit=100000");
         resolvePromise(promise, this.pokemonResultPromiseSate);
         promise
             .then((data) => {
                 this.allPokemon = data.results.map((pokemon) => {
-                    const id = extractPokemonIdFromUrl(pokemon.url); 
+                    const id = extractPokemonIdFromUrl(pokemon.url);
                     return {
                         name: pokemon.name,
                         url: pokemon.url,
@@ -146,12 +132,12 @@ const model = {
             })
             .catch((error) => {
                 console.error("Error fetching Pokémon list:", error);
-            }); 
+            });
     },
 
     //Function to filter out right pokemon based on searchQuery
     filterPokemon(query) {
-        this.searchQuery = query; 
+        this.searchQuery = query;
         const lowerQuery = query.toLowerCase();
 
         // Filter Pokémon whose names start with the query
@@ -163,23 +149,23 @@ const model = {
     // Search for a Pokémon by ID or name, filters out right result
     pokemonSearchACB(text) {
         this.searchQuery = text;
-        this.filterPokemon(text); 
+        this.filterPokemon(text);
     },
 
     //Login function for loginPresenter
-    userWantsToLogin(){
+    userWantsToLogin() {
         const provider = new GoogleAuthProvider();
 
         signInWithPopup(auth, provider)
             .then((result) => {
-                model.user = result.user; 
+                model.user = result.user;
                 setUserInformation(this.user);
                 this.loadMyTeams();
-                window.location.hash = "#/teamBuilder";
+
             })
             .catch((error) => {
                 console.error("Login failed:", error);
-        });
+            });
 
     },
 
@@ -188,8 +174,6 @@ const model = {
         signOut(auth)
             .then(() => {
                 this.user = null; // Ensure user state is reset
-                window.location.hash = "#/main";
-                
             })
             .catch((error) => {
                 console.error("Logout failed:", error);
@@ -198,20 +182,20 @@ const model = {
         this.myTeams = null;
     },
 
-    async doPokemonInspect (pokemonId) {
+    async doPokemonInspect(pokemonId) {
         // this is called from the teambuilder presenter that gets called from the view
         // this should set the current pokemon ID and then change to pokemon inspect page
         await this.loadInspectPokemon(pokemonId);
         window.location.hash = "#/inspect";
     },
 
-    async getTypeObject (typeId) {
+    async getTypeObject(typeId) {
         return await getType(typeId);
     },
 
     async addPokemonByIdToTeam(pokemonId) {
         const index = this.currentTeam.pokemons.findIndex(pokemon => pokemon == null);
-    
+
         // Means that the currentTeam is full (6 pokemon)
         if (index === -1) {
             console.error("No available slots in the current team.");
@@ -220,15 +204,15 @@ const model = {
 
         const pokemon = await getPokemon(pokemonId);
 
-        const tempTeam = {...this.currentTeam};
+        const tempTeam = { ...this.currentTeam };
 
         tempTeam.pokemons[index] = pokemon;
 
         this.currentTeam = tempTeam;
     },
 
-    removePokemonAtIndexFromTeam (index) {
-        const tempTeam = {...this.currentTeam};
+    removePokemonAtIndexFromTeam(index) {
+        const tempTeam = { ...this.currentTeam };
         tempTeam.pokemons[index] = null;
         this.currentTeam = tempTeam;
     },
@@ -236,19 +220,19 @@ const model = {
     async setCurrentPokemonAtIndex(index, pokemonId) {
         try {
             const pokemon = await getPokemon(pokemonId);
-            const newTeamObject = {...this.currentTeam};
+            const newTeamObject = { ...this.currentTeam };
             newTeamObject.pokemons[index] = pokemon;
             this.currentTeam = newTeamObject;
         } catch (error) {
             console.error("Failed to set pokemon", error);
-        }  
+        }
     },
 
-    setCurrentTeamName (newName) {
+    setCurrentTeamName(newName) {
         if (newName.length > 32) {
             return;
-        } 
-        const newTeamObject = {...this.currentTeam};
+        }
+        const newTeamObject = { ...this.currentTeam };
         newTeamObject.teamName = newName;
         this.currentTeam = newTeamObject;
     },
@@ -259,15 +243,15 @@ const model = {
             console.error("There is no user logged in!");
             return Promise.reject("User is not logged in.");
         }
-    
+
         //Converts the firebase format to pokemon team format.
         function convertToPokemon(firebaseTeams) {
             return Promise.all(
                 Object.entries(firebaseTeams).map(async ([key, team]) => {
                     const pokemonIds = [team.id1, team.id2, team.id3, team.id4, team.id5, team.id6];
-        
+
                     const pokemons = await Promise.all(pokemonIds.map(id => getPokemon(id)));
-        
+
                     return {
                         key: key, // Use the Firebase key
                         teamName: team.myTeamName,
@@ -290,26 +274,24 @@ const model = {
             });
     },
 
-    //Gets all user teams from firebase
     async getAllUserPokemonTeams() {
         try {
             // Fetch all teams (with IDs only)
             const allTeams = await getAllPokemonTeams();
-    
+
             // Convert teams by fetching Pokémon details
             const teamsWithPokemons = await Promise.all(
                 allTeams.map(async (team) => {
                     const pokemons = await Promise.all(
                         team.pokemonIds.map(id => getPokemon(id)) // Fetch Pokemon details
                     );
-    
+
                     return {
                         userId: team.userId,
                         userName: team.userName,
                         key: team.key,
                         teamName: team.teamName,
                         pokemons: pokemons,
-                        likes: team.likes,
                     };
                 })
             );
@@ -320,35 +302,9 @@ const model = {
         }
     },
 
-    //Function to toggle likes on team. Both saves the result to firebase and toggles locally.
-    async toggleLikeTeam(teamId) {
-        if (!this.user) {
-            console.error("User must be logged in to like/dislike teams.");
-            return;
-        }
-    
-        const isLiked = this.likedTeams[teamId] || false;
-        const newLikedState = !isLiked;
-    
-        try {
-            await likeTeam(this.user.uid, teamId, newLikedState);
-    
-            this.likedTeams[teamId] = newLikedState;
-    
-            const team = this.allUserTeams.find((t) => t.key === teamId);
-            if (team) {
-                team.likes = (team.likes || 0) + (newLikedState ? 1 : -1);
-            }
-            await this.loadLikedTeams();
-        } catch (error) {
-            console.error("Failed to toggle like for team:", error);
-        }
-    },
-    
-    
-    
+
     //Function to save my pokemon team
-    savePokemonTeam(){
+    savePokemonTeam() {
         if (!this.user) {
             console.error("There is no user logged in!");
             return;
@@ -359,38 +315,49 @@ const model = {
         }
         saveMyPokemonTeam(this.user, this.currentTeam);
         this.loadMyTeams();
-        this.loadAllTeams();
-        
+
         const emptyTeam = {
-            pokemons : new Array(6),
-            teamName : ""
+            pokemons: new Array(6),
+            teamName: ""
         };
         this.currentTeam = emptyTeam;
     },
 
     //Function to remove a pokemon team and return a new list of teams.
-    async removePokemonTeam(teamIdKey){
-        if(!this.user) {
+    async removePokemonTeam(teamIdKey) {
+        if (!this.user) {
             console.error("There is no user logged in!", error)
             return;
         }
 
-        try{
+        try {
             await removeMyPokemonTeam(this.user, teamIdKey);
             this.loadMyTeams();
-            this.loadAllTeams();
         }
-        catch(error){
+        catch (error) {
             console.error("Couldn't remove team:", error);
             throw error;
         }
     },
 
-    async editPokemonTeam(team){
+    async editPokemonTeam(team) {
         window.location.hash = "#/teamBuilder";
         this.currentTeam = team;
     },
+
+
+    async fetchPokemonSpecies(pokemonSpeciesId) {
+        try {
+            const currentPokemonSpeciesPromise = getPokemonSpecies(pokemonSpeciesId);
+            resolvePromise(currentPokemonSpeciesPromise, this.currentPokemonSpeciesPromiseState);
     
+            // Await to ensure the fetch completes
+            await currentPokemonSpeciesPromise;
+        } catch (error) {
+            console.error("Error in fetchPokemonSpecies:", error);
+        }
+    },
+
     toggleDropDown() {
         this.isDropdownVisible = !this.isDropdownVisible;
     },
@@ -404,74 +371,23 @@ const model = {
     },
 
     // Minigame stuff
-    minigameIsStarted : false,
-    minigamePokemons : [],
-    minigameBufferPokemons: [],
-    minigameTypeAdvantage: null,
-    minigameCurrentScore: 0,
+    minigameIsStarted: true,
+    minigamePokemons: [],
 
-    async startMinigame () {
-        await this.getNewMinigamePokemons();
+    startMinigame() {
         this.minigameIsStarted = true;
     },
 
-    endMinigame () {
+    endMinigame() {
         this.minigameIsStarted = false;
     },
 
-    minigameCorrectChoice() {
-        this.getNewMinigamePokemons();
-        this.minigameCurrentScore++;
-    },
-
-    minigameWrongChoice() {
-        this.getNewMinigamePokemons();
-        this.minigameCurrentScore = 0;
-        this.endMinigame();
-    },
-
-    // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
-    minigameChoosePokemon(choice) {
-        choice
-        if (this.minigameTypeAdvantage > 1 && choice === 0) {
-            this.minigameCorrectChoice();
-        } else if (this.minigameTypeAdvantage === 1 && choice === 2) {
-            this.minigameCorrectChoice();
-        } else if (this.minigameTypeAdvantage < 1 && choice === 1) {
-            this.minigameCorrectChoice();
-        } else {
-            this.minigameWrongChoice();
-        }
-    },
-
     async getNewMinigamePokemons() {
-
-        function getNames(typeObject) {
-            return typeObject.name;
-        }
-
-        this.minigamePokemons = this.minigameBufferPokemons;
-
-        this.minigameBufferPokemons = await getRandomPokemon(2);
-
-        const minigamePokemonTypeArray = [];
-
-        const firstPokemonTypes = await getTypeObjects(this.minigamePokemons[0].id)
-        const secondPokemonTypes = await getTypeObjects(this.minigamePokemons[1].id)
-       
-        const firstPokemonTypeName = firstPokemonTypes.map(getNames)
-        const secondPokemonTypeName = secondPokemonTypes.map(getNames)
-
-        minigamePokemonTypeArray.push(firstPokemonTypeName)
-        minigamePokemonTypeArray.push(secondPokemonTypeName)
-        
-        const typeAdvantage = calculateTypeAdvantage(minigamePokemonTypeArray);
-
-        this.minigameTypeAdvantage = typeAdvantage;
+        this.minigamePokemons = await getRandomPokemon(2);
     },
-
-    
 }
+
+
 
 export { model };
 

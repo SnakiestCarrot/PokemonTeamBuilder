@@ -1,23 +1,25 @@
+.parent-container-inspect {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    padding: 10% 0 0 6%;
+    position: relative; /* For absolutely positioned buttons */
+}
+
 .pokemon-image-inspect {
     width: 200px;
 }
 
-.parent-container-inspect {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: flex-start; /* Align items to the start (left) */
-    padding-top: 10%;
-    padding-left: 6%;
-}
-
 .pokemon-info-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
+    display: grid;
+    grid-template-rows: auto;
+    gap: 1rem;
 }
 
 .card-and-stats-wrapper {
-    display: flex;
+    display: grid;
+    width: fit-content;
+    grid-template-columns: auto 1fr;
     align-items: center;
 }
 
@@ -38,31 +40,47 @@
 .pokemon-stats {
     width: 300px;
     padding-left: 4%;
-    align-items: center;
 }
 
 .pokemon-stats h2 {
-    margin: 1% 0 4% 0; /* Reduce spacing between text lines */
+    margin: 1% 0 4% 0; /* Consistent spacing */
     line-height: 1.5;
 }
 
 .radar-chart {
-
-}
-
-.return-button-container {
-    top: 10%;
-    left: 90%;
-}
-
-.return-button {
-    width: 2cm;
-    height: 1cm;
 }
 
 .add-to-team-button {
-    width: 2cm;
-    height: 1cm;
-    top: 20%;
-    left: 90%
-}  
+    font-size: 18;
+    width: 8rem; 
+    height: 2.5rem; 
+    margin-left: 9.2%; /* i dont think its perfectly centered but good enough */
+}
+
+.flavor-text {
+    font-size: 40;
+    color: var(--color-text);
+}
+
+@media (max-width: 1267px) {
+    .parent-container-inspect {
+        grid-template-columns: 1fr; /* Stack items vertically */
+        justify-items: center; /* Center align items */
+        padding-left: 6%;
+        padding-top: 10%; /* Maintain padding */
+    }
+
+    .radar-chart {
+        margin-top: 1rem; /* Consistent spacing */
+    }
+
+    .return-button {
+        top: 14%;
+        left: 6%;
+    }
+
+    .add-to-team-button {
+        top: 20%; /* Maintain positioning or adjust if necessary */
+        left: 90%; /* Maintain positioning */
+    }
+}
