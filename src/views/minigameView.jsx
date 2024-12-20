@@ -7,6 +7,10 @@ import { renderTypeImage } from "./viewUtilities";
 export function MinigameView(props) {
     const minigameIsStarted = props.minigameIsStarted;
     const pokemons = props.pokemons;
+    const isCorrectChoice = props.isCorrectChoice;
+
+    // Is > 1 if pokemon 0 wins, = 1 if its a tie and < 1 if pokemon 1 wins
+    const pokemonWithAdvantage = props.pokemonWithAdvantage;
 
     function startMinigame() {
         props.startMinigame();
@@ -40,19 +44,67 @@ export function MinigameView(props) {
 
     function renderStartedMinigame() {
         return (
-            <div>
-                <button onClick={endMinigame}>End minigame!</button>
-                <h2>Score:</h2>
-                <h2>{props.currentScore}</h2>
-
+            isCorrectChoice ? (
+            <div className="">
+                <div className="score-container">
+                    <h2>Score:</h2>
+                    <h2>{props.currentScore}</h2>
+                </div>
                 <div className="minigame-pokemon-container">
                     {pokemons.map(renderMinigamePokemonCard)}
                 </div>
                 <button className="minigame-tie-button" onClick={() => userSelectedPokemon(2)}>No type advantage</button>
+                <div className="wrong-answer-button-container">
+                    <button className="wrong-answer-minigame-button" onClick={endMinigame}>Quit</button>
+                </div>
                 
-            
-            
             </div>
+            ) : (
+                renderWrongAnswerScreen()
+            )
+            
+        )
+    }
+
+    function renderWrongAnswerScreen() {
+        
+        if (pokemonWithAdvantage > 1) {
+            return (
+                <div>
+                    <h2>Wrong answer, {pokemons[0].name} wins!</h2>
+                    {renderWrongAnswer()}
+                </div>
+            )
+        } else if (pokemonWithAdvantage < 1) {
+            return (
+                <div>
+                    <h2>Wrong answer, {pokemons[1].name} wins!</h2>
+                    {renderWrongAnswer()}
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h2>Wrong answer, its a tie!</h2>
+                    {renderWrongAnswer()}
+                </div>
+            )
+        }
+        
+    }
+
+    function renderWrongAnswer() {
+        return (
+        <div>
+            <div className="minigame-pokemon-container">
+                {pokemons.map(renderMinigamePokemonCard)}
+            </div>
+            <div className="wrong-answer-button-container">
+                <button className="wrong-answer-minigame-button" onClick={endMinigame}>Quit</button>
+                <button className="wrong-answer-minigame-button" onClick={startMinigame}>Try again</button>
+            </div>
+            
+        </div>
         )
     }
 
@@ -113,12 +165,7 @@ export function MinigameView(props) {
         <div className="minigame-container">
             {minigameIsStarted ? renderStartedMinigame() : renderNotStartedMinigame()}
         </div>
-
-
     )
-
-
-
 }
 
 
