@@ -15,6 +15,7 @@ export function TopBarView(props) {
                     {props.isDropdownVisible && (
                         <div className="dropdown">
                             <ul>
+                                <li href="#teams" >My teams</li>
                                 <li onClick={props.onLogoutClick}>Logout</li>
                             </ul>
                         </div>
@@ -36,7 +37,6 @@ export function TopBarView(props) {
                 <div className="topBar">
                     <a href="#main" >Main</a>
                     <a href="#teambuilder" >Team Builder</a>
-                    <a href="#teams" >My teams</a>
                     <a href="#browse" >Browse teams</a>
                     <a href="#minigame" >Minigame</a>
                     {loginLogout()}
