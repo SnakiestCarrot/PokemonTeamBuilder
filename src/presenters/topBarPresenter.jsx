@@ -21,6 +21,10 @@ const TopBar = observer(function TopBarRender(props) {
         props.model.closeDropDown();
     }
 
+    function userClicksTeams(){
+        window.location.hash = "#/teams";
+    }
+
     return (
         <div>
             <TopBarView
@@ -30,6 +34,7 @@ const TopBar = observer(function TopBarRender(props) {
                 onProfileClick={userClicksProfile}
                 isDropdownVisible={props.model.isDropdownVisible}
                 outsideClick={closeDropdown} 
+                onTeamsClick={userClicksTeams}
             />
         </div>
     );

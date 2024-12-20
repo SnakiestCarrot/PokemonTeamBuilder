@@ -15,7 +15,7 @@ export function TopBarView(props) {
                     {props.isDropdownVisible && (
                         <div className="dropdown">
                             <ul>
-                                <li href="#teams" >My teams</li>
+                                <li href="#teams" onClick={props.onTeamsClick}>My teams</li>
                                 <li onClick={props.onLogoutClick}>Logout</li>
                             </ul>
                         </div>
