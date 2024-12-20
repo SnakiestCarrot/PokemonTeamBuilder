@@ -170,7 +170,6 @@ export function getMyPokemonTeams(user) {
     }
 
     const teamsRef = ref(db, `PokemonTeamBuilder/${user.uid}/teams`);
-
     return get(teamsRef)
         .then((snapshot) => {
             if (snapshot.exists()) {
@@ -259,9 +258,9 @@ export function setUserInformation(user) {
 }
 
 
-export function likeTeam(userId, teamId, isLiked) {
+export function likeTeam(userId, teamId, isLiked, teamAuthorId) {
     console.log("firebaseLikeTeam activated");
-    const teamRefPath = `PokemonTeamBuilder/${userId}/teams/${teamId}/likes`;
+    const teamRefPath = `PokemonTeamBuilder/${teamAuthorId}/teams/${teamId}/likes`;
     const userLikedTeamsRefPath = `PokemonTeamBuilder/${userId}/likedTeams/${teamId}`;
 
     return get(ref(db, teamRefPath))

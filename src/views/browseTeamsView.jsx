@@ -15,8 +15,8 @@ export function BrowseTeamsView(props) {
         </div>
     );
 
-    function toggleLikeTeam(teamKey) {
-        props.userClicksLikeButton(teamKey);
+    function toggleLikeTeam(teamKey, teamAuthorId) {
+        props.userClicksLikeButton(teamKey, teamAuthorId);
     }
 
     function renderTeams(teams) {
@@ -49,7 +49,7 @@ export function BrowseTeamsView(props) {
                     <span className="heart-like-count">{team.likes || 0} likes</span>
                     <button
                         className={`heart-like-button ${isLiked ? "liked" : ""}`}
-                        onClick={() => toggleLikeTeam(team.key)}
+                        onClick={() => toggleLikeTeam(team.key, team.userId)}
                     >
                         {isLiked ? "❤️" : "🤍"}
                     </button>

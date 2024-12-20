@@ -29,6 +29,8 @@ const Minigame = observer(function MinigameRender(props) {
                 endMinigame={endMinigame}
                 selectPokemon={choosePokemon}
                 currentScore={props.model.minigameCurrentScore}
+                isCorrectChoice={props.model.minigameLastChoiceWasCorrect}
+                pokemonWithAdvantage={props.model.minigameTypeAdvantage}
             />
         </div>
     );

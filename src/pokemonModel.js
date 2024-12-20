@@ -20,14 +20,16 @@ const model = {
         pokemons: new Array(6),
         teamName: ""
     },
-    currentPokemonPromiseState: {},
+    currentPokemonId: null,
+    currentPokemonPromiseState : {},
     currentPokemonSpeciesPromiseState: {},
-    allPokemon: [], // Full list of Pokémon
-    pokemonResultPromiseSate: {},
-    filteredPokemon: [], // Filtered list based on search
-    searchQuery: "", //searchquery for filtering pokemon
-    myTeams: [], //user specific teams
-    allUserTeams: [], //all teams in database
+    allPokemon : [], // Full list of Pokémon
+    pokemonResultPromiseSate : {},
+    filteredPokemon : [], // Filtered list based on search
+    searchQuery : "", //searchquery for filtering pokemon
+    myTeams : [], //user specific teams
+    allUserTeams : [], //all teams in database
+    likedTeams: {}, // Keeps track of teams the user has liked or disliked
 
     //Initializes the application state when reactive model is created.
     init() {
@@ -302,7 +304,33 @@ const model = {
         }
     },
 
-
+    //Function to toggle likes on team. Both saves the result to firebase and toggles locally.
+    async toggleLikeTeam(teamId, teamAuthorId) {
+        if (!this.user) {
+            console.error("User must be logged in to like/dislike teams.");
+            return;
+        }
+    
+        const isLiked = this.likedTeams[teamId] || false;
+        const newLikedState = !isLiked;
+    
+        try {
+            await likeTeam(this.user.uid, teamId, newLikedState, teamAuthorId);
+    
+            this.likedTeams[teamId] = newLikedState;
+    
+            const team = this.allUserTeams.find((t) => t.key === teamId);
+            if (team) {
+                team.likes = (team.likes || 0) + (newLikedState ? 1 : -1);
+            }
+            await this.loadLikedTeams();
+        } catch (error) {
+            console.error("Failed to toggle like for team:", error);
+        }
+    },
+    
+    
+    
     //Function to save my pokemon team
     savePokemonTeam() {
         if (!this.user) {
@@ -371,15 +399,44 @@ const model = {
     },
 
     // Minigame stuff
-    minigameIsStarted: true,
-    minigamePokemons: [],
+    minigameIsStarted : false,
+    minigamePokemons : [],
+    minigameBufferPokemons: [],
+    minigameTypeAdvantage: null,
+    minigameCurrentScore: 0,
+    minigameLastChoiceWasCorrect: true,
 
     startMinigame() {
         this.minigameIsStarted = true;
+        this.minigameLastChoiceWasCorrect = true;
     },
 
     endMinigame() {
         this.minigameIsStarted = false;
+    },
+
+    minigameCorrectChoice() {
+        this.getNewMinigamePokemons();
+        this.minigameCurrentScore++;
+        this.minigameLastChoiceWasCorrect = true;
+    },
+
+    minigameWrongChoice() {
+        this.minigameCurrentScore = 0;
+        this.minigameLastChoiceWasCorrect = false;
+    },
+
+    // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
+    minigameChoosePokemon(choice) {
+        if (this.minigameTypeAdvantage > 1 && choice === 0) {
+            this.minigameCorrectChoice();
+        } else if (this.minigameTypeAdvantage === 1 && choice === 2) {
+            this.minigameCorrectChoice();
+        } else if (this.minigameTypeAdvantage < 1 && choice === 1) {
+            this.minigameCorrectChoice();
+        } else {
+            this.minigameWrongChoice();
+        }
     },
 
     async getNewMinigamePokemons() {
