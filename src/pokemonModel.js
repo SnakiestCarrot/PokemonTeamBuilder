@@ -409,10 +409,12 @@ const model = {
     minigameBufferPokemons: [],
     minigameTypeAdvantage: null,
     minigameCurrentScore: 0,
+    minigameLastChoiceWasCorrect: true,
 
     async startMinigame () {
         await this.getNewMinigamePokemons();
         this.minigameIsStarted = true;
+        this.minigameLastChoiceWasCorrect = true;
     },
 
     endMinigame () {
@@ -422,12 +424,12 @@ const model = {
     minigameCorrectChoice() {
         this.getNewMinigamePokemons();
         this.minigameCurrentScore++;
+        this.minigameLastChoiceWasCorrect = true;
     },
 
     minigameWrongChoice() {
-        this.getNewMinigamePokemons();
         this.minigameCurrentScore = 0;
-        this.endMinigame();
+        this.minigameLastChoiceWasCorrect = false;
     },
 
     // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
