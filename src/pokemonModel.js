@@ -443,6 +443,9 @@ const model = {
 
     minigameWrongChoice() {
         this.minigameLastChoiceWasCorrect = false;
+        if (this.minigameCurrentScore > 0) {
+            this.updateHighScoreLeaderboard();
+        }
     },
 
     // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
@@ -486,12 +489,11 @@ const model = {
     },
 
     //Updates the leaderboard if user is logged in
-    async UpdateHighScoreLeaderboard() {
+    async updateHighScoreLeaderboard() {
         if (!this.user) {
             console.error("User is not logged in!");
             return;
         }
-    
         try {
             await updateLeaderBoard(this.user, this.minigameCurrentScore);
             await this.loadLeaderboard();
