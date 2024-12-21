@@ -67,10 +67,6 @@ export function MinigameView(props) {
     }
 
     function renderWrongAnswerScreen() {
-        if (props.currentScore > 0) {
-            props.saveScore();
-        }
-        
         if (pokemonWithAdvantage > 1) {
             return (
                 <div>
