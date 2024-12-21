@@ -12,7 +12,7 @@ const model = {
     user: null,
     isDropdownVisible: false, //profile menu
     randomPokemonList: [], //random pokemon displayed at main page
-    loading: true, //loading firebase info
+    loading: false, //loading firebase info
 
     fetchCounts: {}, // förhindrar oändliga api calls för samma id, finns säkert ett bättre sätt men idk
 
@@ -24,7 +24,7 @@ const model = {
     currentPokemonPromiseState : {},
     currentPokemonSpeciesPromiseState: {},
     allPokemon : [], // Full list of Pokémon
-    pokemonResultPromiseSate : {},
+    pokemonResultPromiseState : {},
     filteredPokemon : [], // Filtered list based on search
     searchQuery : "", //searchquery for filtering pokemon
     myTeams : [], //user specific teams
@@ -117,7 +117,7 @@ const model = {
         }
 
         const promise = getPokemon("?limit=100000");
-        resolvePromise(promise, this.pokemonResultPromiseSate);
+        resolvePromise(promise, this.pokemonResultPromiseState);
         promise
             .then((data) => {
                 this.allPokemon = data.results.map((pokemon) => {

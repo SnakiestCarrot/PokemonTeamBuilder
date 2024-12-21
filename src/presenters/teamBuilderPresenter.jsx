@@ -37,6 +37,7 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
       />
       <ResultView
         pokemonResults={props.model.filteredPokemon}
+        pokemonPromiseState={props.model.pokemonResultPromiseState}
         doPokemonInspect={userWantsToInspect}
         addPokemonToTeam={addPokemonToTeam}
         loading={props.model.loading}

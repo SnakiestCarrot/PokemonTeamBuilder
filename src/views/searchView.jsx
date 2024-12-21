@@ -1,8 +1,6 @@
 export function SearchView(props) {
 
-    if (!props.user) {
-        return;
-    }
+    
 
     return (
         <div className="pokemon-team-search" >

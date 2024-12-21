@@ -8,10 +8,6 @@ export function TeamBuilderView(props) {
     const team = props.team;
     const loading = props.loading;
 
-    if (!props.user) {
-        return;
-    }
-
     return (
         <div className="team-builder-team-container">
             
@@ -56,13 +52,17 @@ export function TeamBuilderView(props) {
     }
 
     function renderSaveToTeamButton() {
-        return (
-            <button
-                className="pokemon-save-team-button"
-                onClick={userClicksSaveTeamButton}>
-                Save team to profile
-            </button>
-        )
+        if (props.user) {
+            return (
+                <button
+                    className="pokemon-save-team-button"
+                    onClick={userClicksSaveTeamButton}>
+                    Save team to profile
+                </button>
+            )
+        } else {
+           return <span style={{color: 'white'}}>Login to save teams!</span>
+        }
     }
 
     function UserClicksPokemonCard(pokemonId){

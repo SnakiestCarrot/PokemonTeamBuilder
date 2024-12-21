@@ -25,14 +25,6 @@ export function TopBarView(props) {
         }
     }
     function topBar() {
-        if (!props.user) {
-            return (
-                <div className="topBar">
-                    {loginLogout()}
-                </div>   
-            );
-            
-        } else {
             return (
                 <div className="topBar">
                     <a href="#main" >Main</a>
@@ -42,7 +34,6 @@ export function TopBarView(props) {
                     {loginLogout()}
                 </div>
             );
-        }
     }
 
     return (

@@ -13,7 +13,7 @@ export function MyTeamsView(props) {
         <div>
             <div>
                 <h1 className="header" key={"userTeamsHeader"}>
-                    {user?.displayName ? user.displayName + "s teams" : ""}
+                    {user?.displayName ? user.displayName + "s teams" : "No user found"}
                 </h1>
 
                 {renderTeams(userTeams)}
@@ -22,7 +22,6 @@ export function MyTeamsView(props) {
         ) : (
         <div className="no-teams-or-user-found-container">
             <h1>No user teams could be found</h1>
-            <h2>Login and use the team builder to start adding teams to your profile!</h2>
         </div>  
         )
     )

@@ -3,20 +3,30 @@ import { renderTypeImage } from "./viewUtilities";
 
 export function ResultView(props) {
     const results = props.pokemonResults;
-
-    if (!props.user) {
-        return;
+    const promiseState = props.pokemonPromiseState;
+    
+    if ((!promiseState.data) && (!promiseState.error)) {
+        return <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>;
     }
-    //PLACEHOLDER
-    if (props.loading) {
-        return (
-            <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>
-        )
+    if (promiseState.error) {
+        return <div>{promiseState.error.toString()}</div>;
     }
 
-    if (!results || results.length === 0) {
-        return <div className="no-results">No Pokémon found</div>;
-    }
+
+        /*
+        function searchResults(promiseState){
+            if (!promiseState.promise) {
+                return <div>no data</div>;
+            }
+            if ((!promiseState.data) && (!promiseState.error)) {
+                return <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>;
+            }
+            if (promiseState.error) {
+                return <div>{promiseState.error.toString()}</div>;
+            }
+
+            return <SearchResultsView onDishSelectedFromSearchACB = {updateSelectedDishACB} searchResults = {promiseState.data}/>;
+        }*/
 
     return (
         <div>
