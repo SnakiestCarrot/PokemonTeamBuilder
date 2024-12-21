@@ -20,6 +20,7 @@ const model = {
         pokemons: new Array(6),
         teamName: ""
     },
+    currentTeamFull : false,
     currentPokemonId: null,
     currentPokemonPromiseState : {},
     currentPokemonSpeciesPromiseState: {},
@@ -203,7 +204,7 @@ const model = {
 
         // Means that the currentTeam is full (6 pokemon)
         if (index === -1) {
-            console.error("No available slots in the current team.");
+            this.currentTeamFull = true;
             return;
         }
 
@@ -220,6 +221,7 @@ const model = {
         const tempTeam = { ...this.currentTeam };
         tempTeam.pokemons[index] = null;
         this.currentTeam = tempTeam;
+        this.currentTeamFull = false;
     },
 
     async setCurrentPokemonAtIndex(index, pokemonId) {
