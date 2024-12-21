@@ -443,7 +443,9 @@ const model = {
 
     minigameWrongChoice() {
         this.minigameLastChoiceWasCorrect = false;
-        this.updateHighScoreLeaderboard();
+        if (this.minigameCurrentScore > 0) {
+            this.updateHighScoreLeaderboard();
+        }
     },
 
     // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
