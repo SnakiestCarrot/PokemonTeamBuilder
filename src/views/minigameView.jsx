@@ -8,6 +8,7 @@ export function MinigameView(props) {
     const minigameIsStarted = props.minigameIsStarted;
     const pokemons = props.pokemons;
     const isCorrectChoice = props.isCorrectChoice;
+    const highscoreArray = props.highscores;
 
     // Is > 1 if pokemon 0 wins, = 1 if its a tie and < 1 if pokemon 1 wins
     const pokemonWithAdvantage = props.pokemonWithAdvantage;
@@ -108,6 +109,16 @@ export function MinigameView(props) {
         )
     }
 
+    function renderHighscore(highscoreEntry, index) {
+        return(
+            <div className="highscore-entry">
+                <h3>{index+1 + ". " + highscoreEntry.userName}</h3>
+                <h3>{}</h3>
+                <h3>{"score: " + highscoreEntry.score}</h3>
+            </div>
+        )
+    }
+
     function renderNotStartedMinigame() {
         return (
             <div className="">
@@ -155,6 +166,15 @@ export function MinigameView(props) {
                     </p>
 
                     <button className="start-minigame-button" onClick={startMinigame}>Start minigame!</button>
+                    
+                </div>
+                <div>
+                    <div>   
+                        <h2>Top highscores of all time</h2>
+                    </div>
+                    <div className="highscores-container">
+                        {highscoreArray.map(renderHighscore)}
+                    </div>
                     
                 </div>
             </div>
