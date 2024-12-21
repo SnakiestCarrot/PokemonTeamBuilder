@@ -110,6 +110,11 @@ export function MinigameView(props) {
     }
 
     function renderHighscore(highscoreEntry, index) {
+
+        if (!highscoreEntry) {
+            return null;
+        }
+
         return(
             <div className="highscore-entry">
                 <h3>{index+1 + ". " + highscoreEntry.userName}</h3>
