@@ -2,7 +2,7 @@ import { resolvePromise } from './resolvePromise';
 import { getPokemon, getPokemonSpecies, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, likeTeam, getLikedTeams } from "./firebaseModel.js";
-import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
+import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId, getTypeObjects, calculateTypeAdvantage } from './utilities';
 import pokemonTypeData from '../pokemonTypeData.json';
 
 export const lowestPokemonId = 1;
