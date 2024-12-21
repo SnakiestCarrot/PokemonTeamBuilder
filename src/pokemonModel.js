@@ -430,16 +430,17 @@ const model = {
     minigameCorrectChoice() {
         this.getNewMinigamePokemons();
         this.minigameCurrentScore++;
-        this.minigameLastChoiceWasCorrect = true;
     },
 
     minigameWrongChoice() {
+        this.getNewMinigamePokemons();
         this.minigameCurrentScore = 0;
-        this.minigameLastChoiceWasCorrect = false;
+        this.endMinigame();
     },
 
     // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
     minigameChoosePokemon(choice) {
+        choice
         if (this.minigameTypeAdvantage > 1 && choice === 0) {
             this.minigameCorrectChoice();
         } else if (this.minigameTypeAdvantage === 1 && choice === 2) {
@@ -452,6 +453,29 @@ const model = {
     },
 
     async getNewMinigamePokemons() {
+
+        function getNames(typeObject) {
+            return typeObject.name;
+        }
+
+        this.minigamePokemons = this.minigameBufferPokemons;
+
+        this.minigameBufferPokemons = await getRandomPokemon(2);
+
+        const minigamePokemonTypeArray = [];
+
+        const firstPokemonTypes = await getTypeObjects(this.minigamePokemons[0].id)
+        const secondPokemonTypes = await getTypeObjects(this.minigamePokemons[1].id)
+       
+        const firstPokemonTypeName = firstPokemonTypes.map(getNames)
+        const secondPokemonTypeName = secondPokemonTypes.map(getNames)
+
+        minigamePokemonTypeArray.push(firstPokemonTypeName)
+        minigamePokemonTypeArray.push(secondPokemonTypeName)
+        
+        const typeAdvantage = calculateTypeAdvantage(minigamePokemonTypeArray);
+
+        this.minigameTypeAdvantage = typeAdvantage;
         this.minigamePokemons = await getRandomPokemon(2);
     },
 }
