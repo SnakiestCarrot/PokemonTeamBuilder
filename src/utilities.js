@@ -75,9 +75,6 @@ export function calculateTypeAdvantage(typesArray) {
         attackerTypes.forEach(attackerType => {
             defenderTypes.forEach(defenderType => {
                 const effectiveness = typeEffectiveness[attackerType]?.[defenderType] || 1;
-                console.log("Defender type: " + defenderType + 
-                            "\nAttacker type: " + attackerType + 
-                            "\neffectiveness: " + effectiveness)
                 multiplier *= effectiveness;
             });
         });
