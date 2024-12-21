@@ -485,6 +485,7 @@ const model = {
         this.minigameTypeAdvantage = typeAdvantage;
     },
 
+    //Updates the leaderboard if user is logged in
     async UpdateHighScoreLeaderboard() {
         if (!this.user) {
             console.error("User is not logged in!");
@@ -500,6 +501,7 @@ const model = {
     },
     
 
+    //Loads the leaderboard from firebase
     async loadLeaderboard() {
         try {
             const leaderboard = await getLeaderboard();

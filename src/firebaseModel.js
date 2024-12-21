@@ -325,7 +325,7 @@ export function updateLeaderBoard(user, minigameCurrentScore) {
             sortedLeaderboard.sort((a, b) => b.score - a.score);
         }
 
-        return sortedLeaderboard; // Update Firebase with the sorted array
+        return sortedLeaderboard; 
     }).then((result) => {
         if (result.committed) {
             console.log("Leaderboard updated successfully.");
@@ -347,7 +347,7 @@ export async function getLeaderboard() {
         const snapshot = await get(leaderboardRef);
         if (snapshot.exists()) {
             const data = snapshot.val();
-            return Array.isArray(data) ? data : Object.values(data); // Convert to array if it's an object
+            return Array.isArray(data) ? data : Object.values(data); 
         } else {
             console.warn("No leaderboard found in the database.");
             return [];
