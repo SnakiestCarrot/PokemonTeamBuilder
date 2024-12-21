@@ -14,6 +14,12 @@ export function InspectView(props) {
         return <div>Loading Pokémon...</div>;
     }
 
+    // breaks MVP pattern?
+    const flavorTextEntry = props.currentPokemonSpecies?.flavor_text_entries.find(
+        (entry) => entry.language.name === "en"
+    );
+    const flavorText = flavorTextEntry ? flavorTextEntry.flavor_text : "Loading...";
+
     const pokemonData = [
         { name: 'Health', value: props.currentPokemon.stats[0].base_stat },
         { name: 'Attack', value: props.currentPokemon.stats[1].base_stat },
@@ -62,7 +68,7 @@ export function InspectView(props) {
                         </div>
                     </div>
                     <p className="flavor-text">
-                        {props.currentPokemonSpecies?.flavor_text_entries[0]?.flavor_text}
+                        {flavorText}
                     </p>
                 </div>
                 <div className="radar-chart">
