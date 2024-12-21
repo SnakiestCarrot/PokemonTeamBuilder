@@ -1,6 +1,7 @@
 import "../inspectStyles.css";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { renderTypeImage } from "./viewUtilities";
+import NotificationView from "./notificationView";
 
 export function InspectView(props) {
 
@@ -13,6 +14,12 @@ export function InspectView(props) {
     if (!props.currentPokemon) {
         return <div>Loading Pokémon...</div>;
     }
+
+    // breaks MVP pattern?
+    const flavorTextEntry = props.currentPokemonSpecies?.flavor_text_entries.find(
+        (entry) => entry.language.name === "en"
+    );
+    const flavorText = flavorTextEntry ? flavorTextEntry.flavor_text : "Loading...";
 
     const pokemonData = [
         { name: 'Health', value: props.currentPokemon.stats[0].base_stat },
@@ -62,7 +69,7 @@ export function InspectView(props) {
                         </div>
                     </div>
                     <p className="flavor-text">
-                        {props.currentPokemonSpecies?.flavor_text_entries[0]?.flavor_text}
+                        {flavorText}
                     </p>
                 </div>
                 <div className="radar-chart">
@@ -83,6 +90,6 @@ export function InspectView(props) {
     );
 
     function addButtonClicked(pokemon) {
-        props.addPokemonToCurrentTeam(pokemon.id);
+        props.addPokemonToTeam(pokemon.id);
     }
 }
