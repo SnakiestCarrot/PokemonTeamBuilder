@@ -20,7 +20,14 @@ const model = {
         pokemons: new Array(6),
         teamName: ""
     },
+
+    editTeam: {
+        pokemons: new Array(6),
+        teamName: ""
+    },
+
     currentTeamFull : false,
+    editTeamFull : false,
     currentPokemonId: null,
     currentPokemonPromiseState : {},
     currentPokemonSpeciesPromiseState: {},
@@ -59,6 +66,10 @@ const model = {
 
     setCurrentTeam(team) {
         this.currentTeam = team;
+    },
+
+    setEditTeam(team){
+        this.editTeam = team;
     },
 
     async loadInspectPokemon(pokemonId) {
@@ -389,7 +400,64 @@ const model = {
 
     async editPokemonTeam(team) {
         window.location.hash = "#/teameditor";
-        this.currentTeam = team;
+        this.editTeam = team;
+    },
+
+    removePokemonAtIndexFromEditTeam(index) {
+        const tempTeam = { ...this.editTeam };
+        tempTeam.pokemons[index] = null;
+        this.editTeam = tempTeam;
+        //this.currentTeamFull = false;
+    },
+
+    setEditTeamName(newName) {
+        if (newName.length > 32) {
+            return;
+        }
+        const newTeamObject = { ...this.editTeam };
+        newTeamObject.teamName = newName;
+        this.editTeam = newTeamObject;
+    },
+
+    async addPokemonByIdToEditTeam(pokemonId) {
+        const index = this.editTeam.pokemons.findIndex(pokemon => pokemon == null);
+
+        // Means that the currentTeam is full (6 pokemon)
+        if (index === -1) {
+            this.editTeamFull = true;
+            return;
+        }
+
+        const pokemon = await getPokemon(pokemonId);
+
+        const tempTeam = { ...this.editTeam };
+
+        tempTeam.pokemons[index] = pokemon;
+
+        this.editTeam = tempTeam;
+
+        if (index === -1) {
+            this.editTeamFull = true;
+        }
+    },
+
+    saveEditedPokemonTeam() {
+        if (!this.user) {
+            console.error("There is no user logged in!");
+            return;
+        }
+        if (!isValidTeam(this.editTeam)) {
+            console.error("Invalid team format!", this.editTeam);
+            return;
+        }
+        saveMyPokemonTeam(this.user, this.editTeam);
+        this.loadMyTeams();
+
+        const emptyTeam = {
+            pokemons: new Array(6),
+            teamName: ""
+        };
+        this.editTeam = emptyTeam;
     },
 
 
