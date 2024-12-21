@@ -419,9 +419,9 @@ const model = {
     minigameCurrentScore: 0,
     minigameLastChoiceWasCorrect: true,
 
-    startMinigame() {
-        this.minigameIsStarted = true;
-        this.minigameLastChoiceWasCorrect = true;
+    async startMinigame() {
+        await this.getNewMinigamePokemons();
+        this.minigameIsStarted = true
     },
 
     endMinigame() {
