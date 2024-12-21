@@ -19,6 +19,10 @@ const Minigame = observer(function MinigameRender(props) {
         props.model.minigameChoosePokemon(index);
     }
 
+    function updateHighScore() {
+        props.model.UpdateHighScoreLeaderboard();
+    }
+
     return (
         <div>
             <MinigameView
@@ -31,6 +35,7 @@ const Minigame = observer(function MinigameRender(props) {
                 currentScore={props.model.minigameCurrentScore}
                 isCorrectChoice={props.model.minigameLastChoiceWasCorrect}
                 pokemonWithAdvantage={props.model.minigameTypeAdvantage}
+                saveScore={updateHighScore}
             />
         </div>
     );

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, push, remove, update } from "firebase/database";
+import { getDatabase, ref, set, get, push, remove, update, runTransaction } from "firebase/database";
 import { firebaseConfig } from "/src/firebaseConfig.js";
 import { getAuth, onAuthStateChanged, } from "firebase/auth";
 import { model } from "./pokemonModel";
@@ -287,6 +287,75 @@ export function getLikedTeams(user) {
         .catch(error => {
             console.error("Error fetching liked teams:", error);
         });
+}
+
+export function updateLeaderBoard(user, minigameCurrentScore) {
+    const db = getDatabase();
+    const leaderboardRef = ref(db, "Leaderboard");
+
+    return runTransaction(leaderboardRef, (leaderboard) => {
+        if (!leaderboard) {
+            leaderboard = [];
+        }
+
+        const sortedLeaderboard = leaderboard.slice(0, 10);
+        let lowestScoreIndex = -1;
+        let lowestScore = Infinity;
+
+        for (let i = 0; i < sortedLeaderboard.length; i++) {
+            if (sortedLeaderboard[i].score < lowestScore) {
+                lowestScore = sortedLeaderboard[i].score;
+                lowestScoreIndex = i;
+            }
+        }
+
+        if (sortedLeaderboard.length < 10 || minigameCurrentScore > lowestScore) {
+            const newEntry = {
+                userId: user.uid,
+                userName: user.displayName || "Anonymous",
+                score: minigameCurrentScore,
+            };
+
+            if (sortedLeaderboard.length < 10) {
+                sortedLeaderboard.push(newEntry);
+            } else {
+                sortedLeaderboard[lowestScoreIndex] = newEntry;
+            }
+
+            sortedLeaderboard.sort((a, b) => b.score - a.score);
+        }
+
+        return sortedLeaderboard; // Update Firebase with the sorted array
+    }).then((result) => {
+        if (result.committed) {
+            console.log("Leaderboard updated successfully.");
+        } else {
+            console.warn("Leaderboard update transaction was aborted.");
+        }
+    }).catch((error) => {
+        console.error("Failed to update leaderboard:", error);
+    });
+}
+
+
+
+export async function getLeaderboard() {
+    const db = getDatabase();
+    const leaderboardRef = ref(db, "Leaderboard");
+
+    try {
+        const snapshot = await get(leaderboardRef);
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            return Array.isArray(data) ? data : Object.values(data); // Convert to array if it's an object
+        } else {
+            console.warn("No leaderboard found in the database.");
+            return [];
+        }
+    } catch (error) {
+        console.error("Failed to fetch leaderboard:", error);
+        throw error;
+    }
 }
 
 

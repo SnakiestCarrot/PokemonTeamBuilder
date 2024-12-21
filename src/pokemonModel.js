@@ -1,7 +1,7 @@
 import { resolvePromise } from './resolvePromise';
 import { getPokemon, getPokemonSpecies, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, likeTeam, getLikedTeams } from "./firebaseModel.js";
+import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, likeTeam, getLikedTeams, getLeaderboard, updateLeaderBoard } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId, getTypeObjects, calculateTypeAdvantage } from './utilities';
 import pokemonTypeData from '../pokemonTypeData.json';
 
@@ -37,6 +37,7 @@ const model = {
         this.loadAllPokemon();
         this.loadAllTeams();
         this.getNewMinigamePokemons();
+        this.loadLeaderboard();
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -311,7 +312,6 @@ const model = {
         try {
             const likedTeamsList = await getLikedTeams(this.user);
             this.likedTeams = likedTeamsList;
-            console.log(likedTeamsList);
         } catch (error) {
             console.error("Failed to load liked teams", error);
         }
@@ -418,6 +418,7 @@ const model = {
     minigameTypeAdvantage: null,
     minigameCurrentScore: 0,
     minigameLastChoiceWasCorrect: true,
+    highscore: new Array(10),
 
     async startMinigame() {
         this.minigameCurrentScore = 0;
@@ -483,6 +484,33 @@ const model = {
 
         this.minigameTypeAdvantage = typeAdvantage;
     },
+
+    async UpdateHighScoreLeaderboard() {
+        if (!this.user) {
+            console.error("User is not logged in!");
+            return;
+        }
+    
+        try {
+            await updateLeaderBoard(this.user, this.minigameCurrentScore);
+            await this.loadLeaderboard();
+        } catch (error) {
+            console.error("Failed to update leaderboard:", error);
+        }
+    },
+    
+
+    async loadLeaderboard() {
+        try {
+            const leaderboard = await getLeaderboard();
+            this.highscore = leaderboard; 
+            console.log("Fetched leaderboard successfully:", leaderboard);
+        } catch (error) {
+            console.error("Failed to fetch the leaderboard:", error);
+        }
+    },
+    
+    
 }
 
 
