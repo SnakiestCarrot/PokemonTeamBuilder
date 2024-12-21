@@ -215,6 +215,10 @@ const model = {
         tempTeam.pokemons[index] = pokemon;
 
         this.currentTeam = tempTeam;
+
+        if (index === -1) {
+            this.currentTeamFull = true;
+        }
     },
 
     removePokemonAtIndexFromTeam(index) {
