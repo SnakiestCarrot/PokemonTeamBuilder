@@ -74,7 +74,7 @@ export function TeamBuilderView(props) {
         if (loading) { //PLACEHOLDER
             return (<div     
             className="pokemon-team-card" >
-            <h2>loading</h2>
+            <h2>loading...</h2>
             </div>)
         } else {
             return (
