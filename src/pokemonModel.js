@@ -438,9 +438,6 @@ const model = {
             this.minigameLastChoiceWasCorrect = true;
             this.minigameCurrentScore++;
         }
-
-        console.log(this.minigameCurrentScore)
-        
     },
 
     minigameWrongChoice() {
