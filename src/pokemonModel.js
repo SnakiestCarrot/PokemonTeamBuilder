@@ -420,23 +420,31 @@ const model = {
     minigameLastChoiceWasCorrect: true,
 
     async startMinigame() {
-        await this.getNewMinigamePokemons();
+        this.minigameCurrentScore = 0;
+        this.minigameLastChoiceWasCorrect = true;
         this.minigameIsStarted = true
+        await this.getNewMinigamePokemons();
     },
 
     endMinigame() {
         this.minigameIsStarted = false;
+        this.minigameLastChoiceWasCorrect = false;
     },
 
     minigameCorrectChoice() {
-        this.getNewMinigamePokemons();
-        this.minigameCurrentScore++;
+        // if statement to fix bug
+        if (this.minigameLastChoiceWasCorrect) {
+            this.getNewMinigamePokemons();
+            this.minigameLastChoiceWasCorrect = true;
+            this.minigameCurrentScore++;
+        }
+
+        console.log(this.minigameCurrentScore)
+        
     },
 
     minigameWrongChoice() {
-        this.getNewMinigamePokemons();
-        this.minigameCurrentScore = 0;
-        this.endMinigame();
+        this.minigameLastChoiceWasCorrect = false;
     },
 
     // choice = 0 if first pokemon, 2 if tie and 1 if second pokemon
