@@ -477,7 +477,6 @@ const model = {
         const typeAdvantage = calculateTypeAdvantage(minigamePokemonTypeArray);
 
         this.minigameTypeAdvantage = typeAdvantage;
-        this.minigamePokemons = await getRandomPokemon(2);
     },
 }
 
