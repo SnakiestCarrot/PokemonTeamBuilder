@@ -96,6 +96,7 @@ export function MinigameView(props) {
     function renderWrongAnswer() {
         return (
         <div>
+            <h2>Final score: {props.currentScore}</h2>
             <div className="minigame-pokemon-container">
                 {pokemons.map(renderMinigamePokemonCard)}
             </div>

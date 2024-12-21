@@ -12,22 +12,6 @@ export function ResultView(props) {
         return <div>{promiseState.error.toString()}</div>;
     }
 
-
-        /*
-        function searchResults(promiseState){
-            if (!promiseState.promise) {
-                return <div>no data</div>;
-            }
-            if ((!promiseState.data) && (!promiseState.error)) {
-                return <div align="center"><img src="https://brfenergi.se/iprog/loading.gif"/></div>;
-            }
-            if (promiseState.error) {
-                return <div>{promiseState.error.toString()}</div>;
-            }
-
-            return <SearchResultsView onDishSelectedFromSearchACB = {updateSelectedDishACB} searchResults = {promiseState.data}/>;
-        }*/
-
     return (
         <div>
             <div className="pokemon-container">
