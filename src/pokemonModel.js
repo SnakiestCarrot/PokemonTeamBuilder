@@ -164,7 +164,7 @@ const model = {
                 model.user = result.user;
                 setUserInformation(this.user);
                 this.loadMyTeams();
-
+                window.location.hash = "#/teamBuilder";
             })
             .catch((error) => {
                 console.error("Login failed:", error);
@@ -177,6 +177,7 @@ const model = {
         signOut(auth)
             .then(() => {
                 this.user = null; // Ensure user state is reset
+                window.location.hash = "#";
             })
             .catch((error) => {
                 console.error("Logout failed:", error);
