@@ -86,9 +86,6 @@ export function calculateTypeAdvantage(typesArray) {
     const pokemon1Multiplier = getEffectiveness(pokemon1Types, pokemon2Types);
     const pokemon2Multiplier = getEffectiveness(pokemon2Types, pokemon1Types);
 
-    console.log("pokemon 1: " + pokemon1Multiplier)
-    console.log("pokemon 2: " + pokemon2Multiplier)
-
     // If pokemon 1 wins
     if (pokemon1Multiplier > pokemon2Multiplier) return 2;
 
