@@ -1,7 +1,7 @@
 import { resolvePromise } from './resolvePromise';
 import { getPokemon, getPokemonSpecies, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation } from "./firebaseModel.js";
+import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, likeTeam, getLikedTeams } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId } from './utilities';
 import pokemonTypeData from '../pokemonTypeData.json';
 
@@ -42,7 +42,8 @@ const model = {
             if (user) {
                 this.user = user; // Set the user
                 this.loadMyTeams(); // Load user-specific teams
-            }
+                this.loadLikedTeams();
+            }   
         });
     },
 
@@ -294,6 +295,7 @@ const model = {
                         key: team.key,
                         teamName: team.teamName,
                         pokemons: pokemons,
+                        likes: team.likes,
                     };
                 })
             );
@@ -301,6 +303,16 @@ const model = {
         } catch (error) {
             console.error("Error fetching Pokémon details for all teams:", error);
             throw error;
+        }
+    },
+
+    async loadLikedTeams() {
+        try {
+            const likedTeamsList = await getLikedTeams(this.user);
+            this.likedTeams = likedTeamsList;
+            console.log(likedTeamsList);
+        } catch (error) {
+            console.error("Failed to load liked teams", error);
         }
     },
 
