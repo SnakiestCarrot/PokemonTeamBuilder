@@ -1,7 +1,6 @@
 import "../inspectStyles.css";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { renderTypeImage } from "./viewUtilities";
-import NotificationView from "./notificationView";
 
 export function InspectView(props) {
 
@@ -90,6 +89,10 @@ export function InspectView(props) {
     );
 
     function addButtonClicked(pokemon) {
-        props.addPokemonToTeam(pokemon.id);
+        if (!props.teamFullStatus) {
+            props.addPokemonToTeam(pokemon.id);
+        } else {
+            props.addPokemonToTeamFailed();
+        }
     }
 }

@@ -9,7 +9,7 @@ const Inspect = observer(function InspectRender(props) {
     useEffect(()=>{
         props.model.fetchPokemonSpecies(props.model.currentPokemonId);
     },[])
-    
+
     return (
         <div>
             <InspectView
@@ -17,6 +17,8 @@ const Inspect = observer(function InspectRender(props) {
                 addPokemonToTeam={addPokemonToTeam}
                 typeIds={props.model.getCurrentPokemonTypeIds()}
                 currentPokemonSpecies={props.model.currentPokemonSpeciesPromiseState.data}
+                teamFullStatus={props.model.currentTeamFull}
+                addPokemonToTeamFailed={addPokemonToTeamFailed}
                 loading={props.model.loading}
             />
         </div>
@@ -25,6 +27,10 @@ const Inspect = observer(function InspectRender(props) {
     function addPokemonToTeam (pokemonId) {
         props.model.addPokemonByIdToTeam(pokemonId);
         notificationView.displayNotification("Pokémon added to the team!");
+    }
+
+    function addPokemonToTeamFailed () {
+        notificationView.displayNotification("Team full - Pokémon NOT added to the team!", "failure");
     }
 });
 

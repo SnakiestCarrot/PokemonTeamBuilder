@@ -40,6 +40,8 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
         pokemonPromiseState={props.model.pokemonResultPromiseState}
         doPokemonInspect={userWantsToInspect}
         addPokemonToTeam={addPokemonToTeam}
+        addPokemonToTeamFailed={addPokemonToTeamFailed}
+        teamFullStatus={props.model.currentTeamFull}
         loading={props.model.loading}
         user={props.model.user}
       />
@@ -73,6 +75,10 @@ function removePokemonFromTeam(index) {
 function addPokemonToTeam(pokemonId) {
     props.model.addPokemonByIdToTeam(pokemonId);
     notificationView.displayNotification("Pokémon added to the team!");
+}
+
+function addPokemonToTeamFailed() {
+  notificationView.displayNotification("Team full - Pokémon NOT added to the team!", "failure");
 }
 
   function setCurrentTeamName(name) {

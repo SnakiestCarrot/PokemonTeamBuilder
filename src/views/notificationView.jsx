@@ -37,18 +37,21 @@ export default class NotificationView {
     }
 
     // 1 second notification timeout
-    displayNotification(message) {
-        const notification = this.createNotificationElement(message);
+    displayNotification(message, type) {
+        const notification = this.createNotificationElement(message, type);
         this.notificationContainer.appendChild(notification);
-        this.scheduleFadeOut(notification, 1000);
-    }
+        const delay = type === "failure" ? 3000 : 1000;
+        this.scheduleFadeOut(notification, delay);
+    }    
 
-    createNotificationElement(message) {
+    createNotificationElement(message, type="success") {
         const notification = document.createElement('div');
-        notification.className = 'notification';
+        // Apply success or failure class - default assumes success (green notification) and
+        // you need to pass type as "failure" for red notification
+        notification.className = `notification-${type}`; 
         notification.textContent = message;
         return notification;
-    }
+    }    
 
     scheduleFadeOut(notification, delay) {
         const boundPerformFadeOut = this.performFadeOut.bind(this, notification);

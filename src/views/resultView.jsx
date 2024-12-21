@@ -46,8 +46,12 @@ export function ResultView(props) {
         </div>
     );
 
-    function addButtonClicked (pokemon) {
-        props.addPokemonToTeam(pokemon.id);
+    function addButtonClicked(pokemon) {
+        if (!props.teamFullStatus) {
+            props.addPokemonToTeam(pokemon.id);
+        } else {
+            props.addPokemonToTeamFailed();
+        }
     }
 }
 
