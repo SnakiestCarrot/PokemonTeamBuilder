@@ -75,6 +75,9 @@ export function calculateTypeAdvantage(typesArray) {
         attackerTypes.forEach(attackerType => {
             defenderTypes.forEach(defenderType => {
                 const effectiveness = typeEffectiveness[attackerType]?.[defenderType] || 1;
+                console.log("Defender type: " + defenderType + 
+                            "\nAttacker type: " + attackerType + 
+                            "\neffectiveness: " + effectiveness)
                 multiplier *= effectiveness;
             });
         });
@@ -86,11 +89,14 @@ export function calculateTypeAdvantage(typesArray) {
     const pokemon1Multiplier = getEffectiveness(pokemon1Types, pokemon2Types);
     const pokemon2Multiplier = getEffectiveness(pokemon2Types, pokemon1Types);
 
+    console.log("pokemon 1: " + pokemon1Multiplier)
+    console.log("pokemon 2: " + pokemon2Multiplier)
+
     // If pokemon 1 wins
-    if (pokemon1Multiplier > pokemon2Multiplier) return pokemon1Multiplier;
+    if (pokemon1Multiplier > pokemon2Multiplier) return 2;
 
     // If pokemon 2 wins
-    if (pokemon1Multiplier < pokemon2Multiplier) return 1 / pokemon2Multiplier;
+    if (pokemon1Multiplier < pokemon2Multiplier) return 0.5;
 
     // If its a tie
     return 1;
