@@ -199,9 +199,19 @@ export function getMyPokemonTeams(user) {
     return get(teamsRef)
         .then((snapshot) => {
             if (snapshot.exists()) {
-                return snapshot.val(); 
+                const teamsData = snapshot.val();
+                const validTeams = Object.entries(teamsData)
+                    .filter(([teamId, team]) => {
+                        const hasValidIds = team.id1 && team.id2 && team.id3 && team.id4 && team.id5 && team.id6;
+                        return hasValidIds && team.myTeamName;
+                    })
+                    .reduce((acc, [teamId, team]) => {
+                        acc[teamId] = team; 
+                        return acc;
+                    }, {});
+                return validTeams;
             } else {
-                return {}; 
+                return {};
             }
         })
         .catch((error) => {
@@ -209,6 +219,7 @@ export function getMyPokemonTeams(user) {
             throw error;
         });
 }
+
 
 //Function to remove a specific pokemon team based on that unique key
 export function removeMyPokemonTeam(user, teamId){
@@ -239,17 +250,20 @@ export async function getAllPokemonTeams() {
         for (const [userId, userData] of Object.entries(allUsersData)) {
             if (userData.teams) {
                 for (const [teamId, team] of Object.entries(userData.teams)) {
-                    allTeams.push({
-                        userId: userId,
-                        userName: userData.info?.displayName || userId,
-                        likes: team.likes ?? 0, // Use the actual Firebase value for likes, default to 0 if undefined
-                        key: teamId,
-                        teamName: team.myTeamName,
-                        pokemonIds: [
-                            team.id1, team.id2, team.id3, 
-                            team.id4, team.id5, team.id6
-                        ]
-                    });
+                    const hasValidIds = team.id1 && team.id2 && team.id3 && team.id4 && team.id5 && team.id6;
+                    if (hasValidIds && team.myTeamName) {
+                        allTeams.push({
+                            userId: userId,
+                            userName: userData.info?.displayName || userId,
+                            likes: team.likes ?? 0, // Use the actual Firebase value for likes, default to 0 if undefined
+                            key: teamId,
+                            teamName: team.myTeamName,
+                            pokemonIds: [
+                                team.id1, team.id2, team.id3, 
+                                team.id4, team.id5, team.id6
+                            ]
+                        });
+                    }
                 }
             }
         }
@@ -260,7 +274,7 @@ export async function getAllPokemonTeams() {
         const snapshot = await get(rootRef);
         if (snapshot.exists()) {
             const allUsersData = snapshot.val();
-            return fetchAllTeams(allUsersData); // Return teams with proper initialization
+            return fetchAllTeams(allUsersData); 
         } else {
             return [];
         }
