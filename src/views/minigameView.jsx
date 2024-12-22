@@ -67,30 +67,25 @@ export function MinigameView(props) {
     }
 
     function renderWrongAnswerScreen() {
+        let messageToShow = "Wrong answer, ";
+
         if (pokemonWithAdvantage > 1) {
-            return (
-                <div>
-                    <h2>Wrong answer, {pokemons[0].name} wins!</h2>
-                    {renderWrongAnswer()}
-                </div>
-            )
+            messageToShow += pokemons[0].name + " wins!"
         } else if (pokemonWithAdvantage < 1) {
-            return (
-                <div>
-                    <h2>Wrong answer, {pokemons[1].name} wins!</h2>
-                    {renderWrongAnswer()}
-                </div>
-            )
+            messageToShow += pokemons[1].name + " wins!"
         } else {
-            return (
-                <div>
-                    <h2>Wrong answer, its a tie!</h2>
-                    {renderWrongAnswer()}
-                </div>
-            )
+            messageToShow += "its a tie!"
         }
+        
+        return (
+            <div>
+                <h2>{messageToShow}</h2>
+                {renderWrongAnswer()}
+            </div>
+        )
     }
 
+    // Renders the consistent part of the screen when the user gives a wrong answer in the minigame
     function renderWrongAnswer() {
         return (
         <div>
@@ -107,7 +102,15 @@ export function MinigameView(props) {
         )
     }
 
+    // Renders the screen for when the minigame is in its not started state
     function renderNotStartedMinigame() {
+        
+        // Hardcoded since we do not want any other images here, unecessary to use the API to first fetch the URLs
+        const fireTypeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/types/generation-viii/sword-shield/10.png";
+        const waterTypeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/types/generation-viii/sword-shield/11.png";
+        const charmanderSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png";
+        const squirtleSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png";
+        
         return (
             <div className="">
                 <h2>Type advantage minigame</h2>
@@ -126,21 +129,21 @@ export function MinigameView(props) {
                         <div>
                             <img 
                             className="minigame-example-type-image"
-                            src="https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/types/generation-viii/sword-shield/10.png"/>
+                            src={fireTypeSpriteUrl}/>
                             <span> </span>
                             <img 
                             className="minigame-example-type-image"
-                            src="https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/types/generation-viii/sword-shield/11.png"/>
+                            src={waterTypeSpriteUrl}/>
                         </div>
                         <div>
                             <img 
                             className="minigame-example-image"
-                            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png">
+                            src={charmanderSpriteUrl}>
                             </img>
                             
                             <img 
                             className="minigame-example-image"
-                            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png">
+                            src={squirtleSpriteUrl}>
                             </img>
                         </div>
                         
