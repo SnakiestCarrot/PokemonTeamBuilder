@@ -2,7 +2,7 @@
 /* Container for the entire minigame */
 .minigame-container {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 60px;
     justify-content: center;
     padding-left: 14%;
     padding-right: 14%;
@@ -74,6 +74,7 @@
 }
 
 .score-container {
+    margin-top: -30px;
     margin-left: 30%;
     margin-right: 30%;
     padding: 10px;
@@ -85,6 +86,9 @@
     gap: 10px;
     align-content: center;
     justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-bottom: 100px;
 }
 
 .highscore-entry {
@@ -96,6 +100,7 @@
 
 .highscore-title-container {
     text-align: center;
+    margin-top: 80px;
 }
 
 
