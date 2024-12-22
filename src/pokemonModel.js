@@ -1,7 +1,7 @@
 import { resolvePromise } from './resolvePromise';
 import { getPokemon, getPokemonSpecies, getRandomPokemon, getType } from './pokemonSource';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, likeTeam, getLikedTeams, getLeaderboard, updateLeaderBoard } from "./firebaseModel.js";
+import { auth, getAllPokemonTeams, getMyPokemonTeams, removeMyPokemonTeam, saveMyPokemonTeam, setUserInformation, likeTeam, getLikedTeams, getLeaderboard, updateLeaderBoard, updateEditedPokemonTeam } from "./firebaseModel.js";
 import { isValidTeam, extractPokemonIdFromUrl, pokemonIdToTypeId, getTypeObjects, calculateTypeAdvantage } from './utilities';
 import pokemonTypeData from '../pokemonTypeData.json';
 
@@ -450,7 +450,7 @@ const model = {
             console.error("Invalid team format!", this.editTeam);
             return;
         }
-        saveMyPokemonTeam(this.user, this.editTeam);
+        updateEditedPokemonTeam(this.user, this.editTeam);
         this.loadMyTeams();
 
         const emptyTeam = {
@@ -458,6 +458,7 @@ const model = {
             teamName: ""
         };
         this.editTeam = emptyTeam;
+        window.location.hash = "#/teams";
     },
 
 
