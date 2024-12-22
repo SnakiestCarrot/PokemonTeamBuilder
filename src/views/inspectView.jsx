@@ -14,7 +14,6 @@ export function InspectView(props) {
         return <div>Loading Pokémon...</div>;
     }
 
-    // breaks MVP pattern?
     const flavorTextEntry = props.currentPokemonSpecies?.flavor_text_entries.find(
         (entry) => entry.language.name === "en"
     );

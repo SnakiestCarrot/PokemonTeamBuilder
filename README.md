@@ -2,9 +2,14 @@
 
 Made by Casper Johansson, August Wikdahl, Filip Boive and Alexander Larsson
 
-So far we have implemented a team builder view and page that functions as we want it to. A user can add and remove pokemon from the current team in the model and inspect individual pokemons stats in this view. We have also implemented a way for users to log in using google accounts and they can save their teams to their indivudal user profile to be fetched later and editted. 
+## Setting up the project
 
-We still want to implement UI for a lot of the functionality we are planning on having like being able to edit your old teams and probably implementing a "higher lower" style minigame. We also want to display a certain teams type strengths and weaknesses in the team builder view.
+To set up the project and then run it use 'npm install' and 'npm run dev'.
+
+## User-visible-component
+
+In the inspectView.jsx file we have implemented a component of RadarChart type, a PolarGrid. This is the component that displays a dynamic chart depending on what pokemon the user is inspecting and its stats. 
+The component was taken from radarcharts.org.
 
 ## The general file strucuture of our project is as follows:
 
@@ -18,8 +23,8 @@ Now for explanation of each file in our current project:
 
 These files are made to be the communication layer between the js model and the react views. They mostly handle sending data and functions back and forth.
 
-### firebaseTestPresenter.jsx:
-A temporary presenter for implementing and debugging adding and removing data from and to firebase.
+### browsePresenter.jsx
+The presenter responsible for presenting the list of all user teams.
 
 ### inspectPresenter.jsx:
 A presenter for the pokemon inspect interface. This is the presenter for the view that shows when pressing the inspect button in the team builder view and other areas of the project.
@@ -27,8 +32,11 @@ A presenter for the pokemon inspect interface. This is the presenter for the vie
 ### mainPresenter.jsx:
 Presenter for the initial landing page of the project, the main page so to speak.
 
+### minigamePresenter.jsx
+The presenter for the minigame. 
+
 ### myTeamsPresenter.jsx:
-The presenter for the my teams view, yet to be fully implemented and this file is therefore very much a WIP.
+The presenter for the my teams view.
 
 ### teamBuilderPresenter.jsx:
 The presenter for the view that handles the teambuilding component of our project. 
@@ -48,29 +56,35 @@ This file creates the root for our html document, and is essential for the navig
 
 These files are responsible for rendering the page and therefore is all that the user "sees".
 
-### fireBaseTestView.jsx
-A temporary view for implementing the aforementioned firebase functionality.
-
 ### inspectView.jsx
 This view handles the interface for the inspect screen of a certain pokemon. It displays the basic stats of a pokemon as well as its types.
 
 ### mainView.jsx
 This view handles the interface for the main landing page of the project, this is the first view that a new user will see.
 
+### minigameView.jsx
+A minigame that allows users to guess on advantages between pokemons. Includes both the game and 
+
 ### myTeamsView.jsx
 This view will show the users teams if they are logged in and display them. The view should also make it possible to edit old teams and then save the changes.
 
-### pokemonResultView.jsx
+### resultView.jsx
 The result view is one part of the teambuilder page, it only displays the search results for the search query in the teambuilder page. This view also makes it possible to add and inspect pokemon.
 
-### pokemonSearchView.jsx
+### searchView.jsx
 The search view is responsible for displaying the search bar and other eventual functionality of the teambuilder page.
 
 ### teamBuilderView.jsx
 This view is responsible for displaying the current team the user is editing and making removal of pokemon from the team possible.
 
+### teamEditorView.jsx
+This view is a slight variation of the teambuilder view only used to edit a specific team.
+
+### notificationView.jsx 
+The popups that tells a user if a pokemon has been added or removed to the team in editor or teambuilder.
+
 ### topBarView.jsx
-This view is what is always displayed at the top of the page and is used as the main form of navigation in our project.
+This view is what is always displayed at the top of the page and is used as the main form of navigation in our project. Also handles login/logout.
 
 ## Other files 
 
@@ -91,9 +105,6 @@ This is a copied file from the tutorial week that helps with resolving API call 
 
 ### styles.css
 The css file defining the color scheme and styling of our entire project.
-
-### testData.js
-This file is used for debugging and testing purposes, it creates some fake data in order to more easily develop our app.
 
 ### utilities.js
 Contains certain helper functions to the model to make the model less cluttered.
