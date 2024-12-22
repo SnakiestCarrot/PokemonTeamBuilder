@@ -125,6 +125,7 @@ export function connectToFirebase(model, watchFunction) {
         if (model.user) {
             readFromFirebase(model).then (() => {
                 watchFunctionACB();
+                window.location.hash = "#/teamBuilder";
             }).catch((error) => {
                 console.error("Error reading from Firebase:", error);
             });
@@ -135,6 +136,8 @@ export function connectToFirebase(model, watchFunction) {
             });
             model.setCurrentPokemonId(null);
             model.pokemonSearchACB("");
+            model.myTeams = null;
+            window.location.hash = "#";
         }
     }
 

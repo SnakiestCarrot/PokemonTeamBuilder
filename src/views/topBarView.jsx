@@ -1,7 +1,30 @@
+import { auth } from "../firebaseModel";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+
 export function TopBarView(props) {
+
+    const provider = new GoogleAuthProvider();
+
+    function login() {
+        try {
+            signInWithPopup(auth, provider)
+        } catch (error) {
+            console.error("Login failed", error);
+        }
+    }
+
+    function logout() {
+        try {
+            signOut(auth);
+            window.location.hash = "#";
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    }
+    
     function loginLogout() {
         if (!props.user) {
-            return <a onClick={props.onLoginClick} className="topBar-button">Login</a>;
+            return <a onClick={login} className="topBar-button">Login</a>;
         } else {
             return (
                 <>
@@ -16,7 +39,7 @@ export function TopBarView(props) {
                         <div className="dropdown">
                             <ul>
                                 <li href="#teams" onClick={props.onTeamsClick}>My teams</li>
-                                <li onClick={props.onLogoutClick}>Logout</li>
+                                <li onClick={logout}>Logout</li>
                             </ul>
                         </div>
                     )}

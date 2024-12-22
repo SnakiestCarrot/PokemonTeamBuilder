@@ -52,7 +52,7 @@ const model = {
             if (user) {
                 this.user = user; // Set the user
                 this.loadMyTeams(); // Load user-specific teams
-                this.loadLikedTeams();
+                this.loadLikedTeams(); //Load user specific likes
             }   
         });
     },
@@ -167,37 +167,6 @@ const model = {
     pokemonSearchACB(text) {
         this.searchQuery = text;
         this.filterPokemon(text);
-    },
-
-    //Login function for loginPresenter
-    userWantsToLogin() {
-        const provider = new GoogleAuthProvider();
-
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                model.user = result.user;
-                setUserInformation(this.user);
-                this.loadMyTeams();
-                window.location.hash = "#/teamBuilder";
-            })
-            .catch((error) => {
-                console.error("Login failed:", error);
-            });
-
-    },
-
-    //Function to logout
-    userWantsToLogout() {
-        signOut(auth)
-            .then(() => {
-                this.user = null; // Ensure user state is reset
-                window.location.hash = "#";
-            })
-            .catch((error) => {
-                console.error("Logout failed:", error);
-            });
-
-        this.myTeams = null;
     },
 
     async doPokemonInspect(pokemonId) {
