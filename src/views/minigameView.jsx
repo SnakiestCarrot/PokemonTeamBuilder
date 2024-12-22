@@ -8,9 +8,6 @@ export function MinigameView(props) {
     const minigameIsStarted = props.minigameIsStarted;
     const pokemons = props.pokemons;
     const isCorrectChoice = props.isCorrectChoice;
-    const highscoreArray = props.highscores;
-
-    console.log(highscoreArray)
 
     // Is > 1 if pokemon 0 wins, = 1 if its a tie and < 1 if pokemon 1 wins
     const pokemonWithAdvantage = props.pokemonWithAdvantage;
@@ -92,7 +89,6 @@ export function MinigameView(props) {
                 </div>
             )
         }
-        
     }
 
     function renderWrongAnswer() {

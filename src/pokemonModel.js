@@ -522,18 +522,24 @@ const model = {
 
         const minigamePokemonTypeArray = [];
 
-        const firstPokemonTypes = await getTypeObjects(this.minigamePokemons[0].id)
-        const secondPokemonTypes = await getTypeObjects(this.minigamePokemons[1].id)
-       
-        const firstPokemonTypeName = firstPokemonTypes.map(getNames)
-        const secondPokemonTypeName = secondPokemonTypes.map(getNames)
+        if (this.minigamePokemons[0] && this.minigamePokemons[1]) {
+            const firstPokemonTypes = await getTypeObjects(this.minigamePokemons[0].id)
+            const secondPokemonTypes = await getTypeObjects(this.minigamePokemons[1].id)
 
-        minigamePokemonTypeArray.push(firstPokemonTypeName)
-        minigamePokemonTypeArray.push(secondPokemonTypeName)
+            const firstPokemonTypeName = firstPokemonTypes.map(getNames)
+            const secondPokemonTypeName = secondPokemonTypes.map(getNames)
+
+            minigamePokemonTypeArray.push(firstPokemonTypeName)
+            minigamePokemonTypeArray.push(secondPokemonTypeName)
         
-        const typeAdvantage = calculateTypeAdvantage(minigamePokemonTypeArray);
+            const typeAdvantage = calculateTypeAdvantage(minigamePokemonTypeArray);
 
-        this.minigameTypeAdvantage = typeAdvantage;
+            this.minigameTypeAdvantage = typeAdvantage;
+        }
+        
+        
+
+        
     },
 
     //Updates the leaderboard if user is logged in
