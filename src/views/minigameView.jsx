@@ -111,43 +111,6 @@ export function MinigameView(props) {
         )
     }
 
-    function renderHighscore(highscoreEntry, index) {
-
-        if (!highscoreEntry) {
-            return null;
-        }
-
-        return(
-            <div className="highscore-entry">
-                <h3>{index+1 + ". " + highscoreEntry.userName}</h3>
-                <h3>{}</h3>
-                <h3>{"score: " + highscoreEntry.score}</h3>
-            </div>
-        )
-    }
-
-    function renderHighScoreList () {
-        if(highscoreArray) {
-            return (
-                <div>
-                    <div>   
-                        <h2>Top highscores of all time</h2>
-                    </div>
-                    <div className="highscores-container">
-                        {highscoreArray.map(renderHighscore)}
-                    </div>
-                    
-                </div>
-            )
-        } else {
-            return (
-                <div>
-                    <h2>Could not load highscores</h2>
-                </div>
-            )
-        }
-    }
-
     function renderNotStartedMinigame() {
         return (
             <div className="">
@@ -197,7 +160,6 @@ export function MinigameView(props) {
                     <button className="start-minigame-button" onClick={startMinigame}>Start minigame!</button>
                     
                 </div>
-                {renderHighScoreList()}
             </div>
         )
     }

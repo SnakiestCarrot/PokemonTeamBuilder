@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { MinigameView } from "../views/minigameView";
+import { HighscoreView } from "../views/highscoreView";
 
 const Minigame = observer(function MinigameRender(props) {
 
@@ -31,6 +32,10 @@ const Minigame = observer(function MinigameRender(props) {
                 currentScore={props.model.minigameCurrentScore}
                 isCorrectChoice={props.model.minigameLastChoiceWasCorrect}
                 pokemonWithAdvantage={props.model.minigameTypeAdvantage}
+                highscores={props.model.highscore}
+            />
+            <HighscoreView
+                minigameIsStarted={props.model.minigameIsStarted}
                 highscores={props.model.highscore}
             />
         </div>
