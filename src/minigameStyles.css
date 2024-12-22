@@ -1,4 +1,6 @@
 
+
+
 /* Container for the entire minigame */
 .minigame-container {
     text-align: center;
@@ -81,21 +83,25 @@
 }
 
 .highscores-container {
-    display: flex;
-    flex-wrap: wrap;
     gap: 10px;
     align-content: center;
     justify-content: center;
-    padding-left: 50px;
-    padding-right: 50px;
     margin-bottom: 100px;
+    background-color: var(--color-base);
+    border-radius: 5px;
+    margin-left: 30%;
+    margin-right: 30%;
 }
 
 .highscore-entry {
-    padding: 2%;
-    background-color: var(--color-base);
-    border-radius: 5px;
-    width: 160px;
+    padding: 1%;
+    border-radius: 0px;
+    text-align: center;
+    border: solid 3px var(--color-accent);
+}
+
+.highscore-entry p {    
+    color: var(--color-text);
 }
 
 .highscore-title-container {

@@ -4,7 +4,6 @@
 export function HighscoreView(props) {
     const highscoreArray = props.highscores;
 
-    
     return (
         (!props.minigameIsStarted) ? renderHighScoreList(highscoreArray) : (<div></div>)
     )
@@ -21,7 +20,6 @@ function renderHighScoreList(highscores) {
                 <div className="highscores-container" key={"highscore-container"}>
                     {highscores.map(renderHighscore)}
                 </div>
-                
             </div>
         )
     } else {
@@ -41,9 +39,7 @@ function renderHighscore(highscoreEntry, index) {
 
     return(
         <div className="highscore-entry" key={"highscore-" + index}>
-            <h3>{index+1 + ". " + highscoreEntry.userName}</h3>
-            <h3>{}</h3>
-            <h3>{"score: " + highscoreEntry.score}</h3>
+            <p>{index+1 + ". " + highscoreEntry.userName + " score: " + highscoreEntry.score}</p>
         </div>
     )
 }
