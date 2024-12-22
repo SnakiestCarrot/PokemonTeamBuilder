@@ -6,6 +6,7 @@ export function BrowseTeamsView(props) {
     const teams = props.allTeams;
 
 
+
     return (
         <div>
             <h1 className="header" key={"browseTeamsHeader"}>
@@ -37,6 +38,18 @@ export function BrowseTeamsView(props) {
     function renderTeam(team, index) {
     const isLiked = props.likedTeams?.[team.key] || false; // Check if the user has liked this team
 
+    function renderLikeButton() {
+        if (props.user) {
+            return (
+                    <button
+                        className={`heart-like-button ${isLiked ? "liked" : ""}`}
+                        onClick={() => toggleLikeTeam(team.key, team.userId)}
+                    >
+                        {isLiked ? "❤️" : "🤍"}
+                    </button>
+            )
+        }
+    }
     return (
         <div className="my-team-name-container" key={`team-${team.key}`}>
             <div className="team-header">
@@ -47,12 +60,7 @@ export function BrowseTeamsView(props) {
             <div className="team-flex-container">
                 <div className="team-actions-left">
                     <span className="heart-like-count">{team.likes || 0} likes</span>
-                    <button
-                        className={`heart-like-button ${isLiked ? "liked" : ""}`}
-                        onClick={() => toggleLikeTeam(team.key, team.userId)}
-                    >
-                        {isLiked ? "❤️" : "🤍"}
-                    </button>
+                    {renderLikeButton()}
                 </div>
                 <div className="team-builder-team-container">
                     {team.pokemons.map((pokemon, pokemonIndex) =>

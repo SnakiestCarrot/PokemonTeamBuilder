@@ -228,7 +228,7 @@ const model = {
 
         this.currentTeam = tempTeam;
 
-        if (index === -1) {
+        if (this.currentTeam.pokemons.every(pokemon => typeof pokemon === 'object' && pokemon !== null)) {
             this.currentTeamFull = true;
         }
     },
