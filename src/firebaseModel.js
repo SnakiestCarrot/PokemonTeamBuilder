@@ -178,7 +178,7 @@ export function updateEditedPokemonTeam(user, team) {
         myTeamName: team.teamName
     };
 
-    update(ref(db, `PokemonTeamBuilder/${user.uid}/teams/${team.id}`), updates)
+    update(ref(db, `PokemonTeamBuilder/${user.uid}/teams/${team.key}`), updates)
         .then(() => {
             console.log("Team updated successfully.");
         })

@@ -5,6 +5,8 @@ import { TeamEditorView } from "../views/teamEditorView";
 import { useEffect } from "react";
 import NotificationView from "../views/notificationView"; 
 
+const notificationView = new NotificationView();
+
 const TeamEditor = observer(function TeamEditorRender(props){
 
   useEffect(() => {
@@ -21,7 +23,8 @@ const TeamEditor = observer(function TeamEditorRender(props){
             team={props.model.editTeam}
             removePokemonFromEditTeam={removePokemonFromTeam}
             changeTeamName={setEditTeamName}
-            saveEditedTeamToProfile={userWantsToSaveCurrentTeam}
+            saveEditedTeamToProfile={userWantsToUpdateEditTeam}  
+            doPokemonInspect={userWantsToInspect}
             />
             <SearchView
             updatePokemonSearchACB={handleSearchInput}
@@ -51,23 +54,23 @@ const TeamEditor = observer(function TeamEditorRender(props){
         }
       }
     
-      function userWantsToSaveCurrentTeam() {
+      function userWantsToUpdateEditTeam() {
         props.model.saveEditedPokemonTeam();
       }
     
       function userWantsToInspect(pokemonId) {
         props.model.doPokemonInspect(pokemonId);
-        notificationPresenter.showNotification("Inspected Pokémon successfully!");
+        notificationView.displayNotification("Inspected Pokémon successfully!");
       }
     
       function removePokemonFromTeam(index) {
         props.model.removePokemonAtIndexFromEditTeam(index);
-        notificationPresenter.showNotification("Pokémon removed from the team!");
+        notificationView.displayNotification("Pokémon removed from the team!");
       }
     
       function addPokemonToEditTeam(pokemonId) {
         props.model.addPokemonByIdToEditTeam(pokemonId);
-        notificationPresenter.showNotification("Pokémon added to the team!");
+        notificationView.displayNotification("Pokémon added to the team!");
       }
     
       function setEditTeamName(name) {

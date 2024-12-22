@@ -70,9 +70,4 @@ export function MyTeamsView(props) {
             </div>
         )
     }
-
-    function bruh(team) {
-        
-    }
-
 }

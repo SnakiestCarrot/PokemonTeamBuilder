@@ -65,10 +65,6 @@ export function TeamBuilderView(props) {
         }
     }
 
-    function UserClicksPokemonCard(pokemonId){
-        props.userClicksPokemon(pokemonId);
-    }
-
     function renderPokemonCard(pokemon, index) {
 
         if (loading) { //PLACEHOLDER

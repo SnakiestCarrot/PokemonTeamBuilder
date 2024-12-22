@@ -23,7 +23,8 @@ const model = {
 
     editTeam: {
         pokemons: new Array(6),
-        teamName: ""
+        teamName: "",
+        key: null,
     },
 
     currentTeamFull : false,
@@ -400,6 +401,7 @@ const model = {
 
     async editPokemonTeam(team) {
         window.location.hash = "#/teameditor";
+        console.log(team);
         this.editTeam = team;
     },
 
@@ -452,10 +454,12 @@ const model = {
         }
         updateEditedPokemonTeam(this.user, this.editTeam);
         this.loadMyTeams();
+        this.loadAllTeams();
 
         const emptyTeam = {
             pokemons: new Array(6),
-            teamName: ""
+            teamName: "",
+            key: null,
         };
         this.editTeam = emptyTeam;
         window.location.hash = "#/teams";
