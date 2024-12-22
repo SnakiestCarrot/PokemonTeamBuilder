@@ -10,6 +10,8 @@ export function MinigameView(props) {
     const isCorrectChoice = props.isCorrectChoice;
     const highscoreArray = props.highscores;
 
+    console.log(highscoreArray)
+
     // Is > 1 if pokemon 0 wins, = 1 if its a tie and < 1 if pokemon 1 wins
     const pokemonWithAdvantage = props.pokemonWithAdvantage;
 
@@ -124,6 +126,28 @@ export function MinigameView(props) {
         )
     }
 
+    function renderHighScoreList () {
+        if(highscoreArray) {
+            return (
+                <div>
+                    <div>   
+                        <h2>Top highscores of all time</h2>
+                    </div>
+                    <div className="highscores-container">
+                        {highscoreArray.map(renderHighscore)}
+                    </div>
+                    
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h2>Could not load highscores</h2>
+                </div>
+            )
+        }
+    }
+
     function renderNotStartedMinigame() {
         return (
             <div className="">
@@ -173,15 +197,7 @@ export function MinigameView(props) {
                     <button className="start-minigame-button" onClick={startMinigame}>Start minigame!</button>
                     
                 </div>
-                <div>
-                    <div>   
-                        <h2>Top highscores of all time</h2>
-                    </div>
-                    <div className="highscores-container">
-                        {highscoreArray.map(renderHighscore)}
-                    </div>
-                    
-                </div>
+                {renderHighScoreList()}
             </div>
         )
     }
