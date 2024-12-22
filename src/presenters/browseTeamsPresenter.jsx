@@ -6,6 +6,11 @@ const BrowseTeams = observer(function BrowseTeamsRender(props){
     function userWantsToToggleLike(teamKey, teamAuthorId) {
         props.model.toggleLikeTeam(teamKey, teamAuthorId);
     }
+
+    function userWantsToInspect(pokemonId) {
+        props.model.doPokemonInspect(pokemonId);
+    }
+
     return(
         <div>
             <BrowseTeamsView
@@ -14,6 +19,7 @@ const BrowseTeams = observer(function BrowseTeamsRender(props){
                 likedTeams = {props.model.likedTeams}
                 userClicksLikeButton = {userWantsToToggleLike}
                 loading={props.model.loading}
+                doPokemonInspect={userWantsToInspect}
             />
         </div>
     );
