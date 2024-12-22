@@ -162,6 +162,32 @@ export function saveMyPokemonTeam(user, team) {
         });
 }
 
+export function updateEditedPokemonTeam(user, team) {
+    if (!user || !user.uid) {
+        console.error("Error: User or User UID is not defined. Cannot save team.");
+        return;
+    }
+
+    const updates = {
+        id1: team.pokemons[0].id,
+        id2: team.pokemons[1].id,
+        id3: team.pokemons[2].id,
+        id4: team.pokemons[3].id,
+        id5: team.pokemons[4].id,
+        id6: team.pokemons[5].id,
+        myTeamName: team.teamName
+    };
+
+    update(ref(db, `PokemonTeamBuilder/${user.uid}/teams/${team.id}`), updates)
+        .then(() => {
+            console.log("Team updated successfully.");
+        })
+        .catch(error => {
+            console.error("Error updating team:", error);
+        });
+}
+
+
 // Function to get all saved user teams from Firebase
 export function getMyPokemonTeams(user) {
     if (!user || !user.uid) {
@@ -289,6 +315,8 @@ export function getLikedTeams(user) {
         });
 }
 
+
+//Function to update the leaderboard and sort 10 entries.
 export function updateLeaderBoard(user, minigameCurrentScore) {
     const db = getDatabase();
     const leaderboardRef = ref(db, "Leaderboard");
@@ -338,7 +366,7 @@ export function updateLeaderBoard(user, minigameCurrentScore) {
 }
 
 
-
+//Function to fetch the leaderboard
 export async function getLeaderboard() {
     const db = getDatabase();
     const leaderboardRef = ref(db, "Leaderboard");
