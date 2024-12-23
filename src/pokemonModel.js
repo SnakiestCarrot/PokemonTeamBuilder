@@ -378,7 +378,7 @@ const model = {
         const tempTeam = { ...this.editTeam };
         tempTeam.pokemons[index] = null;
         this.editTeam = tempTeam;
-        //this.currentTeamFull = false;
+        this.editTeamFullTeam = false;
     },
 
     setEditTeamName(newName) {
@@ -407,7 +407,7 @@ const model = {
 
         this.editTeam = tempTeam;
 
-        if (index === -1) {
+        if (this.editTeam.pokemons.every(pokemon => typeof pokemon === 'object' && pokemon !== null)) {
             this.editTeamFull = true;
         }
     },
