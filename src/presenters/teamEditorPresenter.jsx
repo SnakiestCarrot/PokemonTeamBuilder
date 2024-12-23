@@ -3,7 +3,7 @@ import { ResultView } from "../views/resultView";
 import { SearchView } from "../views/searchView";
 import { TeamEditorView } from "../views/teamEditorView";
 import { useEffect } from "react";
-import NotificationView from "../views/notificationView"; 
+import NotificationViewfrom "../views/notificationView"; 
 
 const notificationView = new NotificationView();
 
@@ -60,17 +60,17 @@ const TeamEditor = observer(function TeamEditorRender(props){
     
       function userWantsToInspect(pokemonId) {
         props.model.doPokemonInspect(pokemonId);
-        notificationView.displayNotification("Inspected Pokémon successfully!");
+        NotificationView.displayNotification("Inspected Pokémon successfully!");
       }
     
       function removePokemonFromTeam(index) {
         props.model.removePokemonAtIndexFromEditTeam(index);
-        notificationView.displayNotification("Pokémon removed from the team!");
+        NotificationView.displayNotification("Pokémon removed from the team!");
       }
     
       function addPokemonToEditTeam(pokemonId) {
         props.model.addPokemonByIdToEditTeam(pokemonId);
-        notificationView.displayNotification("Pokémon added to the team!");
+        NotificationView.displayNotification("Pokémon added to the team!");
       }
     
       function setEditTeamName(name) {
@@ -78,7 +78,7 @@ const TeamEditor = observer(function TeamEditorRender(props){
       }
 
       function addPokemonToTeamFailed() {
-        notificationView.displayNotification("Team full - Pokémon NOT added to the team!", "failure");
+        NotificationView.displayNotification("Team full - Pokémon NOT added to the team!", "failure");
       }
 
 });

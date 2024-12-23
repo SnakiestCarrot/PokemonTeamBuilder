@@ -28,13 +28,17 @@ export function InspectView(props) {
         { name: 'Speed', value: props.currentPokemon.stats[5].base_stat },
     ];
 
+    function handleAddButtonClicked() {
+        addButtonClicked(props.currentPokemon);
+    }
+
     return (
         <div>
             <div className="parent-container-inspect">
                 <div className="pokemon-info-wrapper">
                     <button
                         className="add-to-team-button"
-                        onClick={() => addButtonClicked(props.currentPokemon)}>
+                        onClick={handleAddButtonClicked}>
                         Add to team
                     </button>
                     <div className="card-and-stats-wrapper">
