@@ -37,37 +37,55 @@ export function MyTeamsView(props) {
         )
     }
 
+    function handleEditTeamClick(team) {
+        props.editTeam(team);
+    }
+    
+    function handleDeleteTeamClick(teamKey) {
+        props.deleteTeam(teamKey);
+    }
+    
     function renderTeam(team, index) {
         return (
-            <div className="my-team-name-container" key={"team" + index}> 
+            <div className="my-team-name-container" key={"team" + index}>
                 <h1>{team.teamName}</h1>
                 <div className="team-builder-team-container">
                     {team.pokemons.map(renderPokemon)}
                 </div>
-                
-                <button className="my-team-remove-button" onClick={() => props.editTeam(team)}>Edit team</button>
-                <button className="my-team-remove-button" onClick={() => props.deleteTeam(team.key)}>Delete team</button>
+    
+                <button className="my-team-remove-button" onClick={function () {handleEditTeamClick(team);}}>
+                    Edit team
+                </button>
+                <button className="my-team-remove-button" onClick={function () {handleDeleteTeamClick(team.key);}}>
+                    Delete team
+                </button>
             </div>
-           
-        )
-
+        );
     }
+    
 
+    function handlePokemonInspectClick(pokemonId) {
+        props.doPokemonInspect(pokemonId);
+    }
+    
     function renderPokemon(pokemon, index) {
         return (
-            <div className="my-teams-pokemon-card" key={"pokemon" + index} onClick={() => props.doPokemonInspect(pokemon.id)}>
-                
+            <div
+                className="my-teams-pokemon-card"
+                key={"pokemon" + index}
+                onClick={function () {
+                    handlePokemonInspectClick(pokemon.id);
+                }}
+            >
                 <h3>{pokemon?.name || "No pokemon in this slot"}</h3>
-
-
                 {pokemonIdToTypeId(pokemon.id).map(renderTypeImage)}
-
                 <img
                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
                     alt={`${pokemon.name} sprite`}
                     className="pokemon-team-image"
                 />
             </div>
-        )
+        );
     }
+    
 }
