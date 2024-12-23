@@ -36,7 +36,7 @@ const TeamEditor = observer(function TeamEditorRender(props){
             doPokemonInspect={userWantsToInspect}
             addPokemonToTeam={addPokemonToEditTeam}
             addPokemonToTeamFailed={addPokemonToTeamFailed}
-            teamFullStatus={props.model.currentTeamFull}
+            teamFullStatus={props.model.editTeamFull}
             loading={props.model.loading}
             user={props.model.user}
             />

@@ -378,7 +378,7 @@ const model = {
         const tempTeam = { ...this.editTeam };
         tempTeam.pokemons[index] = null;
         this.editTeam = tempTeam;
-        this.editTeamFullTeam = false;
+        this.editTeamFull = false;
     },
 
     setEditTeamName(newName) {
@@ -394,7 +394,7 @@ const model = {
         const index = this.editTeam.pokemons.findIndex(pokemon => pokemon == null);
 
         // Means that the currentTeam is full (6 pokemon)
-        if (index === -1) {
+        if (this.editTeam.pokemons.every(pokemon => typeof pokemon === 'object' && pokemon !== null)) {
             this.editTeamFull = true;
             return;
         }
