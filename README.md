@@ -4,6 +4,8 @@ Made by Casper Johansson, August Wikdahl, Filip Boive and Alexander Larsson
 
 ## Setting up the project
 
+You will need node.js for npm commands to work.
+
 To set up the project and then run it use 'npm install' and 'npm run dev'.
 
 ## User-visible-component
