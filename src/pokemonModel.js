@@ -370,10 +370,18 @@ const model = {
 
     async editPokemonTeam(team) {
         window.location.hash = "#/teameditor";
-        console.log(team);
-        this.editTeam = team;
+        
+        var teamCopy = {
+            teamName: team.teamName,
+            key: team.key,
+            pokemons: team.pokemons.map(function(pokemon) {
+                return pokemon ? Object.assign({}, pokemon) : null;
+            })
+        };
+    
+        this.editTeam = teamCopy;
     },
-
+    
     removePokemonAtIndexFromEditTeam(index) {
         const tempTeam = { ...this.editTeam };
         tempTeam.pokemons[index] = null;
