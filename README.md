@@ -9,7 +9,7 @@ To set up the project and then run it use 'npm install' and 'npm run dev'.
 ## User-visible-component
 
 In the inspectView.jsx file we have implemented a component of RadarChart type, a PolarGrid. This is the component that displays a dynamic chart depending on what pokemon the user is inspecting and its stats. 
-The component was taken from radarcharts.org.
+The component was taken from recharts.org.
 
 ## The general file strucuture of our project is as follows:
 
