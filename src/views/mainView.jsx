@@ -11,9 +11,17 @@ export function MainView(props) {
                 <h2>Intro</h2>
                 <p>
                     This website is made to be able to build your own pokemon teams, learn more about pokemon and their types
-                    and 
-
+                    and compete against other users in who has the most pokemon expertise.
                 </p>
+
+                <h2>Credits</h2>
+
+                <h3>August Wikdahl</h3>
+                <p>Firebase and backend developer</p>
+
+                <h3>Casper Johansson</h3>
+                <p>Model and frontend developer</p>
+
             </div>
         </div>
     );
