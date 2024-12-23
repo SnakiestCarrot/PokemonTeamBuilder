@@ -3,7 +3,7 @@ import { ResultView } from "../views/resultView";
 import { SearchView } from "../views/searchView";
 import { TeamEditorView } from "../views/teamEditorView";
 import { useEffect } from "react";
-import NotificationViewfrom "../views/notificationView"; 
+import NotificationView from "../views/notificationView"; 
 
 const notificationView = new NotificationView();
 
