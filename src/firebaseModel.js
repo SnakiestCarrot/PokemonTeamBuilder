@@ -14,14 +14,30 @@ const auth = getAuth(app);
 
 
 export function modelToPersistence(model) {
-    const pokemonArray = new Array(6).fill(null).map((_, index) => {
-        return model.currentTeam.pokemons[index]?.id || null;
-    });
+    var pokemonArray = new Array(6);
+    var editArray = new Array(6);
+    for (var index = 0; index < 6; index++) {
+        if (model.currentTeam.pokemons[index]) {
+            pokemonArray[index] = model.currentTeam.pokemons[index].id;
+        } else {
+            pokemonArray[index] = null;
+        }
+    }
 
-    const persistenceData = {
+    for (var index = 0; index < 6; index++) {
+        if (model.editTeam.pokemons[index]) {
+            editArray[index] = model.editTeam.pokemons[index].id;
+        } else {
+            editArray[index] = null;
+        }
+    }
+
+    var persistenceData = {
         currentPokemons: pokemonArray,
+        editPokemons: editArray,
+        editPokemonsTeamName : model.editTeam.teamName || "",
         currentTeamName: model.currentTeam.teamName || "",
-        inspectPokemonId: model.currentPokemonId || null,
+        inspectPokemonId: model.currentPokemonId || null
     };
 
     return persistenceData;
@@ -30,21 +46,37 @@ export function modelToPersistence(model) {
 
 export function persistenceToModel(persistenceData, model) {
     function savePokemonTeamToModel(pokemonTeam) {
-
-        // Enforce exactly 6 slots in the team
-        const teamWithSixSlots = new Array(6).fill(null).map((_, i) => pokemonTeam[i] || null);
+        var teamWithSixSlots = new Array(6);
+        for (var i = 0; i < 6; i++) {
+            teamWithSixSlots[i] = pokemonTeam[i] || null;
+        }
 
         model.setCurrentTeam({
             teamName: model.currentTeam.teamName,
-            pokemons: teamWithSixSlots,
+            pokemons: teamWithSixSlots
         });
+    }
 
+    function saveEditTeamToModel(editPokemonTeam) {
+        var editTeamWithSixSlots = new Array(6);
+        for (var i = 0; i < 6; i++) {
+            editTeamWithSixSlots[i] = editPokemonTeam[i] || null;
+        }
+
+        model.setEditTeam({
+            teamName: persistenceData.editPokemonsTeamName || "",
+            pokemons: editTeamWithSixSlots
+        });
     }
 
     if (!persistenceData) {
         model.setCurrentTeam({
             teamName: "",
-            pokemons: new Array(6).fill(null),
+            pokemons: new Array(6).fill(null)
+        });
+        model.setEditTeam({
+            teamName: "",
+            pokemons: new Array(6).fill(null)
         });
         model.setCurrentPokemonId(null);
         return;
@@ -56,22 +88,33 @@ export function persistenceToModel(persistenceData, model) {
         model.setCurrentPokemonId(null);
     }
 
-    model.setCurrentTeamName(persistenceData.currentTeamName ?? "");
+    model.setCurrentTeamName(persistenceData.currentTeamName || "");
 
-    const pokemonIds = persistenceData.currentPokemons || new Array(6).fill(null);
+    var currentPokemonIds = persistenceData.currentPokemons || new Array(6).fill(null);
+    var editPokemonIds = persistenceData.editPokemons || new Array(6).fill(null);
 
-    return getPokemonsFromArray(pokemonIds)
-        .then((pokemonTeam) => {
-            savePokemonTeamToModel(pokemonTeam);
+    return Promise.all([
+        getPokemonsFromArray(currentPokemonIds),
+        getPokemonsFromArray(editPokemonIds)
+    ])
+        .then(function (results) {
+            savePokemonTeamToModel(results[0]);
+            saveEditTeamToModel(results[1]);
         })
-        .catch((error) => {
+        .catch(function (error) {
             console.error("Error fetching Pokémon team:", error);
             model.setCurrentTeam({
-                teamName: persistenceData.currentTeamName ?? "",
-                pokemons: new Array(6).fill(null),
+                teamName: persistenceData.currentTeamName || "",
+                pokemons: new Array(6).fill(null)
+            });
+            model.setEditTeam({
+                teamName: persistenceData.editPokemonsTeamName || "",
+                pokemons: new Array(6).fill(null)
             });
         });
 }
+
+
 
 export function saveToFirebase(model) {
     if (model.user && model.ready) {
@@ -84,7 +127,7 @@ export function saveToFirebase(model) {
 
 export function readFromFirebase(model) {
     if (model.user) {
-        model.setLoading(true); // Start loading
+        model.setLoading(true);
 
         function persistenceToModelACB(snapshot) {
             return persistenceToModel(snapshot.val(), model);
@@ -92,46 +135,54 @@ export function readFromFirebase(model) {
 
         function modelReadyACB() {
             model.ready = true;
-            model.setLoading(false); // Finish loading
+            model.setLoading(false);
         }
 
         model.ready = false;
         return get(ref(db, `PokemonTeamBuilder/${model.user.uid}/model`))
             .then(persistenceToModelACB)
             .then(modelReadyACB)
-            .catch((error) => {
+            .catch(function (error) {
                 console.error("Error reading from Firebase:", error);
                 model.setLoading(false);
             });
     }
 }
 
+
 export function connectToFirebase(model, watchFunction) {
-    function checkModelPropertiesACB(){
-        return [model.currentTeam, model.currentPokemonId];
+    function checkModelPropertiesACB() {
+        return [model.currentTeam, model.currentPokemonId, model.editTeam];
     }
-    function saveModelToFirebaseACB(){
+
+    function saveModelToFirebaseACB() {
         saveToFirebase(model);
     }
-  
-    function watchFunctionACB(){
+
+    function watchFunctionACB() {
         watchFunction(checkModelPropertiesACB, saveModelToFirebaseACB);
     }
 
     function loginOrOutACB(user) {
-        model.user= user
-        model.ready=false
+        model.user = user;
+        model.ready = false;
 
         if (model.user) {
-            readFromFirebase(model).then (() => {
-                watchFunctionACB();
-            }).catch((error) => {
-                console.error("Error reading from Firebase:", error);
-            });
+            readFromFirebase(model)
+                .then(function () {
+                    watchFunctionACB();
+                })
+                .catch(function (error) {
+                    console.error("Error reading from Firebase:", error);
+                });
         } else {
             model.setCurrentTeam({
                 teamName: "",
-                pokemons: new Array(6).fill(null),
+                pokemons: new Array(6).fill(null)
+            });
+            model.setEditTeam({
+                teamName: "",
+                pokemons: new Array(6).fill(null)
             });
             model.setCurrentPokemonId(null);
             model.pokemonSearchACB("");
@@ -142,6 +193,7 @@ export function connectToFirebase(model, watchFunction) {
 
     onAuthStateChanged(auth, loginOrOutACB);
 }
+
 
 //Function to save a finished pokemon team to user firebase.
 export function saveMyPokemonTeam(user, team) {
