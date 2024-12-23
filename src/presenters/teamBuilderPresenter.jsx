@@ -5,8 +5,6 @@ import { TeamBuilderView } from "../views/TeamBuilderView";
 import { useEffect } from "react";
 import NotificationView from "../views/notificationView"; 
 
-const notificationView = new NotificationView();
-
 const TeamBuilder = observer(function PokemonSearchRender(props) {
   // Prefetch all type ID images on component mount
   useEffect(() => {
@@ -63,21 +61,21 @@ const TeamBuilder = observer(function PokemonSearchRender(props) {
 
   function userWantsToInspect(pokemonId) {
     props.model.doPokemonInspect(pokemonId);
-    notificationView.displayNotification("Inspected Pokémon successfully!");
+    NotificationView.displayNotification("Inspected Pokémon successfully!");
 }
 
 function removePokemonFromTeam(index) {
     props.model.removePokemonAtIndexFromTeam(index);
-    notificationView.displayNotification("Pokémon removed from the team!");
+    NotificationView.displayNotification("Pokémon removed from the team!");
 }
 
 function addPokemonToTeam(pokemonId) {
     props.model.addPokemonByIdToTeam(pokemonId);
-    notificationView.displayNotification("Pokémon added to the team!");
+    NotificationView.displayNotification("Pokémon added to the team!");
 }
 
 function addPokemonToTeamFailed() {
-  notificationView.displayNotification("Team full - Pokémon NOT added to the team!", "failure");
+  NotificationView.displayNotification("Team full - Pokémon NOT added to the team!", "failure");
 }
 
   function setCurrentTeamName(name) {

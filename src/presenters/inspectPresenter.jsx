@@ -1,11 +1,9 @@
 import { observer } from "mobx-react-lite";
 import { InspectView } from "../views/inspectView";
 import { useEffect } from "react";
-import NotificationView from "../views/notificationView"; 
+import NotificationView from "../views/notificationView";
 
 const Inspect = observer(function InspectRender(props) {
-    const notificationView = new NotificationView();
-
     useEffect(()=>{
         props.model.fetchPokemonSpecies(props.model.currentPokemonId);
     },[])
@@ -26,11 +24,11 @@ const Inspect = observer(function InspectRender(props) {
 
     function addPokemonToTeam (pokemonId) {
         props.model.addPokemonByIdToTeam(pokemonId);
-        notificationView.displayNotification("Pokémon added to the team!");
+        NotificationView.displayNotification("Pokémon added to the team!");
     }
 
     function addPokemonToTeamFailed () {
-        notificationView.displayNotification("Team full - Pokémon NOT added to the team!", "failure");
+        NotificationView.displayNotification("Team full - Pokémon NOT added to the team!", "failure");
     }
 });
 
