@@ -7,7 +7,7 @@ export function TeamEditorView(props){
 
     return(
         <div className="team-builder-team-container">
-            <h2>Editing team "{team.teamName}"</h2>
+            <h2>Editing team: {team.teamName}</h2>
             
             <div className="team-builder-cards">
                 {team.pokemons.map(renderPokemonCard)}

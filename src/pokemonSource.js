@@ -77,17 +77,20 @@ export function getType(searchParam) {
 }
 
 export function getPokemonsFromArray(pokemonArray) {
-    const fetchPromises = pokemonArray.map((item, index) => {
-        if (item === null) {
-            return Promise.resolve(null); 
-        } else {
-            return getPokemon(item).catch((error) => {
-                console.error(`Error fetching Pokemon at index ${index}:`, error);
-                return null; 
-            });
-        }
-    });
+    if (!Array.isArray(pokemonArray)) {
+        console.error("getPokemonsFromArray: Expected an array but received:", pokemonArray);
+        return Promise.resolve(new Array(6).fill(null));
+    }
 
-    return Promise.all(fetchPromises); // Return a promise resolving to the updated array
+    return Promise.all(
+        pokemonArray.map(function (id) {
+            if (id) {
+                return getPokemon(id); // Fetch Pokémon for valid IDs
+            } else {
+                return null; // Keep null for empty slots
+            }
+        })
+    );
 }
+
 

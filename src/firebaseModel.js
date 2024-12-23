@@ -87,11 +87,15 @@ export function persistenceToModel(persistenceData, model) {
     } else {
         model.setCurrentPokemonId(null);
     }
-
     model.setCurrentTeamName(persistenceData.currentTeamName || "");
 
-    var currentPokemonIds = persistenceData.currentPokemons || new Array(6).fill(null);
-    var editPokemonIds = persistenceData.editPokemons || new Array(6).fill(null);
+    var currentPokemonIds = Array.isArray(persistenceData.currentPokemons)
+        ? persistenceData.currentPokemons
+        : new Array(6).fill(null);
+
+    var editPokemonIds = Array.isArray(persistenceData.editPokemons)
+        ? persistenceData.editPokemons
+        : new Array(6).fill(null);
 
     return Promise.all([
         getPokemonsFromArray(currentPokemonIds),
@@ -113,6 +117,7 @@ export function persistenceToModel(persistenceData, model) {
             });
         });
 }
+
 
 
 
@@ -233,9 +238,6 @@ export function updateEditedPokemonTeam(user, team) {
     };
 
     update(ref(db, `PokemonTeamBuilder/${user.uid}/teams/${team.key}`), updates)
-        .then(() => {
-            console.log("Team updated successfully.");
-        })
         .catch(error => {
             console.error("Error updating team:", error);
         });
@@ -353,7 +355,6 @@ export function setUserInformation(user) {
 
 
 export function likeTeam(userId, teamId, isLiked, teamAuthorId) {
-    console.log("firebaseLikeTeam activated");
     const teamRefPath = `PokemonTeamBuilder/${teamAuthorId}/teams/${teamId}/likes`;
     const userLikedTeamsRefPath = `PokemonTeamBuilder/${userId}/likedTeams/${teamId}`;
 

@@ -361,6 +361,7 @@ const model = {
         try {
             await removeMyPokemonTeam(this.user, teamIdKey);
             this.loadMyTeams();
+            this.loadAllTeams();
         }
         catch (error) {
             console.error("Couldn't remove team:", error);
@@ -381,7 +382,7 @@ const model = {
     
         this.editTeam = teamCopy;
     },
-    
+
     removePokemonAtIndexFromEditTeam(index) {
         const tempTeam = { ...this.editTeam };
         tempTeam.pokemons[index] = null;

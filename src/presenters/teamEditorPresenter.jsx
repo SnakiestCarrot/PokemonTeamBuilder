@@ -23,6 +23,7 @@ const TeamEditor = observer(function TeamEditorRender(props){
             changeTeamName={setEditTeamName}
             saveEditedTeamToProfile={userWantsToUpdateEditTeam}  
             doPokemonInspect={userWantsToInspect}
+            loading = {props.model.loading}
             />
             <SearchView
             updatePokemonSearchACB={handleSearchInput}
