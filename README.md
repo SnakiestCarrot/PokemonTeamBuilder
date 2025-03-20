@@ -2,6 +2,8 @@
 
 Made by Casper Johansson, August Wikdahl, Filip Boive and Alexander Larsson as part of the course DH2642 Interaction programming and the dynamic web.
 
+URL with project: https://casperdh2642.web.app/ 
+
 ## Setting up the project
 
 You will need node.js for npm commands to work.
