@@ -1,6 +1,6 @@
 # Pokemon team builder
 
-Made by Casper Johansson, August Wikdahl, Filip Boive and Alexander Larsson
+Made by Casper Johansson, August Wikdahl, Filip Boive and Alexander Larsson as part of the course DH2642 Interaction programming and the dynamic web.
 
 ## Setting up the project
 
@@ -13,7 +13,7 @@ To set up the project and then run it use `npm install` and `npm run dev`.
 In the inspectView.jsx file we have implemented a component of RadarChart type, a PolarGrid. This is the component that displays a dynamic chart depending on what pokemon the user is inspecting and its stats. 
 The component was taken from recharts.org.
 
-## The general file strucuture of our project is as follows:
+## The general file strucuture of our project is as follows (mandatory for the course):
 
 We have a src folder that contains the views and presenters folders. It also contains the files necessary for firebase to connect and work as well as the actual model itself. In the views folder we have the views of our application, they are what actually render the interface that the user sees. The presenters folder contains all the presenters between the views and model.
 
